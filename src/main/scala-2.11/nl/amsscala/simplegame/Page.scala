@@ -64,7 +64,7 @@ protected trait Page {
   }
 
   canvas.width = dom.window.innerWidth.toInt
-  canvas.height = dom.window.innerHeight.toInt - 24
+  canvas.height = dom.window.innerHeight.toInt - 25
   println(s"Dimension of canvas set to ${canvas.width},${canvas.height}")
   canvas.textContent = "Your browser doesn't support the HTML5 CANVAS tag."
 
