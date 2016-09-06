@@ -44,7 +44,7 @@ object PlayGround {
  */
 class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extends GameElement[M] {
 
-  def copy[M : Numeric](canvas : html.Canvas) = new Monster(Monster.random[M](canvas), img)
+  def copy[M: Numeric](canvas: html.Canvas) = new Monster(Monster.random[M](canvas), img)
 
   def copy(img: dom.raw.HTMLImageElement) = new Monster(pos, img)
 
@@ -55,12 +55,12 @@ class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extend
 }
 
 object Monster {
+  def apply[M: Numeric](canvas: html.Canvas) = new Monster(random(canvas), null)
+
   def random[M: Numeric](canvas: html.Canvas) = {
     @inline def compute(dim: Int) = (math.random * (dim - Hero.size)).toInt
     Position(compute(canvas.width), compute(canvas.height)).asInstanceOf[Position[M]]
   }
-
-  def apply[M: Numeric](canvas: html.Canvas) = new Monster(random(canvas), null)
 }
 
 class Hero[H: Numeric](val pos: Position[H],
@@ -78,7 +78,7 @@ class Hero[H: Numeric](val pos: Position[H],
 
 /** Compagnion object of class Hero */
 object Hero {
-  val (size,speed )= (32, 256)
+  val (size, speed) = (32, 256)
 
   /** Hero image centered in the field */
   def apply[H: Numeric](canvas: html.Canvas): Hero[H] = new Hero[H](Page.centerPosCanvas[H](canvas), null)

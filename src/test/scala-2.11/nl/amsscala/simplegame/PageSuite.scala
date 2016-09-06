@@ -2,7 +2,6 @@ package nl.amsscala.simplegame
 
 import org.scalajs.dom
 
-import scala.scalajs.js
 import scalatags.JsDom.all._
 
 class PageSuite extends SuiteSpec {

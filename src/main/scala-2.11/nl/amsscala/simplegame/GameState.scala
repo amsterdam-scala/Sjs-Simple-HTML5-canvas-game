@@ -32,8 +32,9 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
       // Are they touching?
       if (newHero.pos.isValidPosition(dimension(canvas).asInstanceOf[Position[T]], size)) {
         def monster = pageElements(1)
-        if (newHero.pos.areTouching(monster.pos, size)) copy()// Reset the game when the player catches a monster
-        else copy(hero = newHero)} // New position for Hero with isNewGame reset to false
+        if (newHero.pos.areTouching(monster.pos, size)) copy() // Reset the game when the player catches a monster
+        else copy(hero = newHero) // New position for Hero with isNewGame reset to false
+      }
       else this
     }
   }

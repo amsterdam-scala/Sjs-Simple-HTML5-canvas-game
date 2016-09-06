@@ -2,7 +2,7 @@ package nl.amsscala
 package simplegame
 
 import org.scalajs.dom
-import org.scalajs.dom.ext.KeyCode.{ Down, Left, Right, Up }
+import org.scalajs.dom.ext.KeyCode.{Down, Left, Right, Up}
 
 import scala.collection.mutable
 
@@ -29,7 +29,7 @@ class GameSuite extends SuiteSpec {
 
   describe("The Game") {
     describe("should tested by navigation keys") {
-      import GameSuite.{ dummyTimeStamp, games }
+      import GameSuite.{dummyTimeStamp, games}
 
       val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
       canvas.setAttribute("crossOrigin", "anonymous")
@@ -76,10 +76,12 @@ class GameSuite extends SuiteSpec {
         game.updateGame(1D, mutable.Map(Down -> dummyTimeStamp, Right -> dummyTimeStamp), canvas) shouldBe games.last
 
       }
-      it("sad path") { // Illegal key code
+      it("sad path") {
+        // Illegal key code
         game.updateGame(1D, mutable.Map(0 -> dummyTimeStamp), canvas) shouldBe game
       }
-      it("bad path") { // No move due a of out canvas limit case
+      it("bad path") {
+        // No move due a of out canvas limit case
         game.updateGame(1.48828125D, mutable.Map(Right -> dummyTimeStamp, Down -> dummyTimeStamp), canvas) shouldBe game
       }
 
