@@ -4,8 +4,6 @@ package nl.amsscala
  * Provides generic class and operators for dealing with 2D positions. As well dealing with 2D areas.
  */
 package object simplegame {
-  /** Experimental timestamp and position, displacement is a function of time */
-  protected[simplegame]type keysBufferType = scala.collection.mutable.Map[Int, (Double, Position[Int])]
 
   /**
    * Generic base class Position, holding the two ordinates
@@ -19,14 +17,17 @@ package object simplegame {
     import Numeric.Implicits.infixNumericOps
     import Ordering.Implicits.infixOrderingOps
 
-    /** Binaire sum operator for two coordinates */
+    /** Binaire add operator for two coordinates */
     def +(p: Position[P]) = Position(x + p.x, y + p.y)
 
-    /** Binaire sum operator e,g. (a, b) + n => (a + n, b +n) */
+    /** Binaire add operator e,g. (a, b) + n => (a + n, b + n) */
     def +(term: P) = Position(x + term, y + term)
 
     /** Binaire subtract operator for the difference of two coordinates */
     def -(p: Position[P]) = Position(x - p.x, y - p.y)
+
+    /** Binaire subtract operator e,g. (a, b) - n => (a - n, b - n) */
+    def -(term: P) = Position(x - term, y - term)
 
     /** Binaire multiply operator for two coordinates, multplies each of the ordinate */
     def *(p: Position[P]) = Position(x * p.x, y * p.y)
@@ -48,11 +49,8 @@ package object simplegame {
      * @param side      side of both two squares
      * @return          False  if a square out of bound
      */
-    def isValidPosition(canvasPos: Position[P], side: P): Boolean = {
-      // println(s"Testing: $x, $y")
-
+    def isValidPosition(canvasPos: Position[P], side: P): Boolean =
       interSectsArea(Position(0, 0).asInstanceOf[Position[P]], canvasPos, this + side, this)
-    }
 
     /**
      * Checks that two squares intersects

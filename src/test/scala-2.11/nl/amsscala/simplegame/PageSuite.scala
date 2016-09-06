@@ -33,7 +33,7 @@ class PageSuite extends SuiteSpec {
 
           val imageData = page.ctx.getImageData(0, 0, page.canvas.width, page.canvas.height)
 
-          // imageData.data.sum shouldBe -1753260013
+          imageData.data.sum shouldBe -1753260013
         }
 
         {
