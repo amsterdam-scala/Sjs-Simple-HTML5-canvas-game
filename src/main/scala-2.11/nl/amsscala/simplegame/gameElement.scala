@@ -52,8 +52,6 @@ class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extend
 
   def src = "img/monster.png"
 
-  protected[simplegame] def isValidPosition(canvas: dom.html.Canvas) =
-    pos.isValidPosition(Position(canvas.width, canvas.height).asInstanceOf[Position[M]], Hero.size.asInstanceOf[M])
 }
 
 object Monster {
@@ -93,6 +91,9 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
   }
 
   def copy(pos: Position[H]) = new Hero(pos, img)
+
+  protected[simplegame] def isValidPosition(canvas: dom.html.Canvas) =
+    pos.isValidPosition(Position(canvas.width, canvas.height).asInstanceOf[Position[H]], Hero.size.asInstanceOf[H])
 }
 
 /** Compagnion object of class Hero */

@@ -79,6 +79,6 @@ protected trait Page {
     a(href := "http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/", "Simple HTML5 Canvas game"),
     " ported to ",
     a(href := "http://www.scala-js.org/",
-      title := s"(Object code is compiled with type parameter ${genericDetect(0D.asInstanceOf[SimpleCanvasGame.Generic])}.)",
+      title := s"This object code is compiled with type parameter ${genericDetect(0D.asInstanceOf[SimpleCanvasGame.Generic])}.)",
       "Scala.js")).render)
 }
