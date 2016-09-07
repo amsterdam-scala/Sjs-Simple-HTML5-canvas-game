@@ -7,6 +7,7 @@ import scala.scalajs.js.JSApp
  * Main entry point for application start
  */
 object SimpleCanvasGame extends JSApp with Game with Page {
+  type Generic = Long
 
   /**
    * Entry point of execution

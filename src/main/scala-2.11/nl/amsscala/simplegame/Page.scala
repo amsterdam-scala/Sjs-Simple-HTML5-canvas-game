@@ -5,7 +5,7 @@ import org.scalajs.dom
 
 import scalatags.JsDom.all._
 
-/** All related to Html5 visuals */
+/** Everything related to Html5 visuals */
 protected trait Page {
   // Create the canvas and 2D context
   private[simplegame] val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
@@ -22,10 +22,11 @@ protected trait Page {
     def gameOverTxt = "Game Over?"
     def explainTxt = "Use the arrow keys to\nattack the hidden monster."
 
+    // Draw each page element in the specific list order
     gs.pageElements.foreach(pe => {
       val resize: Position[Int] = pe match {
         case _: PlayGround[T] => dimension(canvas)
-        case pm: GameElement[T] => dimension(pm.img)
+        case pm: GameElement[T] => dimension(pm.img) // The otherwise or default clause
       }
       ctx.drawImage(pe.img, pe.pos.x.asInstanceOf[Int], pe.pos.y.asInstanceOf[Int], resize.x, resize.y)
     })
@@ -41,7 +42,7 @@ protected trait Page {
       ctx.textAlign = "center"
       ctx.font = "48px Helvetica"
 
-      val center = Page.centerPosCanvas[Int](canvas)
+      val center = centerPosCanvas[Int](canvas)
       ctx.fillText(
         if (gs.isGameOver) gameOverTxt
         else {
@@ -58,19 +59,26 @@ protected trait Page {
 
   def dimension(cvs: dom.html.Canvas) = Position(cvs.width, cvs.height)
 
+  def centerPosCanvas[H: Numeric](canvas: dom.html.Canvas) =
+    Position(canvas.width / 2, canvas.height / 2).asInstanceOf[Position[H]]
+
   canvas.width = dom.window.innerWidth.toInt
   canvas.height = dom.window.innerHeight.toInt - 25
   println(s"Dimension of canvas set to ${canvas.width},${canvas.height}")
   canvas.textContent = "Your browser doesn't support the HTML5 CANVAS tag."
 
+  private def genericDetect(x : Any) = x match {
+    case _: Long => "Long"
+    case _: Int => "Int"
+    case _: Double => "Double"
+    case _ => "unknown"
+  }
+
   dom.document.body.appendChild(div(cls := "content", style := "text-align:center; background-color:#3F8630;",
     canvas,
     a(href := "http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/", "Simple HTML5 Canvas game"),
     " ported to ",
-    a(href := "http://www.scala-js.org/", "ScalaJS"), ".").render)
-
-}
-
-object Page {
-  def centerPosCanvas[H: Numeric](canvas: dom.html.Canvas) = Position(canvas.width / 2, canvas.height / 2).asInstanceOf[Position[H]]
+    a(href := "http://www.scala-js.org/",
+      title := s"(Object code is compiled with type parameter ${genericDetect(0D.asInstanceOf[SimpleCanvasGame.Generic])}.)",
+      "Scala.js")).render)
 }

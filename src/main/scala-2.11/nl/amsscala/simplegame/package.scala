@@ -42,18 +42,18 @@ package object simplegame {
      * @param side      side of both two squares
      * @return False  if a square out of bound
      */
-    def isValidPosition(canvasPos: Position[P], side: P): Boolean =
-    interSectsArea(Position(0, 0).asInstanceOf[Position[P]], canvasPos, this + side, this)
+    def isValidPosition(canvasPos: Position[P], side: P): Boolean = {
+     interSectsArea(Position(0, 0).asInstanceOf[Position[P]], canvasPos, this + side, this)
+    }
 
     private def interSectsArea[P: Numeric](p0: Position[P], p1: Position[P], p2: Position[P], p3: Position[P]) = {
       @inline def intersectsWith(a0: P, b0: P, a1: P, b1: P) = a0 <= b1 && a1 <= b0
-
-      intersectsWith(p0.x, p1.x, p2.x, p3.x) &&
-        intersectsWith(p0.y, p1.y, p2.y, p3.y)
+      // Process the x and y axes
+      intersectsWith(p0.x, p1.x, p2.x, p3.x) && intersectsWith(p0.y, p1.y, p2.y, p3.y)
     }
 
     /**
-     * Checks that two squares intersects
+     * Checks if two squares intersects
      *
      * @param posB Position of the second square
      * @param side side of both two squares

@@ -3,35 +3,47 @@ package simplegame
 
 import nl.amsscala.simplegame.SimpleCanvasGame.dimension
 import org.scalajs.dom
-import org.scalajs.dom.ext.KeyCode.{Down, Left, Right, Up}
 
 import scala.collection.mutable
 
+/**
+ *
+ * @param canvas
+ * @param pageElements This member lists the page elements. They are always in this order: PlayGround, Monster and Hero.
+ *                     E.g. pageElements.head is PlayGround, pageElements(1) is the Monster, pageElements.takes(2) are those both.
+ * @param monstersCaught
+ * @param isNewGame Flags game play is just fresh started
+ * @param isGameOver Flags a new turn
+ * @tparam T  Numeric generic abstraction
+ */
 class GameState[T: Numeric](canvas: dom.html.Canvas,
                             val pageElements: Vector[GameElement[T]],
                             val monstersCaught: Int = 0,
                             val isNewGame: Boolean = true,
                             val isGameOver: Boolean = false
                            ) {
+  def playGround = pageElements.head
+  def monster = pageElements(1)
+  def hero = pageElements.last
 
+  require(playGround.isInstanceOf[PlayGround[T]] &&
+    monster.isInstanceOf[Monster[T]] &&
+    hero.isInstanceOf[Hero[T]], "Page elements are not well listed.")
+
+  /**
+   * Process on a regular basis the arrow keys pressed.
+   * @param latency
+   * @param keysDown
+   * @return a Hero object with an adjusted position.
+   */
   def keyEffect(latency: Double, keysDown: mutable.Set[Int]): GameState[T] = {
-
-    def dirLookUp = Map(// Key to direction translation
-      Left -> Position(-1, 0), Right -> Position(1, 0), Up -> Position(0, -1), Down -> Position(0, 1)
-    ).withDefaultValue(Position(0, 0))
-
-    // Convert pressed keyboard keys to coordinates
-    def displacements: mutable.Set[Position[T]] = keysDown.map { k => dirLookUp(k).asInstanceOf[Position[T]] }
-
     if (keysDown.isEmpty) this
     else {
-      val hero = pageElements.last.asInstanceOf[Hero[T]]
-      val newHero =
-        hero.copy(displacements.fold(hero.pos) { (z, vec) => z + vec * (Hero.speed * latency).toInt.asInstanceOf[T] })
-      val size = Hero.size.asInstanceOf[T]
+      // Get new position according the pressed arrow keys
+      val newHero = hero.asInstanceOf[Hero[T]].keyEffect(latency, keysDown)
       // Are they touching?
+      val size = Hero.size.asInstanceOf[T]
       if (newHero.pos.isValidPosition(dimension(canvas).asInstanceOf[Position[T]], size)) {
-        def monster = pageElements(1)
         if (newHero.pos.areTouching(monster.pos, size)) copy() // Reset the game when the player catches a monster
         else copy(hero = newHero) // New position for Hero with isNewGame reset to false
       }
@@ -40,9 +52,9 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
   }
 
   def copy() = {
-    val (hero, monster) = (pageElements.last.asInstanceOf[Hero[T]], pageElements(1).asInstanceOf[Monster[T]])
+    val (h, m) = (hero.asInstanceOf[Hero[T]], monster.asInstanceOf[Monster[T]])
 
-    new GameState(canvas, Vector(pageElements.head, monster.copy(canvas), hero.copy(canvas)), monstersCaught + 1, true, true)
+    new GameState(canvas, Vector(playGround, m.copy(canvas), h.copy(canvas)), monstersCaught + 1, true, true)
   }
 
   def copy(hero: Hero[T]) =

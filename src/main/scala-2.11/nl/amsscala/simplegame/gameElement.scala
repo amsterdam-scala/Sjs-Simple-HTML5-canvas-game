@@ -2,7 +2,9 @@ package nl.amsscala
 package simplegame
 
 import org.scalajs.dom
-import org.scalajs.dom.html
+import org.scalajs.dom.ext.KeyCode.{Down, Left, Right, Up}
+
+import scala.collection.mutable
 
 // TODO: http://stackoverflow.com/questions/12370244/case-class-copy-method-with-superclass
 
@@ -37,15 +39,15 @@ object PlayGround {
 }
 
 /**
- * Monster class, holder for its coordinate, copied as extentension to the Hero class
+ * Monster class, holder for its coordinate
  *
  * @param pos Monsters' position
  * @tparam M Numeric generic abstraction
  */
 class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extends GameElement[M] {
-
-  def copy[M: Numeric](canvas: html.Canvas) = new Monster(Monster.random[M](canvas), img)
-
+  /** Get a Monster at a (new) random position */
+  def copy[C: Numeric](canvas: dom.html.Canvas) = new Monster(Monster.randomPosition[C](canvas), img)
+  /** Load the img in the Element */
   def copy(img: dom.raw.HTMLImageElement) = new Monster(pos, img)
 
   def src = "img/monster.png"
@@ -55,31 +57,48 @@ class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extend
 }
 
 object Monster {
-  def apply[M: Numeric](canvas: html.Canvas) = new Monster(random(canvas), null)
+  def apply[M: Numeric](canvas: dom.html.Canvas) = new Monster(randomPosition(canvas), null)
 
-  def random[M: Numeric](canvas: html.Canvas) = {
+  private def randomPosition[M: Numeric](canvas: dom.html.Canvas): Position[M] = {
     @inline def compute(dim: Int) = (math.random * (dim - Hero.size)).toInt
     Position(compute(canvas.width), compute(canvas.height)).asInstanceOf[Position[M]]
   }
 }
 
-class Hero[H: Numeric](val pos: Position[H],
-                       val img: dom.raw.HTMLImageElement
-                      ) extends GameElement[H] {
+class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) extends GameElement[H] {
 
   def copy(img: dom.raw.HTMLImageElement) = new Hero(pos, img)
 
-  def copy(pos: Position[H]) = new Hero(pos, img)
-
-  def copy(canvas: html.Canvas) = new Hero(Page.centerPosCanvas(canvas), img)
+  def copy(canvas: dom.html.Canvas) = new Hero(SimpleCanvasGame.centerPosCanvas(canvas), img)
 
   def src = "img/hero.png"
+
+  def keyEffect(latency: Double, keysDown: mutable.Set[Int]) = {
+
+    // Convert pressed keyboard keys to coordinates
+    def displacements: mutable.Set[Position[H]] = {
+      def dirLookUp = Map(// Key to direction translation
+        Left -> Position(-1, 0), Right -> Position(1, 0), Up -> Position(0, -1), Down -> Position(0, 1)
+      ).withDefaultValue(Position(0, 0))
+
+      keysDown.map { k => dirLookUp(k).asInstanceOf[Position[H]] }
+    }
+
+    def dirLookUp = Map(// Key to direction translation
+      Left -> Position(-1, 0), Right -> Position(1, 0), Up -> Position(0, -1), Down -> Position(0, 1)
+    ).withDefaultValue(Position(0, 0))
+
+    // Compute next position by summing all vectors with the position where the hero is found.
+    copy(displacements.fold(pos) { (z, vec) => z + vec * (Hero.speed * latency).toInt.asInstanceOf[H] })
+  }
+
+  def copy(pos: Position[H]) = new Hero(pos, img)
 }
 
 /** Compagnion object of class Hero */
 object Hero {
-  val (size, speed) = (32, 256)
+  protected[simplegame] val (size, speed) = (32, 256)
 
   /** Hero image centered in the field */
-  def apply[H: Numeric](canvas: html.Canvas): Hero[H] = new Hero[H](Page.centerPosCanvas[H](canvas), null)
+  def apply[H: Numeric](canvas: dom.html.Canvas): Hero[H] = new Hero[H](SimpleCanvasGame.centerPosCanvas[H](canvas), null)
 }

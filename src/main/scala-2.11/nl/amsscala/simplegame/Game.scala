@@ -23,7 +23,7 @@ protected trait Game {
     // Keyboard events store
     val keysPressed = mutable.Set.empty[Int]
     var prevTimestamp = js.Date.now()
-    val gameState = GameState[Int](canvas)
+    val gameState = GameState[SimpleCanvasGame.Generic](canvas)
 
     /** Convert the onload event of an img tag into a Future */
     def imageFuture(src: String): Future[dom.raw.HTMLImageElement] = {
@@ -41,10 +41,11 @@ protected trait Game {
     val loaders = gameState.pageElements.map(pg => imageFuture(pg.src))
 
     Future.sequence(loaders).onSuccess {
-      case posts => // Create GameState with loaded images
-        var oldUpdated = new GameState(canvas, gameState.pageElements.zip(posts).map { case (el, img) => el.copy(img = img) })
+      case load => // Create GameState with loaded images
+        var oldUpdated =
+          new GameState(canvas, gameState.pageElements.zip(load).map { case (el, img) => el.copy(img = img) })
 
-        // The main game loop
+        /** The main game loop, invoked by  */
         def gameLoop = () => {
           val nowTimestamp = js.Date.now()
           val updated = oldUpdated.keyEffect((nowTimestamp - prevTimestamp) / 1000, keysPressed)
@@ -57,10 +58,9 @@ protected trait Game {
         SimpleCanvasGame.render(oldUpdated) // First draw
 
         // Let's play this game!
-        if (!headless) {
-          // For test purpose
-          // TODO: mobile application navigation
+        if (!headless) {// For test purpose, a facility to silence the listeners.
           dom.window.setInterval(gameLoop, 1000 / framesPerSec)
+          // TODO: mobile application navigation
 
           dom.window.addEventListener("keydown", (e: dom.KeyboardEvent) =>
             e.keyCode match {
@@ -72,8 +72,8 @@ protected trait Game {
             keysPressed -= e.keyCode
           }, useCapture = false)
         }
-        // Handlers are now obsoleted , so they unload them all.
-        posts.foreach(i => i.onload = null)
+        // Listeners are now obsoleted , so they unload them all.
+        load.foreach(i => i.onload = null)
     }
   }
 }
