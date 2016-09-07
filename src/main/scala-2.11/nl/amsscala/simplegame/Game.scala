@@ -52,7 +52,7 @@ protected trait Game {
           prevTimestamp = nowTimestamp
 
           // Render of the canvas is conditional by movement of Hero
-          if (oldUpdated.pageElements.last != updated.pageElements.last) oldUpdated = SimpleCanvasGame.render(updated)
+          if (oldUpdated.hero != updated.hero.pos) oldUpdated = SimpleCanvasGame.render(updated)
         }
 
         SimpleCanvasGame.render(oldUpdated) // First draw

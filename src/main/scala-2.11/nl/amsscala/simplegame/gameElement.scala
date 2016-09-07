@@ -58,7 +58,7 @@ object Monster {
   def apply[M: Numeric](canvas: dom.html.Canvas) = new Monster(randomPosition(canvas), null)
 
   private def randomPosition[M: Numeric](canvas: dom.html.Canvas): Position[M] = {
-    @inline def compute(dim: Int) = (math.random * (dim - Hero.size)).toInt
+    @inline def compute(dim: Int) = (math.random * (dim - Hero.pxSize)).toInt
     Position(compute(canvas.width), compute(canvas.height)).asInstanceOf[Position[M]]
   }
 }
@@ -93,12 +93,12 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
   def copy(pos: Position[H]) = new Hero(pos, img)
 
   protected[simplegame] def isValidPosition(canvas: dom.html.Canvas) =
-    pos.isValidPosition(Position(canvas.width, canvas.height).asInstanceOf[Position[H]], Hero.size.asInstanceOf[H])
+    pos.isValidPosition(Position(canvas.width, canvas.height).asInstanceOf[Position[H]], Hero.pxSize.asInstanceOf[H])
 }
 
 /** Compagnion object of class Hero */
 object Hero {
-  protected[simplegame] val (size, speed) = (32, 256)
+  protected[simplegame] val (pxSize, speed) = (32, 256)
 
   /** Hero image centered in the field */
   def apply[H: Numeric](canvas: dom.html.Canvas): Hero[H] = new Hero[H](SimpleCanvasGame.centerPosCanvas[H](canvas), null)

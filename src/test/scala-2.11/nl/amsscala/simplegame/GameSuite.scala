@@ -15,13 +15,13 @@ class GameSuite extends SuiteSpec {
       canvas.height = 100
       it("good path") {
         new Hero(Position(0,0),null).isValidPosition(canvas) shouldBe true
-        new Hero(Position(150 - Hero.size, 100 - Hero.size),null).isValidPosition(canvas) shouldBe true
+        new Hero(Position(150 - Hero.pxSize, 100 - Hero.pxSize),null).isValidPosition(canvas) shouldBe true
       }
       it("bad path") {
         new Hero(Position(-1, 0),null).isValidPosition(canvas) shouldBe false
         new Hero(Position(4, -1),null).isValidPosition(canvas) shouldBe false
-        new Hero(Position(0, 101 - Hero.size),null).isValidPosition(canvas) shouldBe false
-        new Hero(Position(151 - Hero.size, 0),null).isValidPosition(canvas) shouldBe false
+        new Hero(Position(0, 101 - Hero.pxSize),null).isValidPosition(canvas) shouldBe false
+        new Hero(Position(151 - Hero.pxSize, 0),null).isValidPosition(canvas) shouldBe false
       }
 
     }
