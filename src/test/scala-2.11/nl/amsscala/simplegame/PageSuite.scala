@@ -20,7 +20,8 @@ class PageSuite extends AsyncFlatSpec with Page {
        imageFuture("""http://lambdalloyd.net23.net/SimpleGame/views/img/""" + pg.src)
     )
 
-    def expectedHashCode = Map("background.png" -> 1425165765, "monster.png" -> -277415456, "hero.png" -> -731024817)
+//    def expectedHashCode = Map("background.png" -> 1425165765, "monster.png" -> -277415456, "hero.png" -> -731024817)
+    def expectedHashCode = Map("background.png" -> 745767977, "monster.png" -> -157307518, "hero.png" -> -1469347267)
     def getImgName(url: String) = url.split('/').last
 
     // You can map assertions onto a Future, then return the resulting Future[Assertion] to ScalaTest:
@@ -31,8 +32,11 @@ class PageSuite extends AsyncFlatSpec with Page {
           canvas.width = img.width
         canvas.height = img.height
         ctx.drawImage(img, 0, 0, img.width, img.height)
+          val aa = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream")
+          println(img.src, aa.hashCode())
+
         def imageData: mutable.Seq[Int] = ctx.getImageData(0, 0, canvas.width, canvas.height).data
-          expectedHashCode(getImgName(img.src)) == imageData.hashCode()
+          expectedHashCode(getImgName(img.src)) == aa.hashCode()
         }
       })
     }
