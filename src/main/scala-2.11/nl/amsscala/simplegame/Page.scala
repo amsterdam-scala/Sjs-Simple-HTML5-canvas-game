@@ -71,7 +71,6 @@ trait Page {
   def imageFuture(src: String): Future[dom.raw.HTMLImageElement] = {
     val img = dom.document.createElement("img").asInstanceOf[dom.raw.HTMLImageElement]
 
-    println(src)
     img.setAttribute("crossOrigin", "anonymous")
     img.src = src
     if (img.complete) Future.successful(img)
