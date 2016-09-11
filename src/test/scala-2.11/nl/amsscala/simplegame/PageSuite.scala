@@ -30,10 +30,9 @@ class PageSuite extends AsyncFlatSpec with Page {
 
           canvas.width = img.width
         canvas.height = img.height
- //       ctx.drawImage(img, 0, 0, img.width, img.height)
-        def imageData: scalajs.js.Array[Int] = ctx.getImageData(0, 0, canvas.width, canvas.height).data
- //         expectedHashCode(getImgName(img.src)) == imageData.hashCode()
-          true
+        ctx.drawImage(img, 0, 0, img.width, img.height)
+        def imageData: mutable.Seq[Int] = ctx.getImageData(0, 0, canvas.width, canvas.height).data
+          expectedHashCode(getImgName(img.src)) == imageData.hashCode()
         }
       })
     }
