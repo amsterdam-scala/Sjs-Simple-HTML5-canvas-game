@@ -15,8 +15,8 @@ class PageSuite extends AsyncFlatSpec with Page {
     val gameState = GameState[SimpleCanvasGame.Generic](canvas)
     // Collect all Futures of onload events
     val loaders = gameState.pageElements.map(pg =>
-      imageFuture("""http://lambdalloyd.net23.net/SimpleGame/views/img/""" + pg.src)
-      //  imageFuture("""target/scala-2.11/test-classes/img/""" + pg.src)
+      // imageFuture("""http://lambdalloyd.net23.net/SimpleGame/views/img/""" + pg.src)
+       imageFuture("""img/""" + pg.src)
     )
 
     def expectedHashCode = Map("background.png" -> 1425165765, "monster.png" -> -277415456, "hero.png" -> -731024817)
@@ -28,8 +28,8 @@ class PageSuite extends AsyncFlatSpec with Page {
         canvas.width = img.width
         canvas.height = img.height
         ctx.drawImage(img, 0, 0, img.width, img.height)
-        val imageData: scalajs.js.Array[Int] = ctx.getImageData(0, 0, canvas.width, canvas.height).data
-        // expectedHashCode(getImgName(img.src)) == imageData.hashCode()
+        def imageData: scalajs.js.Array[Int] = ctx.getImageData(0, 0, canvas.width, canvas.height).data
+          expectedHashCode(getImgName(img.src)) == imageData.hashCode()
           true
         }
       })
