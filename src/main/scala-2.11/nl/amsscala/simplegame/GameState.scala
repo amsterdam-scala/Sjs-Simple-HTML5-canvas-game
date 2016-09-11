@@ -59,6 +59,9 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
 
   def copy(hero: Hero[T]) =
     new GameState(canvas, pageElements.take(2) :+ hero, monstersCaught = monstersCaught, isNewGame = false)
+
+  def copy(monster: Monster[T]) =
+    new GameState(canvas, Vector(playGround, monster , hero), monstersCaught = monstersCaught)
 }
 
 object GameState {

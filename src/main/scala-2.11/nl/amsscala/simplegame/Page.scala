@@ -3,14 +3,15 @@ package simplegame
 
 import org.scalajs.dom
 
+import scala.concurrent.{Future, Promise}
 import scalatags.JsDom.all._
 
 /** Everything related to Html5 visuals */
-protected trait Page {
+trait Page {
   // Create the canvas and 2D context
-  private[simplegame] val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
+  val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
   canvas.setAttribute("crossOrigin", "anonymous")
-  private[simplegame] val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
+  val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
 
   /**
    * Draw everything
@@ -18,7 +19,7 @@ protected trait Page {
    * @param gs Game state to make graphical
    * @return None if not ready else the same GameState if drawn
    */
-  protected[simplegame] def render[T](gs: GameState[T]) = {
+  def render[T](gs: GameState[T]) = {
     def gameOverTxt = "Game Over?"
     def explainTxt = "Use the arrow keys to\nattack the hidden monster."
 
@@ -62,10 +63,25 @@ protected trait Page {
   def centerPosCanvas[H: Numeric](canvas: dom.html.Canvas) =
     Position(canvas.width / 2, canvas.height / 2).asInstanceOf[Position[H]]
 
+  canvas.textContent = "Your browser doesn't support the HTML5 CANVAS tag."
   canvas.width = dom.window.innerWidth.toInt
   canvas.height = dom.window.innerHeight.toInt - 25
-  println(s"Dimension of canvas set to ${canvas.width},${canvas.height}")
-  canvas.textContent = "Your browser doesn't support the HTML5 CANVAS tag."
+
+  /** Convert the onload event of an img tag into a Future */
+  def imageFuture(context: String,  src: String): Future[dom.raw.HTMLImageElement] = {
+    val img = dom.document.createElement("img").asInstanceOf[dom.raw.HTMLImageElement]
+
+    println(context + src)
+    img.setAttribute("crossOrigin", "anonymous")
+    img.src = context + src
+    if (img.complete) Future.successful(img)
+    else {
+      val p = Promise[dom.raw.HTMLImageElement]()
+      img.onload = { (e: dom.Event) => p.success(img) }
+      p.future
+    }
+  }
+
 
   private def genericDetect(x : Any) = x match {
     case _: Long => "Long"

@@ -6,7 +6,7 @@ import org.scalajs.dom.ext.KeyCode.{Down, Left, Right, Up}
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Future, Promise}
+import scala.concurrent.Future
 import scala.scalajs.js
 
 /** The game with its rules. */
@@ -21,41 +21,28 @@ protected trait Game {
    */
   protected def play(canvas: dom.html.Canvas, headless: Boolean) {
     // Keyboard events store
-    val keysPressed = mutable.Set.empty[Int]
+    val (keysPressed,  gameState) = (mutable.Set.empty[Int], GameState[SimpleCanvasGame.Generic](canvas))
     var prevTimestamp = js.Date.now()
-    val gameState = GameState[SimpleCanvasGame.Generic](canvas)
-
-    /** Convert the onload event of an img tag into a Future */
-    def imageFuture(src: String): Future[dom.raw.HTMLImageElement] = {
-      val img = dom.document.createElement("img").asInstanceOf[dom.raw.HTMLImageElement]
-      img.src = src
-      if (img.complete) Future.successful(img)
-      else {
-        val p = Promise[dom.raw.HTMLImageElement]()
-        img.onload = { (e: dom.Event) => p.success(img) }
-        p.future
-      }
-    }
 
     // Collect all Futures of onload events
-    val loaders = gameState.pageElements.map(pg => imageFuture(pg.src))
+    val loaders = gameState.pageElements.map(pg => SimpleCanvasGame.imageFuture("img/", pg.src))
 
     Future.sequence(loaders).onSuccess {
       case load => // Create GameState with loaded images
-        var oldUpdated =
+        var prevGS =
           new GameState(canvas, gameState.pageElements.zip(load).map { case (el, img) => el.copy(img = img) })
 
         /** The main game loop, invoked by  */
         def gameLoop = () => {
           val nowTimestamp = js.Date.now()
-          val updated = oldUpdated.keyEffect((nowTimestamp - prevTimestamp) / 1000, keysPressed)
+          val updatedGS = prevGS.keyEffect((nowTimestamp - prevTimestamp) / 1000, keysPressed)
           prevTimestamp = nowTimestamp
 
           // Render of the canvas is conditional by movement of Hero
-          if (oldUpdated.hero != updated.hero.pos) oldUpdated = SimpleCanvasGame.render(updated)
+          if (prevGS.hero != updatedGS.hero.pos) prevGS = SimpleCanvasGame.render(updatedGS)
         }
 
-        SimpleCanvasGame.render(oldUpdated) // First draw
+        SimpleCanvasGame.render(prevGS) // First draw
 
         // Let's play this game!
         if (!headless) {// For test purpose, a facility to silence the listeners.

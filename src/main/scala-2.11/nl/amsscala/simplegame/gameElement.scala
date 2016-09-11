@@ -31,7 +31,7 @@ class PlayGround[G](
 
   def copy(img: dom.raw.HTMLImageElement): PlayGround[G] = new PlayGround(pos, img)
 
-  def src = "img/background.png"
+  def src = "background.png"
 }
 
 object PlayGround {
@@ -45,12 +45,14 @@ object PlayGround {
  * @tparam M Numeric generic abstraction
  */
 class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extends GameElement[M] {
+  /** Get a Monster at a specific position */
+  def copy[C: Numeric](position: Position[C]) = new Monster(position, img)
   /** Get a Monster at a (new) random position */
-  def copy[C: Numeric](canvas: dom.html.Canvas) = new Monster(Monster.randomPosition[C](canvas), img)
+  def copy[D: Numeric](canvas: dom.html.Canvas) = new Monster(Monster.randomPosition[D](canvas), img)
   /** Load the img in the Element */
-  def copy(img: dom.raw.HTMLImageElement) = new Monster(pos, img)
+  def copy(image: dom.raw.HTMLImageElement) = new Monster(pos, image)
 
-  def src = "img/monster.png"
+  def src = "monster.png"
 
 }
 
@@ -69,7 +71,7 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
 
   def copy(canvas: dom.html.Canvas) = new Hero(SimpleCanvasGame.centerPosCanvas(canvas), img)
 
-  def src = "img/hero.png"
+  def src = "hero.png"
 
   def keyEffect(latency: Double, keysDown: mutable.Set[Int]) = {
 

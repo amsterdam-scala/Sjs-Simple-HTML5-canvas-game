@@ -27,7 +27,7 @@ class GameSuite extends SuiteSpec {
     }
   }
 
-  describe("The Game") {
+/*  describe("The Game") {
     describe("should tested by navigation keys") {
 
       val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
@@ -35,7 +35,7 @@ class GameSuite extends SuiteSpec {
       canvas.width = 1242 // 1366
       canvas.height = 674 // 768
 
-/*
+
       val game = new GameState(canvas, -1, false).copy(monster = Monster(0, 0)) // Keep the monster out of site
 
       it("good path") {
@@ -84,8 +84,8 @@ class GameSuite extends SuiteSpec {
         // No move due a of out canvas limit case
         game.updateGame(1.48828125D, mutable.Map(Right -> dummyTimeStamp, Down -> dummyTimeStamp), canvas) shouldBe game
       }
-*/
+
 
     }
-  }
+  }*/
 }
