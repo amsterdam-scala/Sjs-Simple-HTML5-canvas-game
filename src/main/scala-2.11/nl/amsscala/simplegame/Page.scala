@@ -68,12 +68,11 @@ trait Page {
   canvas.height = dom.window.innerHeight.toInt - 25
 
   /** Convert the onload event of an img tag into a Future */
-  def imageFuture(context: String,  src: String): Future[dom.raw.HTMLImageElement] = {
+  def imageFuture(src: String): Future[dom.raw.HTMLImageElement] = {
     val img = dom.document.createElement("img").asInstanceOf[dom.raw.HTMLImageElement]
 
-    println(context + src)
     img.setAttribute("crossOrigin", "anonymous")
-    img.src = context + src
+    img.src = src
     if (img.complete) Future.successful(img)
     else {
       val p = Promise[dom.raw.HTMLImageElement]()
@@ -81,7 +80,6 @@ trait Page {
       p.future
     }
   }
-
 
   private def genericDetect(x : Any) = x match {
     case _: Long => "Long"

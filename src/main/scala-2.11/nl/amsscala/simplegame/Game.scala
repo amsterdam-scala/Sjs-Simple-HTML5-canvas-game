@@ -25,7 +25,7 @@ protected trait Game {
     var prevTimestamp = js.Date.now()
 
     // Collect all Futures of onload events
-    val loaders = gameState.pageElements.map(pg => SimpleCanvasGame.imageFuture("img/", pg.src))
+    val loaders = gameState.pageElements.map(pg => SimpleCanvasGame.imageFuture("""img/""" + pg.src))
 
     Future.sequence(loaders).onSuccess {
       case load => // Create GameState with loaded images
