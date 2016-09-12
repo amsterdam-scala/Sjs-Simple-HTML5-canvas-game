@@ -25,7 +25,10 @@ protected trait Game {
     var prevTimestamp = js.Date.now()
 
     // Collect all Futures of onload events
-    val loaders = gameState.pageElements.map(pg => SimpleCanvasGame.imageFuture("""https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/public/views/img/""" + pg.src))
+    val loaders = gameState.pageElements.map(pg =>
+      // SimpleCanvasGame.imageFuture("""http://localhost:12345/target/scala-2.11/classes/img/""" + pg.src))
+    SimpleCanvasGame.imageFuture("""http://lambdalloyd.net23.net/SimpleGame/views/img/""" + pg.src))
+    //SimpleCanvasGame.imageFuture("""https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/public/views/img/""" + pg.src))
 
     Future.sequence(loaders).onSuccess {
       case load => // Create GameState with loaded images

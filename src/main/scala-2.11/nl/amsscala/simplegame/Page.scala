@@ -10,7 +10,7 @@ import scalatags.JsDom.all._
 trait Page {
   // Create the canvas and 2D context
   val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
-  canvas.setAttribute("crossOrigin", "anonymous")
+//  canvas.setAttribute("crossOrigin", "anonymous")
   val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
 
   /**
@@ -71,7 +71,7 @@ trait Page {
   def imageFuture(src: String): Future[dom.raw.HTMLImageElement] = {
     val img = dom.document.createElement("img").asInstanceOf[dom.raw.HTMLImageElement]
 
-    img.setAttribute("crossOrigin", "anonymous")
+    img.setAttribute("crossOrigin", "Anonymous")
     img.src = src
     if (img.complete) Future.successful(img)
     else {
