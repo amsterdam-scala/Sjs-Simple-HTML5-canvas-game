@@ -94,5 +94,5 @@ trait Page {
     " ported to ",
     a(href := "http://www.scala-js.org/",
       title := s"This object code is compiled with type parameter ${genericDetect(0D.asInstanceOf[SimpleCanvasGame.Generic])}.",
-      "Scala.js")).render)
+      "Scala.js"), "Loading...").render)
 }
