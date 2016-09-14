@@ -27,7 +27,7 @@ protected trait Game {
     // Collect all Futures of onload events
     val loaders = gameState.pageElements.map(pg =>
       // SimpleCanvasGame.imageFuture("""http://localhost:12345/target/scala-2.11/classes/img/""" + pg.src))
-    SimpleCanvasGame.imageFuture("""http://lambdalloyd.net23.net/SimpleGame/views/img/""" + pg.src))
+    SimpleCanvasGame.imageFuture( pg.src))
     //SimpleCanvasGame.imageFuture("""https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/public/views/img/""" + pg.src))
 
     Future.sequence(loaders).onSuccess {
@@ -36,7 +36,7 @@ protected trait Game {
           new GameState(canvas, gameState.pageElements.zip(load).map { case (el, img) => el.copy(img = img) })
 
         /** The main game loop, invoked by  */
-        def gameLoop = () => {
+        def gameLoop() = {
           val nowTimestamp = js.Date.now()
           val updatedGS = prevGS.keyEffect((nowTimestamp - prevTimestamp) / 1000, keysPressed)
           prevTimestamp = nowTimestamp
@@ -49,7 +49,7 @@ protected trait Game {
 
         // Let's play this game!
         if (!headless) {// For test purpose, a facility to silence the listeners.
-          dom.window.setInterval(gameLoop, 1000 / framesPerSec)
+          scala.scalajs.js.timers.setInterval(1000 / framesPerSec)(gameLoop())
           // TODO: mobile application navigation
 
           dom.window.addEventListener("keydown", (e: dom.KeyboardEvent) =>
@@ -63,7 +63,7 @@ protected trait Game {
           }, useCapture = false)
         }
         // Listeners are now obsoleted , so they unload them all.
-        load.foreach(i => i.onload = null)
+        // load.foreach(i => i.onload = null)
     }
   }
 }

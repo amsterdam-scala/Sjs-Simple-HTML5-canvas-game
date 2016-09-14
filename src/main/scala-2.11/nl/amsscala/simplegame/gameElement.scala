@@ -31,7 +31,7 @@ class PlayGround[G](
 
   def copy(img: dom.raw.HTMLImageElement): PlayGround[G] = new PlayGround(pos, img)
 
-  def src = "background.png"
+  def src = "http://lambdalloyd.net23.net/SimpleGame/views/img/background.png"
 }
 
 object PlayGround {
@@ -52,7 +52,7 @@ class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extend
   /** Load the img in the Element */
   def copy(image: dom.raw.HTMLImageElement) = new Monster(pos, image)
 
-  def src = "monster.png"
+  def src = """img/monster.png"""
 
 }
 
@@ -71,7 +71,7 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
 
   def copy(canvas: dom.html.Canvas) = new Hero(SimpleCanvasGame.centerPosCanvas(canvas), img)
 
-  def src = "hero.png"
+  def src = """https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/public/views/img/hero.png"""
 
   def keyEffect(latency: Double, keysDown: mutable.Set[Int]) = {
 
