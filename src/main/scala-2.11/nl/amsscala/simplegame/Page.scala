@@ -78,7 +78,6 @@ println(src)
     else {
       val p = Promise[dom.raw.HTMLImageElement]()
       img.onload = { (e: dom.Event) => p.success(img) }
-      img.onstalled = { (e: dom.Event) => p.failure(new RuntimeException(e.`type`)) }
       p.future
     }
   }

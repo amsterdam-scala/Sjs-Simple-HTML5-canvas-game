@@ -5,13 +5,13 @@ import org.scalajs.dom
 import org.scalajs.dom.ext.KeyCode.{Down, Left, Right, Up}
 
 import scala.collection.mutable
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
 
 /** The game with its rules. */
 protected trait Game {
   private[this] val framesPerSec = 25
+  implicit def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
   /**
    * Initialize Game loop
@@ -25,10 +25,7 @@ protected trait Game {
     var prevTimestamp = js.Date.now()
 
     // Collect all Futures of onload events
-    val loaders = gameState.pageElements.map(pg =>
-      // SimpleCanvasGame.imageFuture("""http://localhost:12345/target/scala-2.11/classes/img/""" + pg.src))
-    SimpleCanvasGame.imageFuture( pg.src))
-    //SimpleCanvasGame.imageFuture("""https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/public/views/img/""" + pg.src))
+    val loaders = gameState.pageElements.map(pg => SimpleCanvasGame.imageFuture(pg.src))
 
     Future.sequence(loaders).onSuccess {
       case load => // Create GameState with loaded images
@@ -45,7 +42,7 @@ protected trait Game {
           if (prevGS.hero != updatedGS.hero.pos) prevGS = SimpleCanvasGame.render(updatedGS)
         }
 
-        SimpleCanvasGame.render(prevGS) // First draw
+        // SimpleCanvasGame.render(prevGS) // First draw
 
         // Let's play this game!
         if (!headless) {// For test purpose, a facility to silence the listeners.
@@ -63,7 +60,7 @@ protected trait Game {
           }, useCapture = false)
         }
         // Listeners are now obsoleted , so they unload them all.
-        // load.foreach(i => i.onload = null)
+        load.foreach(i => i.onload = null)
     }
   }
 }

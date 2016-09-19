@@ -52,7 +52,7 @@ class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extend
   /** Load the img in the Element */
   def copy(image: dom.raw.HTMLImageElement) = new Monster(pos, image)
 
-  def src = """img/monster.png"""
+  def src = """http://lambdalloyd.net23.net/SimpleGame/views/img/monster.png"""
 
 }
 

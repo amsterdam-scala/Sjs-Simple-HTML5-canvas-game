@@ -8,31 +8,40 @@ import scala.collection.mutable
 import scala.concurrent.Future
 
 class PageSuite extends AsyncFlatSpec with Page {
+  val gameState = GameState[SimpleCanvasGame.Generic](canvas)
+  // Collect all Futures of onload events
+  val loaders = gameState.pageElements.map(pg => imageFuture(pg.src))
 
-  implicit override def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+  //def dimension(img: dom.raw.HTMLImageElement) = Position(img.width, img.height)
 
-  behavior of "Page converts several states of the game in visuals"
-  "The images" should "loaded from the remote" in {
+  // def dimension(cvs: dom.html.Canvas) = Position(cvs.width, cvs.height)
 
-    val gameState = GameState[Int](canvas)
-    // Collect all Futures of onload events
-    val loaders = gameState.pageElements.map(pg =>
-      imageFuture(pg.src)
-    )
+implicit override def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+ // implicit def executionContext = scala.concurrent.ExecutionContext.Implicits.global
 
-    //    def expectedHashCode = Map("background.png" -> 1425165765, "monster.png" -> -277415456, "hero.png" -> -731024817)
-    def expectedHashCode = Map("background.png" -> 745767977, "monster.png" -> -157307518, "hero.png" -> -1469347267)
+
+    def expectedHashCode = Map("background.png" -> 1425165765, "monster.png" -> -277415456, "hero.png" -> -731024817)
+    // def expectedHashCode = Map("background.png" -> 745767977, "monster.png" -> -157307518, "hero.png" -> -1469347267)
     def getImgName(url: String) = url.split('/').last
 
+  // behavior of "Page converts several states of the game in visuals"
+   "The images" should "loaded from the remote" in {
     // You can map assertions onto a Future, then return the resulting Future[Assertion] to ScalaTest:
     Future.sequence(loaders).map { imageElements => {
       /*"Here is some code. without any error." But exhibit the same error "SECURITY_ERR: DOM Exception 18" in Travis.
       http://stackoverflow.com/questions/10673122/how-to-save-canvas-as-an-image-with-canvas-todataurl*/
-      def image(canvas: dom.html.Canvas) = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream")
+      // def image(canvas: dom.html.Canvas) = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream")
 
       // Exhibit the error "SECURITY_ERR: DOM Exception 18" in Travis-CI
       def image0(ctx: dom.CanvasRenderingContext2D): mutable.Seq[Int] =
       ctx.getImageData(0, 0, canvas.width, canvas.height).data
+
+      println(imageElements.map{ img => {
+        canvas.width = img.width
+        canvas.height = img.height
+        ctx.drawImage(img, 0, 0, img.width, img.height)
+        (getImgName(img.src), image0(ctx).hashCode())
+      }})
 
       assert(imageElements.forall { img => {
        // img.setAttribute("crossOrigin", "anonymous")
@@ -40,13 +49,11 @@ class PageSuite extends AsyncFlatSpec with Page {
         canvas.width = img.width
         canvas.height = img.height
         ctx.drawImage(img, 0, 0, img.width, img.height)
-        expectedHashCode(getImgName(img.src)) == image(canvas).hashCode()
+        expectedHashCode(getImgName(img.src)) == image0(ctx).hashCode()
       }
-        true
       })
-    }
-    } // Future(assert(true))
-  }
+      } // Future(assert(true))
+  }}
 
   /*
 

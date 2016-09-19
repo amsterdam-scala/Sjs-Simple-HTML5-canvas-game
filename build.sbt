@@ -13,6 +13,8 @@ organizationHomepage := Some(url("http://www.meetup.com/amsterdam-scala/"))
 
 // ** Scala dependencies **
 scalaVersion in ThisBuild := "2.11.8"
+scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation")
+scalacOptions in (Compile,doc) ++= Seq("-doc-root-content", baseDirectory.value+"/src/main/scala-2.11/root-doc.md", "-groups", "-implicits")
 
 libraryDependencies ++= Seq(
   "be.doeraene"        %%% "scalajs-jquery" % "0.9.0",
@@ -26,13 +28,13 @@ scalacOptions in (Compile,doc) ++= Seq("-doc-root-content", baseDirectory.value+
   "-groups", "-implicits")
 
 // ** Scala.js configuration **
-// lazy val root = (project in file(".")).
-enablePlugins(ScalaJSPlugin)
+lazy val root = (project in file(".")).enablePlugins(ScalaJSPlugin)
 
 // Necessary for testing
 jsDependencies += RuntimeDOM
 scalaJSUseRhino in Global := false
-// jsEnv := PhantomJSEnv(autoExit = false).value
+// jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Chrome())
+jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Firefox())
 
 // If true, a launcher script src="../[normalizedName]-launcher.js will be generated
 // that always calls the main def indicated by the used JSApp trait.
