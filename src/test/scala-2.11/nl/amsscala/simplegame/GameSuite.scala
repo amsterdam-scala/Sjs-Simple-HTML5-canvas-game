@@ -31,7 +31,6 @@ class GameSuite extends SuiteSpec {
     describe("should tested by navigation keys") {
 
       val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
-      canvas.setAttribute("crossOrigin", "anonymous")
       canvas.width = 1242 // 1366
       canvas.height = 674 // 768
 

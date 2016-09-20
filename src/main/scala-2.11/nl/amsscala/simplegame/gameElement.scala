@@ -103,5 +103,5 @@ object Hero {
   protected[simplegame] val (pxSize, speed) = (32, 256)
 
   /** Hero image centered in the field */
-  def apply[H: Numeric](canvas: dom.html.Canvas): Hero[H] = new Hero[H](SimpleCanvasGame.centerPosCanvas[H](canvas), null)
+  def apply[H: Numeric](canvas: dom.html.Canvas): Hero[H] = new Hero[H](SimpleCanvasGame.centerPosCanvas(canvas), null)
 }

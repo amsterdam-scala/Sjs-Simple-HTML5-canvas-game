@@ -11,6 +11,7 @@ import scala.scalajs.js
 /** The game with its rules. */
 protected trait Game {
   private[this] val framesPerSec = 25
+
   implicit def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
   /**
@@ -21,7 +22,7 @@ protected trait Game {
    */
   protected def play(canvas: dom.html.Canvas, headless: Boolean) {
     // Keyboard events store
-    val (keysPressed,  gameState) = (mutable.Set.empty[Int], GameState[SimpleCanvasGame.Generic](canvas))
+    val (keysPressed, gameState) = (mutable.Set.empty[Int], GameState[SimpleCanvasGame.Generic](canvas))
     var prevTimestamp = js.Date.now()
 
     // Collect all Futures of onload events
@@ -29,24 +30,27 @@ protected trait Game {
 
     Future.sequence(loaders).onSuccess {
       case load => // Create GameState with loaded images
-        var prevGS =
-          new GameState(canvas, gameState.pageElements.zip(load).map { case (el, img) => el.copy(img = img) })
+        var prevGS = new GameState(canvas, gameState.pageElements.zip(load).map { case (el, img) => el.copy(img = img) }
+          /*,monstersHitTxt = "",isNewGame = false*/
+        )
 
-        /** The main game loop, invoked by  */
+        /** The main game loop, invoked by interval callback */
         def gameLoop() = {
           val nowTimestamp = js.Date.now()
           val updatedGS = prevGS.keyEffect((nowTimestamp - prevTimestamp) / 1000, keysPressed)
+
           prevTimestamp = nowTimestamp
 
           // Render of the canvas is conditional by movement of Hero
-          if (prevGS.hero != updatedGS.hero.pos) prevGS = SimpleCanvasGame.render(updatedGS)
+          if (prevGS.hero.pos != updatedGS.hero.pos) prevGS = SimpleCanvasGame.render(updatedGS)
         }
 
-        // SimpleCanvasGame.render(prevGS) // First draw
+        SimpleCanvasGame.render(prevGS) // First draw
 
         // Let's play this game!
         if (!headless) {// For test purpose, a facility to silence the listeners.
           scala.scalajs.js.timers.setInterval(1000 / framesPerSec)(gameLoop())
+
           // TODO: mobile application navigation
 
           dom.window.addEventListener("keydown", (e: dom.KeyboardEvent) =>
