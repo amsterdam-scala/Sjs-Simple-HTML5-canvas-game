@@ -2,45 +2,49 @@ package nl.amsscala
 package simplegame
 
 import org.scalajs.dom
-import org.scalatest.AsyncFlatSpec
+import org.scalatest.AsyncFunSpec
 
 import scala.collection.mutable
 import scala.concurrent.Future
 
-class PageSuite extends AsyncFlatSpec with Page {
+class PageSuite extends AsyncFunSpec with Page {
   val gameState = GameState[SimpleCanvasGame.Generic](canvas)
   // Collect all Futures of onload events
   val loaders = gameState.pageElements.map(pg => imageFuture(pg.src))
 
-implicit override def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+  implicit override def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
-    def expectedHashCode = Map("background.png" -> 1425165765, "monster.png" -> -277415456, "hero.png" -> -731024817)
-    // def expectedHashCode = Map("background.png" -> 745767977, "monster.png" -> -157307518, "hero.png" -> -1469347267)
-    def getImgName(url: String) = url.split('/').last
+  def expectedHashCode = Map("background.png" -> 1425165765, "monster.png" -> -277415456, "hero.png" -> -731024817)
 
-  // behavior of "Page converts several states of the game in visuals"
-   "The images" should "loaded from the remote" in {
+  // def expectedHashCode = Map("background.png" -> 745767977, "monster.png" -> -157307518, "hero.png" -> -1469347267)
+  def getImgName(url: String) = url.split('/').last
+
+  describe("The images should loaded from the remote") {
     // You can map assertions onto a Future, then return the resulting Future[Assertion] to ScalaTest:
-    Future.sequence(loaders).map { imageElements => {
-      def context2DToSeq(ctx: dom.CanvasRenderingContext2D): mutable.Seq[Int] =
-      ctx.getImageData(0, 0, canvas.width, canvas.height).data
+    describe("should load pictures remote") {
+      Future.sequence(loaders).map { imageElements => {
+        def context2DToSeq(ctx: dom.CanvasRenderingContext2D): mutable.Seq[Int] =
+          ctx.getImageData(0, 0, canvas.width, canvas.height).data
 
-      println(imageElements.map{ img => {
-        canvas.width = img.width
-        canvas.height = img.height
-        ctx.drawImage(img, 0, 0, img.width, img.height)
-        (getImgName(img.src), context2DToSeq(ctx).hashCode())
-      }})
+        println(imageElements.map { img => {
+          canvas.width = img.width
+          canvas.height = img.height
+          ctx.drawImage(img, 0, 0, img.width, img.height)
+          (getImgName(img.src), context2DToSeq(ctx).hashCode())
+        }
+        })
 
-      assert(imageElements.forall { img => {
-        canvas.width = img.width
-        canvas.height = img.height
-        ctx.drawImage(img, 0, 0, img.width, img.height)
-        expectedHashCode(getImgName(img.src)) == context2DToSeq(ctx).hashCode()
+        it("find the images as expected")(assert(imageElements.forall { img => {
+          canvas.width = img.width
+          canvas.height = img.height
+          ctx.drawImage(img, 0, 0, img.width, img.height)
+          expectedHashCode(getImgName(img.src)) == context2DToSeq(ctx).hashCode()
+        }
+        }))
       }
-      })
-      } // Future(assert(true))
-  }}
+      }
+    }
+  }
 
   /*
 

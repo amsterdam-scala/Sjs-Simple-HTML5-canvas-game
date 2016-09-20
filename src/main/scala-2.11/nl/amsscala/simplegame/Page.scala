@@ -49,8 +49,8 @@ trait Page {
         if (gs.isGameOver) gs.gameOverTxt
         else {
           val txt = gs.explainTxt.split('\n')
-          ctx.fillText(txt(1), center.x, center.y + 32)
-          txt(0)
+          ctx.fillText(txt.last, center.x, center.y + 32)
+          txt.head
         }, center.x, center.y - 48
       )
     }
