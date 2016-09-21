@@ -34,8 +34,8 @@ lazy val root = (project in file(".")).enablePlugins(ScalaJSPlugin)
 // Necessary for testing
 jsDependencies += RuntimeDOM
 scalaJSUseRhino in Global := false
-jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Chrome())
-// jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Firefox())
+// jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Chrome())
+jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Firefox())
 
 // If true, a launcher script src="../[normalizedName]-launcher.js will be generated
 // that always calls the main def indicated by the used JSApp trait.
