@@ -26,15 +26,7 @@ class PageSuite extends AsyncFunSpec with Page {
         def context2DToSeq(ctx: dom.CanvasRenderingContext2D): mutable.Seq[Int] =
           ctx.getImageData(0, 0, canvas.width, canvas.height).data
 
-        println(imageElements.map { img => {
-          canvas.width = img.width
-          canvas.height = img.height
-          ctx.drawImage(img, 0, 0, img.width, img.height)
-          (getImgName(img.src), context2DToSeq(ctx).hashCode())
-        }
-        })
-
-        it("find the images as expected")(assert(imageElements.forall { img => {
+        it("find all images as expected")(assert(imageElements.forall { img => {
           canvas.width = img.width
           canvas.height = img.height
           ctx.drawImage(img, 0, 0, img.width, img.height)

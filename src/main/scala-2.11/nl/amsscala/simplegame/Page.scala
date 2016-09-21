@@ -11,6 +11,7 @@ trait Page {
   // Create the canvas and 2D context
   val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
   val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
+  lazy val center = Position(canvas.width / 2, canvas.height / 2)
 
   /**
    * Draw everything
@@ -44,7 +45,6 @@ trait Page {
       ctx.textAlign = "center"
       ctx.font = "48px Helvetica"
 
-      val center = centerPosCanvas[Int](canvas)
       ctx.fillText(
         if (gs.isGameOver) gs.gameOverTxt
         else {
@@ -59,10 +59,7 @@ trait Page {
 
   def canvasDim = Position(canvas.width, canvas.height)
 
-  def dimension(img: dom.raw.HTMLImageElement) = Position(img.width, img.height)
-
-  def centerPosCanvas[H: Numeric](canvas: dom.html.Canvas) =
-    Position(canvas.width / 2, canvas.height / 2).asInstanceOf[Position[H]]
+  @inline private def dimension(img: dom.raw.HTMLImageElement) = Position(img.width, img.height)
 
   canvas.textContent = "Your browser doesn't support the HTML5 CANVAS tag."
   canvas.width = dom.window.innerWidth.toInt

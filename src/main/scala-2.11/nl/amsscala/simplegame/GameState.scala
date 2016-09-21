@@ -1,7 +1,6 @@
 package nl.amsscala
 package simplegame
 
-import nl.amsscala.simplegame.SimpleCanvasGame.canvasDim
 import org.scalajs.dom
 
 import scala.collection.mutable
@@ -28,7 +27,7 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
                             _gameOverTxt: => String = GameState.gameOverTxt,
                             _explainTxt: => String = GameState.explainTxt
                            ) {
-  private def copy() = {
+  def copy() = {
     new GameState(canvas,
       Vector(playGround, monster.copy(canvas), hero.copy(canvas)),
       monstersCaught = monstersCaught + 1,
@@ -60,10 +59,10 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
     if (keysDown.isEmpty) this
     else {
       // Get new position according the pressed arrow keys
-      val newHero = hero.asInstanceOf[Hero[T]].keyEffect(latency, keysDown)
+      val newHero = hero.keyEffect(latency, keysDown)
       // Are they touching?
       val size = Hero.pxSize.asInstanceOf[T]
-      if (newHero.pos.isValidPosition(canvasDim.asInstanceOf[Position[T]], size)) {
+      if (newHero.pos.isValidPosition(SimpleCanvasGame.canvasDim.asInstanceOf[Position[T]], size)) {
         if (newHero.pos.areTouching(monster.pos, size)) copy() // Reset the game when the player catches a monster
         else copy(hero = newHero) // New position for Hero with isNewGame reset to false
       }

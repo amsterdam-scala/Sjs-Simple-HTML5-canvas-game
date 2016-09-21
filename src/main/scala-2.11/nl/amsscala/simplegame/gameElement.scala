@@ -69,7 +69,7 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
 
   def copy(img: dom.raw.HTMLImageElement) = new Hero(pos, img)
 
-  def copy(canvas: dom.html.Canvas) = new Hero(SimpleCanvasGame.centerPosCanvas(canvas), img)
+  def copy(canvas: dom.html.Canvas) = new Hero(SimpleCanvasGame.center.asInstanceOf[Position[H]], img)
 
   def src = """https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/public/views/img/hero.png"""
 
@@ -103,5 +103,6 @@ object Hero {
   protected[simplegame] val (pxSize, speed) = (32, 256)
 
   /** Hero image centered in the field */
-  def apply[H: Numeric](canvas: dom.html.Canvas): Hero[H] = new Hero[H](SimpleCanvasGame.centerPosCanvas(canvas), null)
+  def apply[H: Numeric](canvas: dom.html.Canvas): Hero[H] =
+   new Hero[H](SimpleCanvasGame.center.asInstanceOf[Position[H]], null)
 }
