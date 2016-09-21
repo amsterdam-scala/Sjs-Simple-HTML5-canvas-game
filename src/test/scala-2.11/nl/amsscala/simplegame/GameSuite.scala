@@ -30,58 +30,58 @@ class GameSuite extends SuiteSpec {
 /*  describe("The Game") {
     describe("should tested by navigation keys") {
 
-      val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
-      canvas.width = 1242 // 1366
-      canvas.height = 674 // 768
+      val cnvs = dom.document.createElement("cnvs").asInstanceOf[dom.html.Canvas]
+      cnvs.width = 1242 // 1366
+      cnvs.height = 674 // 768
 
 
-      val game = new GameState(canvas, -1, false).copy(monster = Monster(0, 0)) // Keep the monster out of site
+      val game = new GameState(cnvs, -1, false).copy(monster = Monster(0, 0)) // Keep the monster out of site
 
       it("good path") {
         // No keys, no movement
-        game.updateGame(1D, mutable.Map.empty, canvas) shouldBe game
+        game.updateGame(1D, mutable.Map.empty, cnvs) shouldBe game
 
         // Opposite horizontal navigation, no movement 1
-        game.updateGame(1D, mutable.Map(Left -> dummyTimeStamp, Right -> dummyTimeStamp), canvas) shouldBe game
+        game.updateGame(1D, mutable.Map(Left -> dummyTimeStamp, Right -> dummyTimeStamp), cnvs) shouldBe game
 
         // Opposite horizontal navigation, no movement 2
-        game.updateGame(1D, mutable.Map(Right -> dummyTimeStamp, Left -> dummyTimeStamp), canvas) shouldBe game
+        game.updateGame(1D, mutable.Map(Right -> dummyTimeStamp, Left -> dummyTimeStamp), cnvs) shouldBe game
 
         // Opposite vertical navigation, no movement 1
-        game.updateGame(1D, mutable.Map(Up -> dummyTimeStamp, Down -> dummyTimeStamp), canvas) shouldBe game
+        game.updateGame(1D, mutable.Map(Up -> dummyTimeStamp, Down -> dummyTimeStamp), cnvs) shouldBe game
 
         // Opposite vertical navigation, no movement 2
-        game.updateGame(1D, mutable.Map(Down -> dummyTimeStamp, Up -> dummyTimeStamp), canvas) shouldBe game
+        game.updateGame(1D, mutable.Map(Down -> dummyTimeStamp, Up -> dummyTimeStamp), cnvs) shouldBe game
 
         // All four directions, no movement
         game.updateGame(
           1D,
           mutable.Map(Up -> dummyTimeStamp, Right -> dummyTimeStamp, Left -> dummyTimeStamp, Down -> dummyTimeStamp),
-          canvas
+          cnvs
         ) shouldBe game
 
         games += game.updateGame(
           1D,
           mutable.Map(Left -> dummyTimeStamp, Right -> dummyTimeStamp, Up -> dummyTimeStamp, Down -> dummyTimeStamp),
-          canvas
+          cnvs
         )
         games.head shouldBe game
         games += game.copy(hero = new Hero(game.hero.pos - Position(Hero.speed, Hero.speed)))
         // North west navigation
-        game.updateGame(1D, mutable.Map(Up -> dummyTimeStamp, Left -> dummyTimeStamp), canvas) shouldBe games.last
+        game.updateGame(1D, mutable.Map(Up -> dummyTimeStamp, Left -> dummyTimeStamp), cnvs) shouldBe games.last
 
         games += game.copy(hero = new Hero(game.hero.pos + Position(Hero.speed, Hero.speed)))
         // South East navigation
-        game.updateGame(1D, mutable.Map(Down -> dummyTimeStamp, Right -> dummyTimeStamp), canvas) shouldBe games.last
+        game.updateGame(1D, mutable.Map(Down -> dummyTimeStamp, Right -> dummyTimeStamp), cnvs) shouldBe games.last
 
       }
       it("sad path") {
         // Illegal key code
-        game.updateGame(1D, mutable.Map(0 -> dummyTimeStamp), canvas) shouldBe game
+        game.updateGame(1D, mutable.Map(0 -> dummyTimeStamp), cnvs) shouldBe game
       }
       it("bad path") {
-        // No move due a of out canvas limit case
-        game.updateGame(1.48828125D, mutable.Map(Right -> dummyTimeStamp, Down -> dummyTimeStamp), canvas) shouldBe game
+        // No move due a of out cnvs limit case
+        game.updateGame(1.48828125D, mutable.Map(Right -> dummyTimeStamp, Down -> dummyTimeStamp), cnvs) shouldBe game
       }
 
 

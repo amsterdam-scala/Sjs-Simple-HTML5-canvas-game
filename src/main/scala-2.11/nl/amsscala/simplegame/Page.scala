@@ -11,7 +11,8 @@ trait Page {
   // Create the canvas and 2D context
   val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
   val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
-  lazy val center = Position(canvas.width / 2, canvas.height / 2)
+
+  def center(cnvs: dom.html.Canvas) = Position(cnvs.width / 2, cnvs.height / 2)
 
   /**
    * Draw everything
@@ -26,7 +27,7 @@ trait Page {
         ctx.drawImage(pe.img, pe.pos.x.asInstanceOf[Int], pe.pos.y.asInstanceOf[Int], resize.x, resize.y)
 
       drawImage(pe match {
-        case _: PlayGround[T] => canvasDim
+        case _: Playground[T] => canvasDim
         case pm: GameElement[T] => dimension(pm.img) // The otherwise or default clause
       })
     })
@@ -41,6 +42,8 @@ trait Page {
     }
 
     if (gs.isNewGame) {
+      val centr = center(canvas)
+
       ctx.textAlign = "center"
       ctx.font = "48px Helvetica"
 
@@ -48,9 +51,9 @@ trait Page {
         if (gs.isGameOver) gs.gameOverTxt
         else {
           val txt = gs.explainTxt.split('\n')
-          ctx.fillText(txt.last, center.x, center.y + 32)
+          ctx.fillText(txt.last, centr.x, centr.y + 32)
           txt.head
-        }, center.x, center.y - 48
+        }, centr.x, centr.y - 48
       )
     }
     gs

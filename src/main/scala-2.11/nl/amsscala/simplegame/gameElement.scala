@@ -24,18 +24,18 @@ sealed trait GameElement[Numeric] {
   }
 }
 
-class PlayGround[G](
+class Playground[G](
                      val pos: Position[G],
                      val img: dom.raw.HTMLImageElement
                    ) extends GameElement[G] {
 
-  def copy(img: dom.raw.HTMLImageElement): PlayGround[G] = new PlayGround(pos, img)
+  def copy(img: dom.raw.HTMLImageElement): Playground[G] = new Playground(pos, img)
 
   def src = "http://lambdalloyd.net23.net/SimpleGame/views/img/background.png"
 }
 
-object PlayGround {
-  def apply[G]() = new PlayGround[G](Position(0, 0).asInstanceOf[Position[G]], null)
+object Playground {
+  def apply[G]() = new Playground[G](Position(0, 0).asInstanceOf[Position[G]], null)
 }
 
 /**
@@ -67,14 +67,14 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
 
   def copy(img: dom.raw.HTMLImageElement) = new Hero(pos, img)
 
-  def copy() = new Hero(SimpleCanvasGame.center.asInstanceOf[Position[H]], img)
+  def copy(canvas: dom.html.Canvas) = new Hero(SimpleCanvasGame.center(canvas).asInstanceOf[Position[H]], img)
 
   def copy(pos: Position[H]) = new Hero(pos, img)
 
   protected[simplegame] def isValidPosition(canvas: dom.html.Canvas) =
     pos.isValidPosition(Position(canvas.width, canvas.height).asInstanceOf[Position[H]], Hero.pxSize.asInstanceOf[H])
 
-  def src = """https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/public/views/img/hero.png"""
+  def src = """http://lambdalloyd.net23.net/SimpleGame/views/img/hero.png"""
 
   def keyEffect(latency: Double, keysDown: mutable.Set[Int]) = {
 
@@ -103,5 +103,5 @@ object Hero {
 
   /** Hero image centered in the field */
   def apply[H: Numeric](canvas: dom.html.Canvas): Hero[H] =
-   new Hero[H](SimpleCanvasGame.center.asInstanceOf[Position[H]], null)
+   new Hero[H](SimpleCanvasGame.center(canvas).asInstanceOf[Position[H]], null)
 }

@@ -8,8 +8,8 @@ import scala.collection.mutable
 /**
  *
  * @param canvas
- * @param pageElements   This member lists the page elements. They are always in this order: PlayGround, Monster and Hero.
- *                       E.g. pageElements.head is PlayGround, pageElements(1) is the Monster, pageElements.takes(2) are those both.
+ * @param pageElements   This member lists the page elements. They are always in this order: Playground, Monster and Hero.
+ *                       E.g. pageElements.head is Playground, pageElements(1) is the Monster, pageElements.takes(2) are those both.
  * @param monstersCaught
  * @param isNewGame      Flags game play is just fresh started
  * @param isGameOver     Flags a new turn
@@ -29,7 +29,7 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
                            ) {
   def copy() = {
     new GameState(canvas,
-      Vector(playGround, monster.copy(canvas), hero.copy()),
+      Vector(playGround, monster.copy(canvas), hero.copy(canvas)),
       monstersCaught = monstersCaught + 1,
       monstersHitTxt = GameState.monsterText(monstersCaught + 1),
       isGameOver = true)
@@ -46,7 +46,7 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
   def gameOverTxt = _gameOverTxt
   def hero = pageElements.last.asInstanceOf[Hero[T]]
   private def monster = pageElements(1).asInstanceOf[Monster[T]]
-  private def playGround = pageElements.head.asInstanceOf[PlayGround[T]]
+  private def playGround = pageElements.head.asInstanceOf[Playground[T]]
 
   /**
    * Process on a regular basis the arrow keys pressed.
@@ -70,7 +70,7 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
     }
   }
 
-  require(playGround.isInstanceOf[PlayGround[T]] &&
+  require(playGround.isInstanceOf[Playground[T]] &&
     monster.isInstanceOf[Monster[T]] &&
     hero.isInstanceOf[Hero[T]], "Page elements are not listed well.")
 
@@ -79,11 +79,11 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
 object GameState {
 
   def apply[T: Numeric](canvas: dom.html.Canvas) =
-    new GameState[T](canvas, Vector(PlayGround[T](), Monster[T](canvas, Monster.randomPosition(canvas)), Hero[T](canvas)))
+    new GameState[T](canvas, Vector(Playground[T](), Monster[T](canvas, Monster.randomPosition(canvas)), Hero[T](canvas)))
 
   // Randomness left out for testing
   def apply[T: Numeric](canvas: dom.html.Canvas, monsterPos : Position[T]) =
-    new GameState[T](canvas, Vector(PlayGround[T](), Monster[T](canvas, monsterPos), Hero[T](canvas)))
+    new GameState[T](canvas, Vector(Playground[T](), Monster[T](canvas, monsterPos), Hero[T](canvas)))
 
   def explainTxt = "Use the arrow keys to\nattack the hidden monster."
   def gameOverTxt = "Game Over?"
