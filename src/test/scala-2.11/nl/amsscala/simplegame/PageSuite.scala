@@ -48,11 +48,11 @@ class PageSuite extends AsyncFlatSpec with Page {
         monstersHitTxt = "",
         isNewGame = false)
 
-      canvas.width = 2000
-      canvas.height = 1000
+      canvas.width = 512
+      canvas.height = 480
       render(loadedAndNoText0)
       info("Default initial screen, no text")
-      assert(-200221914 == context2DToSeq(ctx).hashCode())
+      assert(738979156 == context2DToSeq(ctx).hashCode())
 
       val loadedAndSomeText1 = new GameState(canvas,
         gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
@@ -61,7 +61,7 @@ class PageSuite extends AsyncFlatSpec with Page {
 
       render(loadedAndSomeText1)
       info("Test with score text")
-      assert(-200221914 != context2DToSeq(ctx).hashCode())
+      assert(738979156 != context2DToSeq(ctx).hashCode())
 
       val loadedAndSomeText2 = new GameState(canvas,
         gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
@@ -69,8 +69,8 @@ class PageSuite extends AsyncFlatSpec with Page {
         isNewGame = true)
 
       render(loadedAndSomeText2)
-      info("Help text put in")
-      assert(-200221914 != context2DToSeq(ctx).hashCode())
+      info("Explain text put in")
+      assert(738979156 != context2DToSeq(ctx).hashCode())
     }
     }
   }
