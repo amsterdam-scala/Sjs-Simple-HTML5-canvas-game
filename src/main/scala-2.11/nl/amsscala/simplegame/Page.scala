@@ -20,7 +20,6 @@ trait Page {
    * @return The same gs
    */
   def render[T](gs: GameState[T]) = {
-
     // Draw each page element in the specific list order
     gs.pageElements.foreach(pe => {
       def drawImage(resize: Position[Int]) =

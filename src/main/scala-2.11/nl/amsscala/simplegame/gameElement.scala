@@ -45,9 +45,7 @@ object PlayGround {
  * @tparam M Numeric generic abstraction
  */
 class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extends GameElement[M] {
-  /** Get a Monster at a specific position */
-  def copy[C: Numeric](position: Position[C]) = new Monster(position, img)
-  /** Get a Monster at a (new) random position */
+  /** Set a Monster at a (new) random position */
   def copy[D: Numeric](canvas: dom.html.Canvas) = new Monster(Monster.randomPosition[D](canvas), img)
   /** Load the img in the Element */
   def copy(image: dom.raw.HTMLImageElement) = new Monster(pos, image)
@@ -57,9 +55,9 @@ class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extend
 }
 
 object Monster {
-  def apply[M: Numeric](canvas: dom.html.Canvas) = new Monster(randomPosition(canvas), null)
+  def apply[M: Numeric](canvas: dom.html.Canvas, randPos: Position[M]) = new Monster(randPos, null)
 
-  private def randomPosition[M: Numeric](canvas: dom.html.Canvas): Position[M] = {
+  def randomPosition[M: Numeric](canvas: dom.html.Canvas): Position[M] = {
     @inline def compute(dim: Int) = (math.random * (dim - Hero.pxSize)).toInt
     Position(compute(canvas.width), compute(canvas.height)).asInstanceOf[Position[M]]
   }
@@ -69,7 +67,12 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
 
   def copy(img: dom.raw.HTMLImageElement) = new Hero(pos, img)
 
-  def copy(canvas: dom.html.Canvas) = new Hero(SimpleCanvasGame.center.asInstanceOf[Position[H]], img)
+  def copy() = new Hero(SimpleCanvasGame.center.asInstanceOf[Position[H]], img)
+
+  def copy(pos: Position[H]) = new Hero(pos, img)
+
+  protected[simplegame] def isValidPosition(canvas: dom.html.Canvas) =
+    pos.isValidPosition(Position(canvas.width, canvas.height).asInstanceOf[Position[H]], Hero.pxSize.asInstanceOf[H])
 
   def src = """https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/public/views/img/hero.png"""
 
@@ -92,10 +95,6 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
     copy(displacements.fold(pos) { (z, vec) => z + vec * (Hero.speed * latency).toInt.asInstanceOf[H] })
   }
 
-  def copy(pos: Position[H]) = new Hero(pos, img)
-
-  protected[simplegame] def isValidPosition(canvas: dom.html.Canvas) =
-    pos.isValidPosition(Position(canvas.width, canvas.height).asInstanceOf[Position[H]], Hero.pxSize.asInstanceOf[H])
 }
 
 /** Compagnion object of class Hero */

@@ -29,7 +29,7 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
                            ) {
   def copy() = {
     new GameState(canvas,
-      Vector(playGround, monster.copy(canvas), hero.copy(canvas)),
+      Vector(playGround, monster.copy(canvas), hero.copy()),
       monstersCaught = monstersCaught + 1,
       monstersHitTxt = GameState.monsterText(monstersCaught + 1),
       isGameOver = true)
@@ -64,7 +64,7 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
       val size = Hero.pxSize.asInstanceOf[T]
       if (newHero.pos.isValidPosition(SimpleCanvasGame.canvasDim.asInstanceOf[Position[T]], size)) {
         if (newHero.pos.areTouching(monster.pos, size)) copy() // Reset the game when the player catches a monster
-        else copy(hero = newHero) // New position for Hero with isNewGame reset to false
+        else copy(hero = newHero) // New position for Hero, with isNewGame reset to false
       }
       else this
     }
@@ -79,7 +79,11 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
 object GameState {
 
   def apply[T: Numeric](canvas: dom.html.Canvas) =
-    new GameState[T](canvas, Vector(PlayGround[T](), Monster[T](canvas), Hero[T](canvas)))
+    new GameState[T](canvas, Vector(PlayGround[T](), Monster[T](canvas, Monster.randomPosition(canvas)), Hero[T](canvas)))
+
+  // Randomness left out for testing
+  def apply[T: Numeric](canvas: dom.html.Canvas, monsterPos : Position[T]) =
+    new GameState[T](canvas, Vector(PlayGround[T](), Monster[T](canvas, monsterPos), Hero[T](canvas)))
 
   def explainTxt = "Use the arrow keys to\nattack the hidden monster."
   def gameOverTxt = "Game Over?"

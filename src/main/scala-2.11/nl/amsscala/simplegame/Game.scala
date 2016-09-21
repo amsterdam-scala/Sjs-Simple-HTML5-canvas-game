@@ -30,9 +30,7 @@ protected trait Game {
 
     Future.sequence(loaders).onSuccess {
       case load => // Create GameState with loaded images
-        var prevGS = new GameState(canvas, gameState.pageElements.zip(load).map { case (el, img) => el.copy(img = img) }
-          /*,monstersHitTxt = "",isNewGame = false*/
-        )
+        var prevGS = new GameState(canvas, gameState.pageElements.zip(load).map { case (el, img) => el.copy(img = img) })
 
         /** The main game loop, invoked by interval callback */
         def gameLoop() = {
@@ -41,8 +39,8 @@ protected trait Game {
 
           prevTimestamp = nowTimestamp
 
-          // Render of the canvas is conditional by movement of Hero
-          if (prevGS.hero.pos != updatedGS.hero.pos) prevGS = SimpleCanvasGame.render(updatedGS)
+          // Render of the canvas is conditional by movement of Hero, saves power
+          if (prevGS.hero != updatedGS.hero) prevGS = SimpleCanvasGame.render(updatedGS)
         }
 
         SimpleCanvasGame.render(prevGS) // First draw

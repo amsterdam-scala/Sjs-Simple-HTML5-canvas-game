@@ -4,29 +4,37 @@ package simplegame
 import org.scalajs.dom
 import org.scalatest.AsyncFunSpec
 
-import scala.collection.mutable
 import scala.concurrent.Future
 
 class PageSuite extends AsyncFunSpec with Page {
-  val gameState = GameState[SimpleCanvasGame.Generic](canvas)
-  // Collect all Futures of onload events
-  val loaders = gameState.pageElements.map(pg => imageFuture(pg.src))
+  var loadedAndNoText: GameState[SimpleCanvasGame.Generic] = _
+
 
   implicit override def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
-  def expectedHashCode = Map("background.png" -> 1425165765, "monster.png" -> -277415456, "hero.png" -> -731024817)
+  describe("The images") {
+    val gameState = GameState[SimpleCanvasGame.Generic](canvas,
+      Position(0, 0).asInstanceOf[Position[SimpleCanvasGame.Generic]])
+    // Collect all Futures of onload events
+    val loaders = gameState.pageElements.map(pg => imageFuture(pg.src))
 
-  // def expectedHashCode = Map("background.png" -> 745767977, "monster.png" -> -157307518, "hero.png" -> -1469347267)
-  def getImgName(url: String) = url.split('/').last
-
-  describe("The images should loaded from the remote") {
     // You can map assertions onto a Future, then return the resulting Future[Assertion] to ScalaTest:
     describe("should load pictures remote") {
       Future.sequence(loaders).map { imageElements => {
-        def context2DToSeq(ctx: dom.CanvasRenderingContext2D): mutable.Seq[Int] =
-          ctx.getImageData(0, 0, canvas.width, canvas.height).data
+        def context2DToSeq(ctx: dom.CanvasRenderingContext2D) = ctx.getImageData(0, 0, canvas.width, canvas.height).data
+        def getImgName(url: String) = url.split('/').last
 
+        canvas.width = 2000
+        canvas.height = 1000
+
+        loadedAndNoText = new GameState(canvas,
+          gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
+          monstersHitTxt = "", isNewGame = false)
+
+        println(loadedAndNoText.pageElements)
         it("find all images as expected")(assert(imageElements.forall { img => {
+          def expectedHashCode = Map("background.png" -> 1425165765, "monster.png" -> -277415456, "hero.png" -> -731024817)
+
           canvas.width = img.width
           canvas.height = img.height
           ctx.drawImage(img, 0, 0, img.width, img.height)
@@ -36,24 +44,14 @@ class PageSuite extends AsyncFunSpec with Page {
       }
       }
     }
+    describe("println the normalized playGround") {
+      /*   canvas.width = 0
+         canvas.height = 0*/
+      // println(loadedAndNoText)
+    }
+
   }
 
-  /*
-
-      Future.sequence(loaders).onSuccess {
-        case load =>
-            // Create GameState with loaded images
-          var originGS =
-            new GameState(page.canvas, gameState.pageElements.zip(load).map { case (el, imag) => el.copy(img = imag) })
-          val fixedMonster = originGS.monster.asInstanceOf[Monster[Int]].copy(Position(0, 0))
-          val updatedGS = originGS.copy(fixedMonster)
-          page.render(updatedGS)
-
-          val imageData/*: scala.collection.mutable.Seq[Int]*/ =
-            page.ctx.getImageData(0, 0, page.canvas.width, page.canvas.height).data
-
-          println(imageData.hashCode())
-  */
 
 
   //GameState(Hero(621, 337), Monster(0, 0), 0, false)
