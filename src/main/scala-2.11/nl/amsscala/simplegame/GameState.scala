@@ -70,7 +70,10 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
     }
   }
 
-  require(playGround.isInstanceOf[Playground[T]] &&
+  override def toString: String = s"${Position(canvas.width, canvas.height)} $pageElements"
+
+  require(pageElements.size == 3 &&
+    playGround.isInstanceOf[Playground[T]] &&
     monster.isInstanceOf[Monster[T]] &&
     hero.isInstanceOf[Hero[T]], "Page elements are not listed well.")
 

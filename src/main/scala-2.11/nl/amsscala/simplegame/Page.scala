@@ -64,8 +64,7 @@ trait Page {
   @inline private def dimension(img: dom.raw.HTMLImageElement) = Position(img.width, img.height)
 
   canvas.textContent = "Your browser doesn't support the HTML5 CANVAS tag."
-  canvas.width = dom.window.innerWidth.toInt
-  canvas.height = dom.window.innerHeight.toInt - 25
+  updateCanvasWH(canvas, Position(dom.window.innerWidth, dom.window.innerHeight - 25))
 
   /** Convert the onload event of an img tag into a Future */
   def imageFuture(src: String): Future[dom.raw.HTMLImageElement] = {
@@ -86,6 +85,12 @@ trait Page {
     case _: Int => "Int"
     case _: Double => "Double"
     case _ => "unknown"
+  }
+
+  @inline
+  def updateCanvasWH[P :Numeric](cnvs :dom.html.Canvas, pos: Position[P]): Unit = {
+    cnvs.width = pos.asInstanceOf[Position[Int]].x
+    cnvs.height = pos.asInstanceOf[Position[Int]].y
   }
 
   dom.document.body.appendChild(div(cls := "content", style := "text-align:center; background-color:#3F8630;",

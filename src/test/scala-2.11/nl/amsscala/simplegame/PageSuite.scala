@@ -8,16 +8,16 @@ import scala.collection.mutable
 import scala.concurrent.Future
 
 class PageSuite extends AsyncFlatSpec with Page {
-  lazy val gameState = GameState[SimpleCanvasGame.Generic](canvas, Position(0, 0).asInstanceOf[Position[SimpleCanvasGame.Generic]])
+  val initialLUnder = Position(512, 480).asInstanceOf[Position[SimpleCanvasGame.Generic]]
+  lazy val gameState0 = GameState[SimpleCanvasGame.Generic](canvas,
+    initialLUnder + Position(1, 1).asInstanceOf[Position[SimpleCanvasGame.Generic]])
   // Collect all Futures of onload events
-  lazy val loaders = gameState.pageElements.map(pg => imageFuture(pg.src))
+  lazy val loaders = gameState0.pageElements.map(pg => imageFuture(pg.src))
 
   implicit override def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
   // Don't be engaged with browsers defaults
-  canvas.width = 2000
-  canvas.height = 1000
-
+  updateCanvasWH(canvas, initialLUnder)
 
   // You can map assertions onto a Future, then return the resulting Future[Assertion] to ScalaTest:
   it should "be loaded remote" in {
@@ -36,26 +36,24 @@ class PageSuite extends AsyncFlatSpec with Page {
       //        })
       info("All images correct loaded")
       assert(imageElements.forall { img => {
-        canvas.width = img.width
-        canvas.height = img.height
+        updateCanvasWH(canvas, Position(img.width, img.height))
         ctx.drawImage(img, 0, 0, img.width, img.height)
         expectedHashCode(getImgName(img.src)) == context2DToSeq(ctx).hashCode()
       }
       })
 
       val loadedAndNoText0 = new GameState(canvas,
-        gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
+        gameState0.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
         monstersHitTxt = "",
         isNewGame = false)
 
-      canvas.width = 512 * 2
-      canvas.height = 480 * 2
+      updateCanvasWH(canvas, Position(512 * 2, 480 * 2).asInstanceOf[Position[SimpleCanvasGame.Generic]])
       render(loadedAndNoText0)
       info("Default initial screen, no text")
       val ref = context2DToSeq(ctx).hashCode()
 
       val loadedAndSomeText1 = new GameState(canvas,
-        gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
+        gameState0.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
         monstersHitTxt = "Now with text which can differ between browsers",
         isNewGame = false)
 
@@ -64,13 +62,24 @@ class PageSuite extends AsyncFlatSpec with Page {
       assert(ref != context2DToSeq(ctx).hashCode())
 
       val loadedAndSomeText2 = new GameState(canvas,
-        gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
+        gameState0.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
         monstersHitTxt = "",
         isNewGame = true)
 
       render(loadedAndSomeText2)
       info("Explain text put in")
       assert(ref != context2DToSeq(ctx).hashCode())
+
+      println("loadedAndNoText0",loadedAndNoText0)
+      println("loadedAndSomeText1",loadedAndSomeText1)
+      println("loadedAndSomeText2",loadedAndSomeText2)
+
+      render(loadedAndNoText0)
+      info("All reset?")
+      assert(ref == context2DToSeq(ctx).hashCode())
+
+      //
+
     }
     }
   }
