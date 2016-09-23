@@ -47,7 +47,7 @@ protected trait Game {
 
         // Let's play this game!
         if (!headless) {// For test purpose, a facility to silence the listeners.
-          scala.scalajs.js.timers.setInterval(1000 / framesPerSec)(gameLoop())
+          // scala.scalajs.js.timers.setInterval(1000 / framesPerSec)(gameLoop())
 
           // TODO: mobile application navigation
 
