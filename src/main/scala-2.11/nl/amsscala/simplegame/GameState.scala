@@ -70,7 +70,7 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
     }
   }
 
-  override def toString: String = s"${Position(canvas.width, canvas.height)} $pageElements"
+  override def toString: String = s"${Position(canvas.width, canvas.height)} $pageElements $isNewGame $monstersHitTxt"
 
   require(pageElements.size == 3 &&
     playGround.isInstanceOf[Playground[T]] &&

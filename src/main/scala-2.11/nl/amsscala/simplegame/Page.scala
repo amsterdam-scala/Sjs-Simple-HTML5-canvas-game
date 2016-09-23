@@ -88,7 +88,7 @@ trait Page {
   }
 
   @inline
-  def updateCanvasWH[P :Numeric](cnvs :dom.html.Canvas, pos: Position[P]): Unit = {
+  def updateCanvasWH[P :Numeric](cnvs :dom.html.Canvas, pos: Position[P]) = {
     cnvs.width = pos.asInstanceOf[Position[Int]].x
     cnvs.height = pos.asInstanceOf[Position[Int]].y
   }
