@@ -64,7 +64,7 @@ trait Page {
   @inline private def dimension(img: dom.raw.HTMLImageElement) = Position(img.width, img.height)
 
   canvas.textContent = "Your browser doesn't support the HTML5 CANVAS tag."
-  updateCanvasWH(canvas, Position(dom.window.innerWidth, dom.window.innerHeight - 25))
+  resetCanvasWH(canvas, Position(dom.window.innerWidth, dom.window.innerHeight - 25))
 
   /** Convert the onload event of an img tag into a Future */
   def imageFuture(src: String): Future[dom.raw.HTMLImageElement] = {
@@ -88,7 +88,7 @@ trait Page {
   }
 
   @inline
-  def updateCanvasWH[P :Numeric](cnvs :dom.html.Canvas, pos: Position[P]) = {
+  def resetCanvasWH[P :Numeric](cnvs :dom.html.Canvas, pos: Position[P]) = {
     cnvs.width = pos.asInstanceOf[Position[Int]].x
     cnvs.height = pos.asInstanceOf[Position[Int]].y
   }

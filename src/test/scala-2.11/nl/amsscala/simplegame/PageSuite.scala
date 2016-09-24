@@ -7,9 +7,8 @@ import scala.collection.mutable
 import scala.concurrent.Future
 
 class PageSuite extends AsyncFlatSpec with Page {
-  lazy val gameState0 = GameState[SimpleCanvasGame.Generic](canvas,
-    initialLUnder + initialLUnder + Position(1, 1).asInstanceOf[Position[SimpleCanvasGame.Generic]],
-    initialLUnder + initialLUnder + Position(1, 1).asInstanceOf[Position[SimpleCanvasGame.Generic]])
+  // All graphical features are placed just outside the playground
+  lazy val gameState0 = GameState[SimpleCanvasGame.Generic](canvas, initialLUnder, initialLUnder)
   // Collect all Futures of onload events
   lazy val loaders = gameState0.pageElements.map(pg => imageFuture(pg.src))
   val initialLUnder = Position(512, 480).asInstanceOf[Position[SimpleCanvasGame.Generic]]
@@ -17,16 +16,16 @@ class PageSuite extends AsyncFlatSpec with Page {
   implicit override def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
   // Don't rely the browsers defaults
-  updateCanvasWH(canvas, initialLUnder)
+  resetCanvasWH(canvas, initialLUnder)
 
   // You can map assertions onto a Future, then return the resulting Future[Assertion] to ScalaTest:
   it should "be loaded remote" in {
     Future.sequence(loaders).map { imageElements => {
+
       def context2Hashcode[T: Numeric](size: Position[T]) = {
-        // updateCanvasWH(canvas, size)
         val UintClampedArray: mutable.Seq[Int] =
           ctx.getImageData(0, 0, size.x.asInstanceOf[Int], size.y.asInstanceOf[Int]).data
-          // info(s"${UintClampedArray.drop(100).take(40)}")
+        // info(s"${UintClampedArray.drop(100).take(40)}")
         UintClampedArray.hashCode()
       }
 
@@ -37,7 +36,7 @@ class PageSuite extends AsyncFlatSpec with Page {
       info("All images correct loaded")
       assert(imageElements.forall { img => {
         val pos = Position(img.width, img.height)
-        updateCanvasWH(canvas, pos)
+        resetCanvasWH(canvas, pos)
         ctx.drawImage(img, 0, 0, img.width, img.height)
         expectedHashCode(getImgName(img.src)) == context2Hashcode(pos)
       }
@@ -47,32 +46,32 @@ class PageSuite extends AsyncFlatSpec with Page {
       /* Composite all pictures drawn outside the play field.
        * This should result in a hashcode equal as the image of the background.
        */
-      updateCanvasWH(canvas, initialLUnder)
+      resetCanvasWH(canvas, initialLUnder)
       val loadedAndNoText0 = new GameState(canvas,
         gameState0.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
         monstersHitTxt = "",
         isNewGame = false)
       render(loadedAndNoText0)
       info("Default initial screen everything ")
-      // assert(context2Hashcode(initialLUnder) == expectedHashCode("background.png"))
+      assert(context2Hashcode(initialLUnder) == expectedHashCode("background.png"))
 
       /**
        * Tests with double canvas size
        *
        */
-      updateCanvasWH(canvas, initialLUnder + initialLUnder)
+      resetCanvasWH(canvas, initialLUnder + initialLUnder)
       render(loadedAndNoText0)
       info("Default initial screen, no text")
       val ref = context2Hashcode(initialLUnder + initialLUnder) // Register the reference value
 
-      info(s"Reference is $ref.") //  1355562831
+      info(s"Reference is $ref.") //  1355562831 1668792783
 
       val loadedAndSomeText1 = new GameState(canvas,
         gameState0.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
         monstersHitTxt = "Now with text which can differ between browsers",
         isNewGame = false)
 
-      updateCanvasWH(canvas, initialLUnder + initialLUnder)
+      resetCanvasWH(canvas, initialLUnder + initialLUnder)
       render(loadedAndSomeText1)
       info("Test with score text")
       assert(ref != context2Hashcode(initialLUnder + initialLUnder)) // ????
