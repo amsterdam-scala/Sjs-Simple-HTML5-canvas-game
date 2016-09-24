@@ -9,10 +9,11 @@ import scala.concurrent.Future
 class PageSuite extends AsyncFlatSpec with Page {
   // All graphical features are placed just outside the playground
   lazy val gameState0 =
-  GameState[SimpleCanvasGame.Generic](canvas, initialLUnder + initialLUnder, initialLUnder + initialLUnder)
+  GameState[SimpleCanvasGame.Generic](canvas, doubleInitialLUnder, doubleInitialLUnder)
   // Collect all Futures of onload events
   lazy val loaders = gameState0.pageElements.map(pg => imageFuture(pg.src))
   val initialLUnder = Position(512, 480).asInstanceOf[Position[SimpleCanvasGame.Generic]]
+  val doubleInitialLUnder = initialLUnder + initialLUnder
 
   implicit override def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
@@ -66,14 +67,12 @@ class PageSuite extends AsyncFlatSpec with Page {
         assert(assertion())
       }
 
-      resetCanvasWH(canvas, initialLUnder + initialLUnder)
+      resetCanvasWH(canvas, doubleInitialLUnder)
 
-      render(loadedAndNoText0)
-      info("Default double size initial screen, no text")
-      val ref = context2Hashcode(initialLUnder + initialLUnder) // Register the reference value
-
-      info(s"Reference is $ref.") //  1355562831 1668792783
-      assert(Seq(1355562831/*, 1668792783*/).contains(ref), s"Reference is $ref.")
+      testHarness(loadedAndNoText0,
+        "Default double size initial screen, no text",
+        () => Seq(1355562831 /*Chrome*/ , 1668792783 /*FireFox*/).contains(context2Hashcode(doubleInitialLUnder)))
+      val ref = context2Hashcode(doubleInitialLUnder) // Register the reference value
 
       val loadedAndSomeText1 = new GameState(canvas,
         gameState0.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
@@ -87,15 +86,14 @@ class PageSuite extends AsyncFlatSpec with Page {
 
       testHarness(loadedAndSomeText1,
         "Test double screen with score text",
-        () => ref != context2Hashcode(initialLUnder + initialLUnder))
+        () => ref != context2Hashcode(doubleInitialLUnder))
 
       testHarness(loadedAndSomeText2,
-        "Test double screen with explain text put in", () => ref != context2Hashcode(initialLUnder + initialLUnder))
+        "Test double screen with explain text put in", () => ref != context2Hashcode(doubleInitialLUnder))
 
       testHarness(loadedAndNoText0,
         "Test double screen reference still valid.",
-        () => ref == context2Hashcode(initialLUnder + initialLUnder))
-
+        () => ref == context2Hashcode(doubleInitialLUnder))
 
 
     }
