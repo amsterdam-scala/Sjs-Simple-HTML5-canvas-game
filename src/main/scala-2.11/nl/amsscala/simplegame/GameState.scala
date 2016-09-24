@@ -85,8 +85,8 @@ object GameState {
     new GameState[T](canvas, Vector(Playground[T](), Monster[T](canvas, Monster.randomPosition(canvas)), Hero[T](canvas)))
 
   // Randomness left out for testing
-  def apply[T: Numeric](canvas: dom.html.Canvas, monsterPos : Position[T]) =
-    new GameState[T](canvas, Vector(Playground[T](), Monster[T](canvas, monsterPos), Hero[T](canvas)))
+  def apply[T: Numeric](canvas: dom.html.Canvas, monsterPos : Position[T], heroPos : Position[T]) =
+    new GameState[T](canvas, Vector(Playground[T](), Monster[T](canvas, monsterPos), Hero(heroPos)))
 
   def explainTxt = "Use the arrow keys to\nattack the hidden monster."
   def gameOverTxt = "Game Over?"

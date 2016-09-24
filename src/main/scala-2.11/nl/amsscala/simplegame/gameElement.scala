@@ -24,10 +24,7 @@ sealed trait GameElement[Numeric] {
   }
 }
 
-class Playground[G](
-                     val pos: Position[G],
-                     val img: dom.raw.HTMLImageElement
-                   ) extends GameElement[G] {
+class Playground[G]( val pos: Position[G], val img: dom.raw.HTMLImageElement) extends GameElement[G] {
 
   def copy(img: dom.raw.HTMLImageElement): Playground[G] = new Playground(pos, img)
 
@@ -57,7 +54,7 @@ class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extend
 object Monster {
   def apply[M: Numeric](canvas: dom.html.Canvas, randPos: Position[M]) = new Monster(randPos, null)
 
-  def randomPosition[M: Numeric](canvas: dom.html.Canvas): Position[M] = {
+  private[simplegame] def randomPosition[M: Numeric](canvas: dom.html.Canvas): Position[M] = {
     @inline def compute(dim: Int) = (math.random * (dim - Hero.pxSize)).toInt
     Position(compute(canvas.width), compute(canvas.height)).asInstanceOf[Position[M]]
   }
@@ -76,7 +73,7 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
 
   def src = """http://lambdalloyd.net23.net/SimpleGame/views/img/hero.png"""
 
-  def keyEffect(latency: Double, keysDown: mutable.Set[Int]) = {
+  protected[simplegame] def keyEffect(latency: Double, keysDown: mutable.Set[Int]) = {
 
     // Convert pressed keyboard keys to coordinates
     def displacements: mutable.Set[Position[H]] = {
@@ -103,5 +100,7 @@ object Hero {
 
   /** Hero image centered in the field */
   def apply[H: Numeric](canvas: dom.html.Canvas): Hero[H] =
-   new Hero[H](SimpleCanvasGame.center(canvas).asInstanceOf[Position[H]], null)
+   Hero[H](SimpleCanvasGame.center(canvas).asInstanceOf[Position[H]])
+
+  def apply[H: Numeric](pos : Position[H]) =new Hero(pos, null)
 }

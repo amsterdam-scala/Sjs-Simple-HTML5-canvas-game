@@ -7,7 +7,9 @@ import scala.collection.mutable
 import scala.concurrent.Future
 
 class PageSuite extends AsyncFlatSpec with Page {
-  lazy val gameState0 = GameState[SimpleCanvasGame.Generic](canvas, initialLUnder)
+  lazy val gameState0 = GameState[SimpleCanvasGame.Generic](canvas,
+    initialLUnder + initialLUnder + Position(1, 1).asInstanceOf[Position[SimpleCanvasGame.Generic]],
+    initialLUnder + initialLUnder + Position(1, 1).asInstanceOf[Position[SimpleCanvasGame.Generic]])
   // Collect all Futures of onload events
   lazy val loaders = gameState0.pageElements.map(pg => imageFuture(pg.src))
   val initialLUnder = Position(512, 480).asInstanceOf[Position[SimpleCanvasGame.Generic]]
@@ -61,10 +63,9 @@ class PageSuite extends AsyncFlatSpec with Page {
       updateCanvasWH(canvas, initialLUnder + initialLUnder)
       render(loadedAndNoText0)
       info("Default initial screen, no text")
-      // Register the reference value
-      val ref = context2Hashcode(initialLUnder + initialLUnder)
+      val ref = context2Hashcode(initialLUnder + initialLUnder) // Register the reference value
 
-      info(s"Reference is $ref.") // -564032684
+      info(s"Reference is $ref.") //  1355562831
 
       val loadedAndSomeText1 = new GameState(canvas,
         gameState0.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
@@ -74,7 +75,7 @@ class PageSuite extends AsyncFlatSpec with Page {
       updateCanvasWH(canvas, initialLUnder + initialLUnder)
       render(loadedAndSomeText1)
       info("Test with score text")
-      // assert(ref == context2Hashcode(initialLUnder + initialLUnder)) // ????
+      assert(ref != context2Hashcode(initialLUnder + initialLUnder)) // ????
 
       val loadedAndSomeText2 = new GameState(canvas,
         gameState0.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
@@ -83,7 +84,7 @@ class PageSuite extends AsyncFlatSpec with Page {
 
       render(loadedAndSomeText2)
       info("Explain text put in")
-      // assert(ref == context2Hashcode(initialLUnder + initialLUnder)) // ????
+      assert(ref != context2Hashcode(initialLUnder + initialLUnder)) // ????
 
 
       println("loadedAndNoText0", loadedAndNoText0)
