@@ -8,7 +8,8 @@ import scala.concurrent.Future
 
 class PageSuite extends AsyncFlatSpec with Page {
   // All graphical features are placed just outside the playground
-  lazy val gameState0 = GameState[SimpleCanvasGame.Generic](canvas, initialLUnder, initialLUnder)
+  lazy val gameState0 =
+  GameState[SimpleCanvasGame.Generic](canvas, initialLUnder + initialLUnder, initialLUnder + initialLUnder)
   // Collect all Futures of onload events
   lazy val loaders = gameState0.pageElements.map(pg => imageFuture(pg.src))
   val initialLUnder = Position(512, 480).asInstanceOf[Position[SimpleCanvasGame.Generic]]
@@ -25,7 +26,6 @@ class PageSuite extends AsyncFlatSpec with Page {
       def context2Hashcode[T: Numeric](size: Position[T]) = {
         val UintClampedArray: mutable.Seq[Int] =
           ctx.getImageData(0, 0, size.x.asInstanceOf[Int], size.y.asInstanceOf[Int]).data
-        // info(s"${UintClampedArray.drop(100).take(40)}")
         UintClampedArray.hashCode()
       }
 
@@ -59,43 +59,44 @@ class PageSuite extends AsyncFlatSpec with Page {
        * Tests with double canvas size
        *
        */
+
+      def testHarness(gs: GameState[SimpleCanvasGame.Generic], text: String, assertion: () => Boolean) = {
+        render(gs)
+        info(text)
+        assert(assertion())
+      }
+
       resetCanvasWH(canvas, initialLUnder + initialLUnder)
+
       render(loadedAndNoText0)
-      info("Default initial screen, no text")
+      info("Default double size initial screen, no text")
       val ref = context2Hashcode(initialLUnder + initialLUnder) // Register the reference value
 
       info(s"Reference is $ref.") //  1355562831 1668792783
+      assert(Seq(1355562831/*, 1668792783*/).contains(ref), s"Reference is $ref.")
 
       val loadedAndSomeText1 = new GameState(canvas,
         gameState0.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
         monstersHitTxt = "Now with text which can differ between browsers",
         isNewGame = false)
 
-      resetCanvasWH(canvas, initialLUnder + initialLUnder)
-      render(loadedAndSomeText1)
-      info("Test with score text")
-      assert(ref != context2Hashcode(initialLUnder + initialLUnder)) // ????
-
       val loadedAndSomeText2 = new GameState(canvas,
         gameState0.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
         monstersHitTxt = "",
         isNewGame = true)
 
-      render(loadedAndSomeText2)
-      info("Explain text put in")
-      assert(ref != context2Hashcode(initialLUnder + initialLUnder)) // ????
+      testHarness(loadedAndSomeText1,
+        "Test double screen with score text",
+        () => ref != context2Hashcode(initialLUnder + initialLUnder))
+
+      testHarness(loadedAndSomeText2,
+        "Test double screen with explain text put in", () => ref != context2Hashcode(initialLUnder + initialLUnder))
+
+      testHarness(loadedAndNoText0,
+        "Test double screen reference still valid.",
+        () => ref == context2Hashcode(initialLUnder + initialLUnder))
 
 
-      println("loadedAndNoText0", loadedAndNoText0)
-      println("loadedAndSomeText1", loadedAndSomeText1)
-      println("loadedAndSomeText2", loadedAndSomeText2)
-
-      render(loadedAndNoText0)
-      info("All reset?")
-      assert(ref == context2Hashcode(initialLUnder + initialLUnder))
-
-
-      //
 
     }
     }
