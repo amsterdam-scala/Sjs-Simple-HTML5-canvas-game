@@ -43,6 +43,11 @@ class PageSuite extends AsyncFlatSpec with Page {
       }
       })
 
+      def testHarness(gs: GameState[SimpleCanvasGame.Generic], text: String, assertion: () => Boolean) = {
+        render(gs)
+        info(text)
+        assert(assertion())
+      }
 
       /* Composite all pictures drawn outside the play field.
        * This should result in a hashcode equal as the image of the background.
@@ -52,20 +57,15 @@ class PageSuite extends AsyncFlatSpec with Page {
         gameState0.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
         monstersHitTxt = "",
         isNewGame = false)
-      render(loadedAndNoText0)
-      info("Default initial screen everything ")
-      assert(context2Hashcode(initialLUnder) == expectedHashCode("background.png"))
+
+      testHarness(loadedAndNoText0,
+        "Default initial screen everything left out",
+        () => context2Hashcode(initialLUnder) == expectedHashCode("background.png"))
 
       /**
        * Tests with double canvas size
        *
        */
-
-      def testHarness(gs: GameState[SimpleCanvasGame.Generic], text: String, assertion: () => Boolean) = {
-        render(gs)
-        info(text)
-        assert(assertion())
-      }
 
       resetCanvasWH(canvas, doubleInitialLUnder)
 
