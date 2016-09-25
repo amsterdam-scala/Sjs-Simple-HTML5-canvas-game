@@ -101,7 +101,7 @@ class PageSuite extends AsyncFlatSpec with Page {
 
       testHarness(loadedAndNoText0.copy(new Hero(initialLUnder + Position(1, 0).asInstanceOf[Position[T]], loadedAndNoText0.pageElements.last.img)),
         "Test double screen with right displaced hero",
-        () => Seq(475868743 /*Chrome*/).contains(context2Hashcode(doubleInitialLUnder)))
+        () => Seq(475868743 /*Chrome*/, -1986372876).contains(context2Hashcode(doubleInitialLUnder)))
 
       testHarness(loadedAndNoText0.copy(new Hero(initialLUnder + Position(-1, 0).asInstanceOf[Position[T]], loadedAndNoText0.pageElements.last.img)),
         "Test double screen with left displaced hero",
