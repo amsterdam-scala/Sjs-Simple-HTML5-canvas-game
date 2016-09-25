@@ -27,16 +27,13 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
                             _gameOverTxt: => String = GameState.gameOverTxt,
                             _explainTxt: => String = GameState.explainTxt
                            ) {
-  def copy() = {
-    new GameState(canvas,
-      Vector(playGround, monster.copy(canvas), hero.copy(canvas)),
-      monstersCaught = monstersCaught + 1,
-      monstersHitTxt = GameState.monsterText(monstersCaught + 1),
-      isGameOver = true)
-  }
+  def copy() = new GameState(canvas,
+    Vector(playGround, monster.copy(canvas), hero.copy(canvas)),
+    monstersCaught = monstersCaught + 1,
+    monstersHitTxt = GameState.monsterText(monstersCaught + 1),
+    isGameOver = true)
 
-  private def copy(hero: Hero[T]) =
-    new GameState(canvas,
+  private[simplegame] def copy(hero: Hero[T]) = new GameState(canvas,
       pageElements.take(2) :+ hero,
       monstersCaught = monstersCaught,
       monstersHitTxt = monstersHitTxt,

@@ -7,12 +7,12 @@ import scala.collection.mutable
 import scala.concurrent.Future
 
 class PageSuite extends AsyncFlatSpec with Page {
+  type T = SimpleCanvasGame.Generic
   // All graphical features are placed just outside the playground
-  lazy val gameState0 =
-  GameState[SimpleCanvasGame.Generic](canvas, doubleInitialLUnder, doubleInitialLUnder)
+  lazy val gameState0 = GameState[T](canvas, doubleInitialLUnder, doubleInitialLUnder)
   // Collect all Futures of onload events
   lazy val loaders = gameState0.pageElements.map(pg => imageFuture(pg.src))
-  val initialLUnder = Position(512, 480).asInstanceOf[Position[SimpleCanvasGame.Generic]]
+  val initialLUnder = Position(512, 480).asInstanceOf[Position[T]]
   val doubleInitialLUnder = initialLUnder + initialLUnder
 
   implicit override def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
@@ -43,10 +43,10 @@ class PageSuite extends AsyncFlatSpec with Page {
       }
       })
 
-      def testHarness(gs: GameState[SimpleCanvasGame.Generic], text: String, assertion: () => Boolean) = {
+      def testHarness(gs: GameState[T], text: String, assertion: () => Boolean) = {
         render(gs)
         info(text)
-        assert(assertion())
+        assert(assertion(), s"Thrown probably by value ${context2Hashcode(doubleInitialLUnder)}")
       }
 
       /* Composite all pictures drawn outside the play field.
@@ -91,11 +91,33 @@ class PageSuite extends AsyncFlatSpec with Page {
       testHarness(loadedAndSomeText2,
         "Test double screen with explain text put in", () => ref != context2Hashcode(doubleInitialLUnder))
 
+
+      // *****
+
+
+      testHarness(loadedAndNoText0.copy(new Hero(initialLUnder + Position(0, 0).asInstanceOf[Position[T]], loadedAndNoText0.pageElements.last.img)),
+        "Test double screen with centered hero",
+        () => Seq(-1212284464 /*Chrome*/).contains(context2Hashcode(doubleInitialLUnder)))
+
+      testHarness(loadedAndNoText0.copy(new Hero(initialLUnder + Position(1, 0).asInstanceOf[Position[T]], loadedAndNoText0.pageElements.last.img)),
+        "Test double screen with right displaced hero",
+        () => Seq(475868743 /*Chrome*/).contains(context2Hashcode(doubleInitialLUnder)))
+
+      testHarness(loadedAndNoText0.copy(new Hero(initialLUnder + Position(-1, 0).asInstanceOf[Position[T]], loadedAndNoText0.pageElements.last.img)),
+        "Test double screen with left displaced hero",
+        () => Seq(320738379 /*Chrome*/).contains(context2Hashcode(doubleInitialLUnder)))
+
+      testHarness(loadedAndNoText0.copy(new Hero(initialLUnder + Position(0, 1).asInstanceOf[Position[T]], loadedAndNoText0.pageElements.last.img)),
+        "Test double screen with up displaced hero",
+        () => Seq(-409947707 /*Chrome*/).contains(context2Hashcode(doubleInitialLUnder)))
+
+      testHarness(loadedAndNoText0.copy(new Hero(initialLUnder + Position(0, -1).asInstanceOf[Position[T]], loadedAndNoText0.pageElements.last.img)),
+        "Test double screen with down displaced hero",
+        () => Seq(1484865515 /*Chrome*/).contains(context2Hashcode(doubleInitialLUnder)))
+
       testHarness(loadedAndNoText0,
-        "Test double screen reference still valid.",
+        "Test double screen reference still to same.",
         () => ref == context2Hashcode(doubleInitialLUnder))
-
-
     }
     }
   }

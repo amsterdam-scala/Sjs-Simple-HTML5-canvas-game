@@ -73,7 +73,13 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
 
   def src = """http://lambdalloyd.net23.net/SimpleGame/views/img/hero.png"""
 
-  protected[simplegame] def keyEffect(latency: Double, keysDown: mutable.Set[Int]) = {
+  /**
+   * Compute new position of hero according to the keys pressed
+   * @param latency
+   * @param keysDown
+   * @return
+   */
+  protected[simplegame] def keyEffect(latency: Double, keysDown: mutable.Set[Int]): Hero[H] = {
 
     // Convert pressed keyboard keys to coordinates
     def displacements: mutable.Set[Position[H]] = {
