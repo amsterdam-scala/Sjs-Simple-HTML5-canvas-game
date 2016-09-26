@@ -8,11 +8,16 @@ import scalatags.JsDom.all._
 
 /** Everything related to Html5 visuals */
 trait Page {
+  lazy val postponed = dom.document.body.appendChild(div(cls := "content", style := "text-align:center; background-color:#3F8630;",
+    canvas,
+    a(href := "http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/", "Simple HTML5 Canvas game"),
+    " ported to ",
+    a(href := "http://www.scala-js.org/",
+      title := s"This object code is compiled with type parameter ${genericDetect(0D.asInstanceOf[SimpleCanvasGame.T])}.",
+      "Scala.js")).render)
   // Create the canvas and 2D context
   val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
   val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
-
-  def center(cnvs: dom.html.Canvas) = Position(cnvs.width / 2, cnvs.height / 2)
 
   /**
    * Draw everything
@@ -21,6 +26,7 @@ trait Page {
    * @return The same gs
    */
   def render[T](gs: GameState[T]) = {
+    postponed
     // Draw each page element in the specific list order
     gs.pageElements.foreach(pe => {
       def drawImage(resize: Position[Int]) =
@@ -59,12 +65,14 @@ trait Page {
     gs
   }
 
-  def canvasDim = Position(canvas.width, canvas.height)
+  def center(cnvs: dom.html.Canvas) = Position(canvas.width / 2, canvas.height / 2)
 
-  @inline private def dimension(img: dom.raw.HTMLImageElement) = Position(img.width, img.height)
+  def canvasDim = Position(canvas.width, canvas.height)
 
   canvas.textContent = "Your browser doesn't support the HTML5 CANVAS tag."
   resetCanvasWH(canvas, Position(dom.window.innerWidth, dom.window.innerHeight - 25))
+
+  @inline private def dimension(img: dom.raw.HTMLImageElement) = Position(img.width, img.height)
 
   /** Convert the onload event of an img tag into a Future */
   def imageFuture(src: String): Future[dom.raw.HTMLImageElement] = {
@@ -80,24 +88,16 @@ trait Page {
     }
   }
 
+  @inline
+  def resetCanvasWH[P: Numeric](cnvs: dom.html.Canvas, pos: Position[P]) = {
+    cnvs.width = pos.asInstanceOf[Position[Int]].x
+    cnvs.height = pos.asInstanceOf[Position[Int]].y
+  }
+
   private def genericDetect(x: Any) = x match {
     case _: Long => "Long"
     case _: Int => "Int"
     case _: Double => "Double"
     case _ => "unknown"
   }
-
-  @inline
-  def resetCanvasWH[P :Numeric](cnvs :dom.html.Canvas, pos: Position[P]) = {
-    cnvs.width = pos.asInstanceOf[Position[Int]].x
-    cnvs.height = pos.asInstanceOf[Position[Int]].y
-  }
-
-  dom.document.body.appendChild(div(cls := "content", style := "text-align:center; background-color:#3F8630;",
-    canvas,
-    a(href := "http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/", "Simple HTML5 Canvas game"),
-    " ported to ",
-    a(href := "http://www.scala-js.org/",
-      title := s"This object code is compiled with type parameter ${genericDetect(0D.asInstanceOf[SimpleCanvasGame.Generic])}.",
-      "Scala.js")).render)
 }

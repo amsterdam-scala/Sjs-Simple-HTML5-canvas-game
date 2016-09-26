@@ -22,7 +22,7 @@ protected trait Game {
    */
   protected def play(canvas: dom.html.Canvas, headless: Boolean) {
     // Keyboard events store
-    val (keysPressed, gameState) = (mutable.Set.empty[Int], GameState[SimpleCanvasGame.Generic](canvas))
+    val (keysPressed, gameState) = (mutable.Set.empty[Int], GameState[SimpleCanvasGame.T](canvas))
     var prevTimestamp = js.Date.now()
 
     // Collect all Futures of onload events

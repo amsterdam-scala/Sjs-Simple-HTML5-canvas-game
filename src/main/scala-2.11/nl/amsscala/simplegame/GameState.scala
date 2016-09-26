@@ -27,7 +27,11 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
                             _gameOverTxt: => String = GameState.gameOverTxt,
                             _explainTxt: => String = GameState.explainTxt
                            ) {
-  def copy() = new GameState(canvas,
+  /**
+   * New game, Monster randomized, Hero centralized, score updated
+   * @return
+   */
+  def newGame() = new GameState(canvas,
     Vector(playGround, monster.copy(canvas), hero.copy(canvas)),
     monstersCaught = monstersCaught + 1,
     monstersHitTxt = GameState.monsterText(monstersCaught + 1),
@@ -38,6 +42,12 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
       monstersCaught = monstersCaught,
       monstersHitTxt = monstersHitTxt,
       isNewGame = false)
+
+  override def equals(that: Any): Boolean =
+    that match {
+      case that: GameState[T] =>  this.pageElements == that.pageElements
+      case _ => false
+    }
 
   def explainTxt = _explainTxt
   def gameOverTxt = _gameOverTxt
@@ -60,14 +70,14 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
       // Are they touching?
       val size = Hero.pxSize.asInstanceOf[T]
       if (newHero.pos.isValidPosition(SimpleCanvasGame.canvasDim.asInstanceOf[Position[T]], size)) {
-        if (newHero.pos.areTouching(monster.pos, size)) copy() // Reset the game when the player catches a monster
+        if (newHero.pos.areTouching(monster.pos, size)) newGame() // Reset the game when the player catches a monster
         else copy(hero = newHero) // New position for Hero, with isNewGame reset to false
       }
       else this
     }
   }
 
-  override def toString: String = s"${Position(canvas.width, canvas.height)} $pageElements $isNewGame $monstersHitTxt"
+  override def toString: String = s"${Position(canvas.width, canvas.height)} $pageElements isNew:$isNewGame $monstersHitTxt"
 
   require(pageElements.size == 3 &&
     playGround.isInstanceOf[Playground[T]] &&

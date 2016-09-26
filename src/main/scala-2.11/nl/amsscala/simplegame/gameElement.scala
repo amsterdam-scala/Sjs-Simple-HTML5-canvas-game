@@ -22,9 +22,10 @@ sealed trait GameElement[Numeric] {
     case that: GameElement[Numeric] => this.pos == that.pos
     case _ => false
   }
+
 }
 
-class Playground[G]( val pos: Position[G], val img: dom.raw.HTMLImageElement) extends GameElement[G] {
+class Playground[G](val pos: Position[G], val img: dom.raw.HTMLImageElement) extends GameElement[G] {
 
   def copy(img: dom.raw.HTMLImageElement): Playground[G] = new Playground(pos, img)
 
@@ -32,7 +33,7 @@ class Playground[G]( val pos: Position[G], val img: dom.raw.HTMLImageElement) ex
 }
 
 object Playground {
-  def apply[G]() = new Playground[G](Position(0, 0).asInstanceOf[Position[G]], null)
+  def apply[G]() = new Playground(Position(0, 0).asInstanceOf[Position[G]], null)
 }
 
 /**

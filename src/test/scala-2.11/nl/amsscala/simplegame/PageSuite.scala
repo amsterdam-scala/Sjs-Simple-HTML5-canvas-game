@@ -7,7 +7,7 @@ import scala.collection.mutable
 import scala.concurrent.Future
 
 class PageSuite extends AsyncFlatSpec with Page {
-  type T = SimpleCanvasGame.Generic
+  type T = SimpleCanvasGame.T
   // All graphical features are placed just outside the playground
   lazy val gameState0 = GameState[T](canvas, doubleInitialLUnder, doubleInitialLUnder)
   // Collect all Futures of onload events
