@@ -46,7 +46,7 @@ package object simplegame {
      interSectsArea(Position(0, 0).asInstanceOf[Position[P]], canvasPos, this + side, this)
     }
 
-    private def interSectsArea[P: Numeric](p0: Position[P], p1: Position[P], p2: Position[P], p3: Position[P]) = {
+    private def interSectsArea(p0: Position[P], p1: Position[P], p2: Position[P], p3: Position[P]) = {
       @inline def intersectsWith(a0: P, b0: P, a1: P, b1: P) = a0 <= b1 && a1 <= b0
       // Process the x and y axes
       intersectsWith(p0.x, p1.x, p2.x, p3.x) && intersectsWith(p0.y, p1.y, p2.y, p3.y)

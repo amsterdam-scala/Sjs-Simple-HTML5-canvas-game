@@ -11,7 +11,9 @@ class PageSuite extends AsyncFlatSpec with Page {
   // All graphical features are placed just outside the playground
   lazy val gameState0 = GameState[T](canvas, doubleInitialLUnder, doubleInitialLUnder)
   // Collect all Futures of onload events
-  lazy val loaders = gameState0.pageElements.map(pg => imageFuture(pg.src))
+  val urlBase0 = "http://lambdalloyd.net23.net/SimpleGame/views/"
+  val urlBase1 = "https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/public/views/"
+  lazy val loaders = gameState0.pageElements.map(pg => imageFuture(urlBase1 + pg.src))
   val initialLUnder = Position(512, 480).asInstanceOf[Position[T]]
   val doubleInitialLUnder = initialLUnder + initialLUnder
 
@@ -22,6 +24,7 @@ class PageSuite extends AsyncFlatSpec with Page {
 
   // You can map assertions onto a Future, then return the resulting Future[Assertion] to ScalaTest:
   it should "be loaded remote" in {
+    // info((dom.window.location.href).toString.split('/').dropRight(0).toSeq.mkString("/"))
     Future.sequence(loaders).map { imageElements => {
 
       def context2Hashcode[T: Numeric](size: Position[T]) = {
@@ -105,7 +108,7 @@ class PageSuite extends AsyncFlatSpec with Page {
       testHarness(navigateHero(loadedAndNoText0, Position(0, -1)), "Test double screen with down displaced hero",
         () => Seq(1484865515 /*Chrome*/ , 954791841 /*FireFox*/).contains(context2Hashcode(doubleInitialLUnder)))
 
-      testHarness(loadedAndNoText0, "Test double screen reference still to same.",
+      testHarness(loadedAndNoText0, "Test double screen reference still the same.",
         () => ref == context2Hashcode(doubleInitialLUnder))
     }
     }

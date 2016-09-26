@@ -28,7 +28,7 @@ class Playground[G]( val pos: Position[G], val img: dom.raw.HTMLImageElement) ex
 
   def copy(img: dom.raw.HTMLImageElement): Playground[G] = new Playground(pos, img)
 
-  def src = "http://lambdalloyd.net23.net/SimpleGame/views/img/background.png"
+  def src = "img/background.png"
 }
 
 object Playground {
@@ -47,7 +47,7 @@ class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extend
   /** Load the img in the Element */
   def copy(image: dom.raw.HTMLImageElement) = new Monster(pos, image)
 
-  def src = """http://lambdalloyd.net23.net/SimpleGame/views/img/monster.png"""
+  def src = "img/monster.png"
 
 }
 
@@ -71,7 +71,7 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
   protected[simplegame] def isValidPosition(canvas: dom.html.Canvas) =
     pos.isValidPosition(Position(canvas.width, canvas.height).asInstanceOf[Position[H]], Hero.pxSize.asInstanceOf[H])
 
-  def src = """http://lambdalloyd.net23.net/SimpleGame/views/img/hero.png"""
+  def src = "img/hero.png"
 
   /**
    * Compute new position of hero according to the keys pressed
