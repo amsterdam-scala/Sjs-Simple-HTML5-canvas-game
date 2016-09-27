@@ -73,7 +73,8 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
         if (newHero.pos.areTouching(monster.pos, size)) newGame() // Reset the game when the player catches a monster
         else copy(hero = newHero) // New position for Hero, with isNewGame reset to false
       }
-      else this
+      else {this
+      assert(false)}
       copy(hero = newHero)
     }
   }
