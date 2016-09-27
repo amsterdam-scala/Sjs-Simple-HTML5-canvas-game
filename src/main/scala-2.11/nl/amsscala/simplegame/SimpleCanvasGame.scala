@@ -15,6 +15,6 @@ object SimpleCanvasGame extends /*JSApp with*/ Game with Page {
    *
    * If `persistLauncher := true` set in sbt build file a `main-launcher.js` launcher is generated.
    */
-//  def main(): Unit = play(canvas, headless = false)
+  def main(): Unit = play(canvas, headless = false)
 
 }
