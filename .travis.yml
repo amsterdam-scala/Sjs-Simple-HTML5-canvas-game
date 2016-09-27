@@ -6,7 +6,7 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION testOnly nl.amsscala.simplegame.GameSuite
+  - sbt ++$TRAVIS_SCALA_VERSION "testOnly nl.amsscala.simplegame.GameSuite"
 
   # Trick to avoid unnecessary cache updates
   - find $HOME/.sbt -name "*.lock" | xargs rm
