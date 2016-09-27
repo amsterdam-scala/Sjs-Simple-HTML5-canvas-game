@@ -38,8 +38,8 @@ class GameSuite extends SuiteSpec with Page{
           game.keyEffect(1D, mutable.Set(Up , Right , Left, Down )) shouldBe game
 
           game.keyEffect(1D, mutable.Set(Left )).hero.pos - Position(621,337) shouldBe Position(-256,0)
-          game.keyEffect(1D, mutable.Set(Left )).hero.pos - Position(621,337) shouldBe Position(-256,0)
-//          game.keyEffect(1D, mutable.Set(Right )).hero.pos - Position(621,337) shouldBe Position(256,0)
+          game.keyEffect(1D, mutable.Set(Right )).hero.pos  shouldBe Position(877,337)
+          game.keyEffect(1D, mutable.Set(Right )).hero.pos - Position(621,337) shouldBe Position(256,0)
           game.keyEffect(1D, mutable.Set(Up )).hero.pos - Position(621,337) shouldBe Position(0,-256)
           game.keyEffect(1D, mutable.Set(Down )).hero.pos - Position(621,337) shouldBe Position(0,256)
 
