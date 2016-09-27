@@ -86,14 +86,10 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
     def displacements: mutable.Set[Position[H]] = {
       def dirLookUp = Map(// Key to direction translation
         Left -> Position(-1, 0), Right -> Position(1, 0), Up -> Position(0, -1), Down -> Position(0, 1)
-      ) //.withDefaultValue(Position(0, 0))
+      ).withDefaultValue(Position(0, 0))
 
       keysDown.map { k => dirLookUp(k).asInstanceOf[Position[H]] }
     }
-
-    def dirLookUp = Map(// Key to direction translation
-      Left -> Position(-1, 0), Right -> Position(1, 0), Up -> Position(0, -1), Down -> Position(0, 1)
-    ).withDefaultValue(Position(0, 0))
 
     // Compute next position by summing all vectors with the position where the hero is found.
     copy(displacements.fold(pos) { (z, vec) => z + vec * (Hero.speed * latency).toInt.asInstanceOf[H] })
