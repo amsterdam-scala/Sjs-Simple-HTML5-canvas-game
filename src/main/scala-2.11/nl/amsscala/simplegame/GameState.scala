@@ -74,7 +74,6 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
         else copy(hero = newHero) // New position for Hero, with isNewGame reset to false
       }
       else this
-      copy(hero = newHero)
     }
   }
 
