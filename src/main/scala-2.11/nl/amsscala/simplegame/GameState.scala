@@ -69,8 +69,7 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
       val newHero = hero.keyEffect(latency, keysDown)
       // Are they touching?
       val size = Hero.pxSize.asInstanceOf[T]
-      println(size, newHero, SimpleCanvasGame.canvasDim)
-      if (newHero.pos.isValidPosition(SimpleCanvasGame.canvasDim[T], size)) {
+      if (newHero.isValidPosition(canvas)) {
         if (newHero.pos.areTouching(monster.pos, size)) newGame() // Reset the game when the player catches a monster
         else copy(hero = newHero) // New position for Hero, with isNewGame reset to false
       }
