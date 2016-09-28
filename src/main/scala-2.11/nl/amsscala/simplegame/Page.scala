@@ -67,7 +67,7 @@ trait Page {
 
   def center(cnvs: dom.html.Canvas) = Position(canvas.width / 2, canvas.height / 2)
 
-  def canvasDim = Position(canvas.width, canvas.height)
+  def canvasDim[D] = Position(canvas.width, canvas.height).asInstanceOf[Position[D]]
 
   canvas.textContent = "Your browser doesn't support the HTML5 CANVAS tag."
   resetCanvasWH(canvas, Position(dom.window.innerWidth, dom.window.innerHeight - 25))
