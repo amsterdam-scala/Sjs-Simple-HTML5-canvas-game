@@ -19,7 +19,7 @@ class GameSuite extends SuiteSpec with Page{
       describe("should tested by navigation keys") {
 
         it("good path") {
-          // No keys, no movement
+          /*// No keys, no movement
           game.keyEffect(1D, mutable.Set.empty) shouldBe game
 
           // Opposite horizontal navigation, no movement 1
@@ -37,7 +37,7 @@ class GameSuite extends SuiteSpec with Page{
           // All four directions, no movement
           game.keyEffect(1D, mutable.Set(Up , Right , Left, Down )) shouldBe game
 
-          game.keyEffect(1D, mutable.Set(Left )).hero.pos - Position(621,337) shouldBe Position(-256,0)
+          game.keyEffect(1D, mutable.Set(Left )).hero.pos - Position(621,337) shouldBe Position(-256,0)*/
           game.keyEffect(1D, mutable.Set(Right )).hero.pos  shouldBe Position(877,337)
           game.keyEffect(1D, mutable.Set(Right )).hero.pos - Position(621,337) shouldBe Position(256,0)
           game.keyEffect(1D, mutable.Set(Up )).hero.pos - Position(621,337) shouldBe Position(0,-256)
