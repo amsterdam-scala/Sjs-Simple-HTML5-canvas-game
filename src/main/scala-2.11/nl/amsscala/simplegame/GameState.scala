@@ -27,16 +27,6 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
                             _gameOverTxt: => String = GameState.gameOverTxt,
                             _explainTxt: => String = GameState.explainTxt
                            ) {
-  /**
-   * New game, Monster randomized, Hero centralized, score updated
-   * @return
-   */
-  def newGame() = new GameState(canvas,
-    Vector(playGround, monster.copy(canvas), hero.copy(canvas)),
-    monstersCaught = monstersCaught + 1,
-    monstersHitTxt = GameState.monsterText(monstersCaught + 1),
-    isGameOver = true)
-
   private[simplegame] def copy(hero: Hero[T]) = new GameState(canvas,
       pageElements.take(2) :+ hero,
       monstersCaught = monstersCaught,
@@ -69,14 +59,23 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
       val newHero = hero.keyEffect(latency, keysDown)
       // Are they touching?
       val size = Hero.pxSize.asInstanceOf[T]
-      println(size, newHero, SimpleCanvasGame.canvasDim[T](canvas))
-      if (newHero.isValidPosition(canvas)) {
-        if (newHero.pos.areTouching(monster.pos, size)) newGame() // Reset the game when the player catches a monster
+      // println(size, newHero, SimpleCanvasGame.canvasDim[T](canvas))
+      if (newHero.isValidPosition(canvas))
+        if (newHero.pos.areTouching(monster.pos, size)) newGame // Reset the game when the player catches a monster
         else copy(hero = newHero) // New position for Hero, with isNewGame reset to false
-      }
       else this
     }
   }
+
+  /**
+   * New game, Monster randomized, Hero centralized, score updated
+   * @return
+   */
+  def newGame = new GameState(canvas,
+    Vector(playGround, monster.copy(canvas), hero.copy(canvas)),
+    monstersCaught = monstersCaught + 1,
+    monstersHitTxt = GameState.monsterText(monstersCaught + 1),
+    isGameOver = true)
 
   override def toString: String = s"${Position(canvas.width, canvas.height)} $pageElements isNew:$isNewGame $monstersHitTxt"
 

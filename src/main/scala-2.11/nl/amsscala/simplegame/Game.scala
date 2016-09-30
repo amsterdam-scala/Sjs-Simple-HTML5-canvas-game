@@ -39,7 +39,7 @@ protected trait Game {
 
           prevTimestamp = nowTimestamp
 
-          // Render of the canvas is conditional by movement of Hero, saves power
+          // Render the canvas conditional by movement of Hero, saves power
           if (prevGS.hero != updatedGS.hero) prevGS = SimpleCanvasGame.render(updatedGS)
         }
 
@@ -61,7 +61,7 @@ protected trait Game {
             keysPressed -= e.keyCode
           }, useCapture = false)
         }
-        // Listeners are now obsoleted , so they unload them all.
+        // Listeners are now obsoleted , so unload them all.
         load.foreach(i => i.onload = null)
     }
   }
