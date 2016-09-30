@@ -8,7 +8,11 @@ import scalatags.JsDom.all._
 
 /** Everything related to Html5 visuals */
 trait Page {
-  lazy val postponed = dom.document.body.appendChild(div(cls := "content", style := "text-align:center; background-color:#3F8630;",
+  val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
+  val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
+
+  lazy val postponed =
+    dom.document.body.appendChild(div(cls := "content", style := "text-align:center; background-color:#3F8630;",
     canvas,
     a(href := "http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/", "Simple HTML5 Canvas game"),
     " ported to ",
@@ -16,8 +20,6 @@ trait Page {
       title := s"This object code is compiled with type parameter ${genericDetect(0D.asInstanceOf[SimpleCanvasGame.T])}.",
       "Scala.js")).render)
   // Create the canvas and 2D context
-  val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
-  val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
 
   /**
    * Draw everything
@@ -33,7 +35,7 @@ trait Page {
         ctx.drawImage(pe.img, pe.pos.x.asInstanceOf[Int], pe.pos.y.asInstanceOf[Int], resize.x, resize.y)
 
       drawImage(pe match {
-        case _: Playground[T] => canvasDim
+        case _: Playground[T] => canvasDim[Int](canvas)
         case pm: GameElement[T] => dimension(pm.img) // The otherwise or default clause
       })
     })
@@ -67,7 +69,7 @@ trait Page {
 
   def center(cnvs: dom.html.Canvas) = Position(canvas.width / 2, canvas.height / 2)
 
-  def canvasDim[D] = Position(canvas.width, canvas.height).asInstanceOf[Position[D]]
+  def canvasDim[D](cnvs: dom.html.Canvas) = Position(cnvs.width, cnvs.height).asInstanceOf[Position[D]]
 
   canvas.textContent = "Your browser doesn't support the HTML5 CANVAS tag."
   resetCanvasWH(canvas, Position(dom.window.innerWidth, dom.window.innerHeight - 25))

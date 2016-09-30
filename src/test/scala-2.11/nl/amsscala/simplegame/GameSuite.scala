@@ -1,12 +1,12 @@
 package nl.amsscala
 package simplegame
 
-import SimpleCanvasGame.{T, resetCanvasWH}
 import org.scalajs.dom.ext.KeyCode.{Down, Left, Right, Up}
 
 import scala.collection.mutable
 
 class GameSuite extends SuiteSpec with Page{
+  type T = Int
   val graphField = Position(1242 , 674)
   resetCanvasWH(canvas, graphField)
 
@@ -38,6 +38,7 @@ class GameSuite extends SuiteSpec with Page{
 
 
           game.keyEffect(1D, mutable.Set(Left )).hero.pos - Position(621,337) shouldBe Position(-256,0)*/
+          game.keyEffect(1D, mutable.Set(Right ))
           resetCanvasWH(canvas, graphField)
 
           game.keyEffect(1D, mutable.Set(Right )).hero.pos  shouldBe Position(877,337)
