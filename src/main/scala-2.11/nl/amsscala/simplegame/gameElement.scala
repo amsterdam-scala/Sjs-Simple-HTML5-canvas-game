@@ -83,6 +83,7 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
   protected[simplegame] def keyEffect(latency: Double, keysDown: mutable.Set[Int]): Hero[H] = {
 
     // Convert pressed keyboard keys to coordinates
+    @inline
     def displacements: mutable.Set[Position[H]] = {
       def dirLookUp = Map(// Key to direction translation
         Left -> Position(-1, 0), Right -> Position(1, 0), Up -> Position(0, -1), Down -> Position(0, 1)

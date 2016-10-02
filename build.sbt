@@ -1,5 +1,5 @@
                 name := "Simple Game"
-             version := "0.0"
+             version := "2.0"
          description := "Simple HTML5 Canvas game ported to Scala.js."
         organization := "nl.amsscala"
     organizationName := "Amsterdam.scala Meetup Group"
@@ -35,6 +35,8 @@ lazy val root = (project in file(".")).enablePlugins(ScalaJSPlugin)
 jsDependencies += RuntimeDOM
 scalaJSUseRhino in Global := false
 // jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Chrome())
+// Firefox works only with FireFox 45
+// (https://ftp.mozilla.org/pub/firefox/releases/45.0/win64-EME-free/en-US/Firefox%20Setup%2045.0.exe)
 jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Firefox())
 
 // If true, a launcher script src="../[normalizedName]-launcher.js will be generated
