@@ -10,3 +10,5 @@ Original tutorial in Javascript :
 Play the [live demo](http://goo.gl/oqSFCa). Scala doc is [here](https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/docs/api/index.html#nl.amsscala.package). 
 
 Further Resources, Notes, and Considerations
+
+Licensed under the EUPL
