@@ -7,7 +7,7 @@ lazy val commonSettings = Seq(
 organizationHomepage := Some(url("http://www.meetup.com/amsterdam-scala/")),
             homepage := Some(url("http://github.com/amsterdam-scala/Sjs-Full-Window-HTML5-Canvas")),
            startYear := Some(2016),
-            licenses += "EUPL v.1.1" -> url("http://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11")
+            licenses += "EUPL-1.1" -> url("http://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11")
 )
 // KEEP THIS normalizedName CONSTANTLY THE SAME, otherwise the outputted JS filename will be changed.
       normalizedName := "main"

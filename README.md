@@ -11,4 +11,4 @@ Play the [live demo](http://goo.gl/oqSFCa). Scala doc is [here](https://amsterda
 
 Further Resources, Notes, and Considerations
 
-Licensed under the EUPL
+Licensed under the EUPL-1.1
