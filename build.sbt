@@ -1,13 +1,14 @@
-                name := "Simple Game"
-             version := "2.0"
-         description := "Simple HTML5 Canvas game ported to Scala.js."
-        organization := "nl.amsscala"
-    organizationName := "Amsterdam.scala Meetup Group"
-organizationHomepage := Some(url("http://www.meetup.com/amsterdam-scala/"))
-            homepage := Some(url("http://github.com/amsterdam-scala/Sjs-Full-Window-HTML5-Canvas"))
-           startYear := Some(2016)
+lazy val commonSettings = Seq(
+                name := "Simple Game",
+             version := "2.0",
+         description := "Simple HTML5 Canvas game ported to Scala.js.",
+        organization := "nl.amsscala",
+    organizationName := "Amsterdam.scala Meetup Group",
+organizationHomepage := Some(url("http://www.meetup.com/amsterdam-scala/")),
+            homepage := Some(url("http://github.com/amsterdam-scala/Sjs-Full-Window-HTML5-Canvas")),
+           startYear := Some(2016),
             licenses += "EUPL v.1.1" -> url("http://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11")
-
+)
 // KEEP THIS normalizedName CONSTANTLY THE SAME, otherwise the outputted JS filename will be changed.
       normalizedName := "main"
 
@@ -29,15 +30,17 @@ scalacOptions in (Compile,doc) ++= Seq("-doc-root-content", baseDirectory.value+
   "-groups", "-implicits")
 
 // ** Scala.js configuration **
-lazy val root = (project in file(".")).enablePlugins(ScalaJSPlugin)
+
+lazy val root: Project = (project in file(".")).enablePlugins(ScalaJSPlugin).settings(commonSettings: _*).
+  configure(InBrowserTesting.js)
 
 // Necessary for testing
 jsDependencies += RuntimeDOM
-scalaJSUseRhino in Global := false
+scalaJSUseRhino in Global := false // The Rhino JS environment will be phased out.
 // jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Chrome())
-// Firefox works only with FireFox 45
+// Firefox works only with FireFox 45.0-, since 48.0 GeckoDriver (aka Marionette)
 // (https://ftp.mozilla.org/pub/firefox/releases/45.0/win64-EME-free/en-US/Firefox%20Setup%2045.0.exe)
-jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Firefox())
+// jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Firefox())
 
 // If true, a launcher script src="../[normalizedName]-launcher.js will be generated
 // that always calls the main def indicated by the used JSApp trait.
@@ -51,12 +54,12 @@ persistLauncher in Test := false
 // ScalaTest settings //
 // testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oF")
 
-// Workbench settings **
+// Li Haoyi's Workbench settings **
 if (sys.env.isDefinedAt("CI")) {
-  println("Workbench disabled ", sys.env.getOrElse("CI", "?"))
+  println("Li Haoyi's workbench disabled ", sys.env.getOrElse("CI", "?"))
   Seq.empty
 } else {
-  println("Workbench enabled")
+  println("Li Haoyi's workbench enabled")
   workbenchSettings
 }
 
