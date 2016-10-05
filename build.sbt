@@ -38,9 +38,10 @@ lazy val root: Project = (project in file(".")).enablePlugins(ScalaJSPlugin).set
 jsDependencies += RuntimeDOM
 scalaJSUseRhino in Global := false // The Rhino JS environment will be phased out.
 // jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Chrome())
-// Firefox works only with FireFox 45.0-, since 48.0 GeckoDriver (aka Marionette)
+
+// Firefox works only with FireFox 45.0-, and since 48.0 GeckoDriver (aka Marionette)
 // (https://ftp.mozilla.org/pub/firefox/releases/45.0/win64-EME-free/en-US/Firefox%20Setup%2045.0.exe)
-// jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Firefox())
+jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Firefox())
 
 // If true, a launcher script src="../[normalizedName]-launcher.js will be generated
 // that always calls the main def indicated by the used JSApp trait.

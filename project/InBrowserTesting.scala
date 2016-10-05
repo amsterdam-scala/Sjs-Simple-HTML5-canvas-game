@@ -17,11 +17,11 @@ object InBrowserTesting {
 
   def js: Project => Project =
     _.configure(
-      browserConfig(ConfigFirefox, new SeleniumJSEnv(Firefox)),
-      browserConfig(ConfigChrome, new SeleniumJSEnv(Chrome)))
+      browserConfig(ConfigFirefox, new SeleniumJSEnv(Firefox())),
+      browserConfig(ConfigChrome, new SeleniumJSEnv(Chrome())))
       .settings(
         testAll := {
-          (test in Test).value
+          // (test in Test).value
           (test in ConfigFirefox).value
           (test in ConfigChrome).value
         })
