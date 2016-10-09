@@ -12,6 +12,7 @@ This "Simple HTML5 Canvas Game" is a Scala.js project which targets a browser ca
 Stored on GitHub.com, the code is also remote tested on Travis-CI.
 
 This quite super simple game is heavily over-engineered. It's certainly not the game that counts but the technology around it, it features:
+
 1. HTML5 Canvas controlled by Scala.js
 1. Headless canvas Selenium 2 "in browser testing" with the recently released ScalaTest 3.x
 1. ScalaTest with "async" testing styles
@@ -25,8 +26,8 @@ This quite super simple game is heavily over-engineered. It's certainly not the 
 1. Scala generated HTML.
 1. Tackling CORS enabled images.
 ## Motivation
-Scala.js compile-to-Javascript language is by its compile phase ahead of runtime errors in the future. It prevent you of nasty
-runtime error because everything must be ok in the compile phase, specially the types of the functions and variables.
+Scala.js compile-to-Javascript language is by its compile phase ahead of runtime errors in production. It prevent you of nasty
+runtime errors because everything must be ok in the compile phase, specially the types of the functions and variables.
 
 In the original tutorial in Javascript: [How to make a simple HTML5 Canvas game](http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/),
 a continuous redraw of the canvas was made, which is a simple solution, but resource costly.
@@ -39,12 +40,21 @@ Play the [live demo](http://goo.gl/oqSFCa). Scaladoc is [here](https://amsterdam
 
 By the initial call from `SimpleCanvas.main` to `Game.play` its (private) `gameLoop` will periodic started given its `framesPerSec` frequency.
 Here the status of eventually pressed arrow keys will be tested and per `GameState.keyEffect` converted to a move of the `Hero`.
-In an instance of `GameState` the position of the `CanvasComponent`s are immutable recorded. When a chance has to be made a new instances will be 
-generated with only the chanced variables adjusted and leaving the rest unchanged by copying the object.
+In an instance of `GameState` the position of the `CanvasComponent`s are immutable recorded. When a change has to be made a new instances will be 
+generated with only the changed variables adjusted and leaving the rest unchanged by copying the object.
 
-With the changes in this `CanvasComponent` a render method of `Page` is called only if instance is found changed.
-The render method repaints the canvas completely. The images are found is the respectively instance of `CanvasComponent`
-subclasses `Playground`, `Monster` and `Hero`. They are asynchronously loaded once at startup by means of the use of `Future`s.
+With the changes in this `CanvasComponent` a render method of `Page` is only called if the instance is found changed.
+
+The render method repaints the canvas completely. Successively the background, monster and hero will be painted, so the last image is at the foreground.
+The images are found are the respectively instances of `CanvasComponent` subclasses `Playground`, `Monster` and `Hero`.
+They are asynchronously loaded once at startup by means of the use of `Future`s.
+
+From an MVC design pattern perspective, the following parts can be identified:
+Model - `GameState`, `Position`
+View - `Page`, `CanvasComponent`s (`Playground`, `Monster` and `Hero`)
+Controller - `Game`
+
+##### Testing
 
 
 ##### Further Resources
