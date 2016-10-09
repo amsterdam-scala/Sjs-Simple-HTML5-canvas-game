@@ -21,7 +21,7 @@ object InBrowserTesting {
       browserConfig(ConfigChrome, new SeleniumJSEnv(Chrome())))
       .settings(
         testAll := {
-          // (test in Test).value
+          // (test in Test).value // No jvm test available
           (test in ConfigFirefox).value
           (test in ConfigChrome).value
         })

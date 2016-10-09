@@ -9,9 +9,9 @@ import scalatags.JsDom.all._
 /** Everything related to Html5 visuals */
 trait Page {
   val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
-  val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
+  private [simplegame] val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
 
-  lazy val postponed =
+  private lazy val postponed =
     dom.document.body.appendChild(div(cls := "content", style := "text-align:center; background-color:#3F8630;",
     canvas,
     a(href := "http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/", "Simple HTML5 Canvas game"),
@@ -80,7 +80,8 @@ trait Page {
   def imageFuture(src: String): Future[dom.raw.HTMLImageElement] = {
     val img = dom.document.createElement("img").asInstanceOf[dom.raw.HTMLImageElement]
 
-    img.setAttribute("crossOrigin", "Anonymous")
+    // Tackling CORS enabled images
+    img.setAttribute("crossOrigin", "anonymous")
     img.src = src
     if (img.complete) Future.successful(img)
     else {

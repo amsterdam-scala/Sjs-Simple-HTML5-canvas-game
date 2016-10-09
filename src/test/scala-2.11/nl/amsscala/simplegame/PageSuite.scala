@@ -1,19 +1,19 @@
 package nl.amsscala
 package simplegame
 
+import simplegame.SimpleCanvasGame.T
 import org.scalatest.AsyncFlatSpec
 
 import scala.collection.mutable
 import scala.concurrent.Future
 
 class PageSuite extends AsyncFlatSpec with Page {
-  type T = SimpleCanvasGame.T
   // All graphical features are placed just outside the playground
-  lazy val gameState0 = GameState[T](canvas, doubleInitialLUnder, doubleInitialLUnder)
+  lazy val gameState = GameState[T](canvas, doubleInitialLUnder, doubleInitialLUnder)
   // Collect all Futures of onload events
   val urlBase0 = "http://lambdalloyd.net23.net/SimpleGame/views/"
   val urlBase1 = "https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/public/views/"
-  lazy val loaders = gameState0.pageElements.map(pg => imageFuture(urlBase1 + pg.src))
+  lazy val loaders = gameState.pageElements.map(pg => imageFuture(urlBase1 + pg.src))
   val initialLUnder = Position(512, 480).asInstanceOf[Position[T]]
   val doubleInitialLUnder = initialLUnder + initialLUnder
 
@@ -57,7 +57,7 @@ class PageSuite extends AsyncFlatSpec with Page {
        */
       resetCanvasWH(canvas, initialLUnder)
       val loadedAndNoText0 = new GameState(canvas,
-        gameState0.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
+        gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
         monstersHitTxt = "",
         isNewGame = false)
 
@@ -73,12 +73,12 @@ class PageSuite extends AsyncFlatSpec with Page {
       val ref = context2Hashcode(doubleInitialLUnder) // Register the reference value
 
       val loadedAndSomeText1 = new GameState(canvas,
-        gameState0.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
+        gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
         monstersHitTxt = "Now with text which can differ between browsers",
         isNewGame = false)
 
       val loadedAndSomeText2 = new GameState(canvas,
-        gameState0.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
+        gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
         monstersHitTxt = "",
         isNewGame = true)
 

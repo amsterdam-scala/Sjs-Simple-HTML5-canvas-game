@@ -42,7 +42,7 @@ package object simplegame {
      * @param side      side of both two squares
      * @return False  if a square out of bound
      */
-    def isValidPosition(canvasPos: Position[P], side: P): Boolean = {
+    def isValidPositionEl(canvasPos: Position[P], side: P): Boolean = {
      interSectsArea(Position(0, 0).asInstanceOf[Position[P]], canvasPos, this + side, this)
     }
 

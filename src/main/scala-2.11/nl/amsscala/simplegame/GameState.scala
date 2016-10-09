@@ -71,7 +71,7 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
    * New game, Monster randomized, Hero centralized, score updated
    * @return
    */
-  def newGame = new GameState(canvas,
+  private def newGame = new GameState(canvas,
     Vector(playGround, monster.copy(canvas), hero.copy(canvas)),
     monstersCaught = monstersCaught + 1,
     monstersHitTxt = GameState.monsterText(monstersCaught + 1),

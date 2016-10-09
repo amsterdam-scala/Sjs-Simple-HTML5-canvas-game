@@ -1,5 +1,5 @@
 lazy val commonSettings = Seq(
-                name := "Simple Game",
+                name := "Simple HTML5 Canvas Game",
              version := "2.0",
          description := "Simple HTML5 Canvas game ported to Scala.js.",
         organization := "nl.amsscala",
@@ -57,12 +57,9 @@ persistLauncher in Test := false
 
 // Li Haoyi's Workbench settings **
 if (sys.env.isDefinedAt("CI")) {
-  println("Li Haoyi's workbench disabled ", sys.env.getOrElse("CI", "?"))
+  println("[Info] Li Haoyi's workbench disabled ", sys.env.getOrElse("CI", "?"))
   Seq.empty
-} else {
-  println("Li Haoyi's workbench enabled")
-  workbenchSettings
-}
+} else workbenchSettings
 
 if (sys.env.isDefinedAt("CI")) normalizedName := normalizedName.value // Dummy
 else // Update without refreshing the page every time fastOptJS completes

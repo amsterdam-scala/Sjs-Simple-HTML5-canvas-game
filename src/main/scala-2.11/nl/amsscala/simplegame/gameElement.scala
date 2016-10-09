@@ -70,7 +70,7 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
   def copy(pos: Position[H]) = new Hero(pos, img)
 
   protected[simplegame] def isValidPosition(canvas: dom.html.Canvas) =
-    pos.isValidPosition(SimpleCanvasGame.canvasDim[H](canvas), Hero.pxSize.asInstanceOf[H])
+    pos.isValidPositionEl(SimpleCanvasGame.canvasDim[H](canvas), Hero.pxSize.asInstanceOf[H])
 
   def src = "img/hero.png"
 
