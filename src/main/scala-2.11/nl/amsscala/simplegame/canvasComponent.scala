@@ -8,24 +8,24 @@ import scala.collection.mutable
 
 // TODO: http://stackoverflow.com/questions/12370244/case-class-copy-method-with-superclass
 
-sealed trait GameElement[Numeric] {
+sealed trait CanvasComponent[Numeric] {
   val pos: Position[Numeric]
   val img: dom.raw.HTMLImageElement
 
-  def copy(img: dom.raw.HTMLImageElement): GameElement[Numeric]
+  def copy(img: dom.raw.HTMLImageElement): CanvasComponent[Numeric]
 
   def src: String
 
   override def toString = s"${this.getClass.getSimpleName} $pos"
 
   override def equals(that: Any): Boolean = that match {
-    case that: GameElement[Numeric] => this.pos == that.pos
+    case that: CanvasComponent[Numeric] => this.pos == that.pos
     case _ => false
   }
 
 }
 
-class Playground[G](val pos: Position[G], val img: dom.raw.HTMLImageElement) extends GameElement[G] {
+class Playground[G](val pos: Position[G], val img: dom.raw.HTMLImageElement) extends CanvasComponent[G] {
 
   def copy(img: dom.raw.HTMLImageElement): Playground[G] = new Playground(pos, img)
 
@@ -42,7 +42,7 @@ object Playground {
  * @param pos Monsters' position
  * @tparam M Numeric generic abstraction
  */
-class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extends GameElement[M] {
+class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extends CanvasComponent[M] {
   /** Set a Monster at a (new) random position */
   def copy[D: Numeric](canvas: dom.html.Canvas) = new Monster(Monster.randomPosition[D](canvas), img)
   /** Load the img in the Element */
@@ -61,7 +61,7 @@ object Monster {
   }
 }
 
-class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) extends GameElement[H] {
+class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) extends CanvasComponent[H] {
 
   def copy(img: dom.raw.HTMLImageElement) = new Hero(pos, img)
 

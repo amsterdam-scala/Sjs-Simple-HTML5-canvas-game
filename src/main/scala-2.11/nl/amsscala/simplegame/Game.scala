@@ -35,12 +35,12 @@ protected trait Game {
         /** The main game loop, invoked by interval callback */
         def gameLoop() = {
           val nowTimestamp = js.Date.now()
-          val updatedGS = prevGS.keyEffect((nowTimestamp - prevTimestamp) / 1000, keysPressed)
+          val actualGS = prevGS.keyEffect((nowTimestamp - prevTimestamp) / 1000, keysPressed)
 
           prevTimestamp = nowTimestamp
 
           // Render the canvas conditional by movement of Hero, saves power
-          if (prevGS.hero != updatedGS.hero) prevGS = SimpleCanvasGame.render(updatedGS)
+          if (prevGS != actualGS) prevGS = SimpleCanvasGame.render(actualGS)
         }
 
         SimpleCanvasGame.render(prevGS) // First draw

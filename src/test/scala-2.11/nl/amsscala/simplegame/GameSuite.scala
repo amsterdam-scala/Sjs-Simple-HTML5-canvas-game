@@ -6,7 +6,6 @@ import org.scalajs.dom.ext.KeyCode.{Down, Left, Right, Up}
 import scala.collection.mutable
 
 class GameSuite extends SuiteSpec with Page {
-  type T = Int
   val graphField = Position(1242, 674)
   resetCanvasWH(canvas, graphField)
 

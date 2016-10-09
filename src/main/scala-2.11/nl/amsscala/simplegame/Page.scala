@@ -36,7 +36,7 @@ trait Page {
 
       drawImage(pe match {
         case _: Playground[T] => canvasDim[Int](canvas)
-        case pm: GameElement[T] => dimension(pm.img) // The otherwise or default clause
+        case pm: CanvasComponent[T] => dimension(pm.img) // The otherwise or default clause
       })
     })
 

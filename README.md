@@ -31,17 +31,30 @@ runtime error because everything must be ok in the compile phase, specially the 
 In the original tutorial in Javascript: [How to make a simple HTML5 Canvas game](http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/),
 a continuous redraw of the canvas was made, which is a simple solution, but resource costly.
 ## Usage
-Play the [live demo](http://goo.gl/oqSFCa). Scala doc is [here](https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/docs/api/index.html#nl.amsscala.package). 
+Play the [live demo](http://goo.gl/oqSFCa). Scaladoc is [here](https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/docs/api/index.html#nl.amsscala.package). 
 
 ## Architecture
+![class diagram](https://raw.githubusercontent.com/amsterdam-scala/Sjs-Simple-HTML5-canvas-game/master/docs/HTML5CanvasGame.png)
+##### Description:
 
-object SimpleCanvasGame extends JSApp with Game with Page {
+By the initial call from `SimpleCanvas.main` to `Game.play` its (private) `gameLoop` will periodic started given its `framesPerSec` frequency.
+Here the status of eventually pressed arrow keys will be tested and per `GameState.keyEffect` converted to a move of the `Hero`.
+In an instance of `GameState` the position of the `CanvasComponent`s are immutable recorded. When a chance has to be made a new instances will be 
+generated with only the chanced variables adjusted and leaving the rest unchanged by copying the object.
 
-Further Resources, Notes, and Considerations
+With the changes in this `CanvasComponent` a render method of `Page` is called only if instance is found changed.
+The render method repaints the canvas completely. The images are found is the respectively instance of `CanvasComponent`
+subclasses `Playground`, `Monster` and `Hero`. They are asynchronously loaded once at startup by means of the use of `Future`s.
 
+
+##### Further Resources
+##### Notes
+##### Considerations
+
+##### Licence
 Licensed under the EUPL-1.1
 
--------------------------------------------------------------------------------
+```-------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
 Scala                            6             96            113            261
@@ -58,3 +71,14 @@ Scala.js minimal project
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
 JavaScript                       1             26              1            572
+
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+JavaScript                       2            795              1          15423
+HTML                             2             13             25             51
+CSS                              1             14              0             49
+-------------------------------------------------------------------------------
+SUM:                             5            822             26          15523
+-------------------------------------------------------------------------------
+```

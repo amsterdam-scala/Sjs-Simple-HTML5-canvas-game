@@ -19,7 +19,7 @@ import scala.collection.mutable
  * @tparam T             Numeric generic abstraction
  */
 class GameState[T: Numeric](canvas: dom.html.Canvas,
-                            val pageElements: Vector[GameElement[T]],
+                            val pageElements: Vector[CanvasComponent[T]],
                             val isNewGame: Boolean = true,
                             val isGameOver: Boolean = false,
                             monstersCaught: Int = 0,
@@ -59,7 +59,6 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
       val newHero = hero.keyEffect(latency, keysDown)
       // Are they touching?
       val size = Hero.pxSize.asInstanceOf[T]
-      // println(size, newHero, SimpleCanvasGame.canvasDim[T](canvas))
       if (newHero.isValidPosition(canvas))
         if (newHero.pos.areTouching(monster.pos, size)) newGame // Reset the game when the player catches a monster
         else copy(hero = newHero) // New position for Hero, with isNewGame reset to false
