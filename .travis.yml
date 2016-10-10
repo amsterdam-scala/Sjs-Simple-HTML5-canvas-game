@@ -28,7 +28,7 @@ env:
 - CI=travis
 
 addons:
-  firefox: latest
+  firefox: "46.0"
 
 #branches:
 #  only:

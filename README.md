@@ -32,11 +32,11 @@ runtime errors because everything must be ok in the compile phase, specially the
 In the original tutorial in Javascript: [How to make a simple HTML5 Canvas game](http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/),
 a continuous redraw of the canvas was made, which is a simple solution, but resource costly.
 ## Usage
-Play the [live demo](http://goo.gl/oqSFCa). Scaladoc is [here](https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/docs/api/index.html#nl.amsscala.package). 
+Play the [live demo](http://goo.gl/oqSFCa). Scaladoc  you will find [here](https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/docs/api/index.html#nl.amsscala.package). 
 
 ## Architecture
 ![class diagram](https://raw.githubusercontent.com/amsterdam-scala/Sjs-Simple-HTML5-canvas-game/master/docs/HTML5CanvasGame.png)
-##### Description:
+#### Description:
 
 By the initial call from `SimpleCanvas.main` to `Game.play` its (private) `gameLoop` will periodic started given its `framesPerSec` frequency.
 Here the status of eventually pressed arrow keys will be tested and per `GameState.keyEffect` converted to a move of the `Hero`.
@@ -50,18 +50,38 @@ The images are found are the respectively instances of `CanvasComponent` subclas
 They are asynchronously loaded once at startup by means of the use of `Future`s.
 
 From an MVC design pattern perspective, the following parts can be identified:
-Model - `GameState`, `Position`
-View - `Page`, `CanvasComponent`s (`Playground`, `Monster` and `Hero`)
-Controller - `Game`
 
-##### Testing
+<table>
+  <tr>
+    <th>Part</th>
+    <th>Class</th>
+    <th>Auxiliary</th>
+  </tr>
+  <tr>
+    <td>Model</td>
+    <td>GameState</td>
+    <td>Position</td>
+  </tr>
+  <tr>
+    <td>View</td>
+    <td>Page</td>
+    <td>CanvasComponents (Playground, Monster and Hero)</td>
+  </tr>
+  <tr>
+    <td>Controller</td>
+    <td>Game</td>
+    <td>GameState</td>
+  </tr>
+</table>
+
+#### Testing
 
 
-##### Further Resources
-##### Notes
-##### Considerations
+#### Further Resources
+#### Notes
+#### Considerations
 
-##### Licence
+#### Licence
 Licensed under the EUPL-1.1
 
 ```-------------------------------------------------------------------------------
