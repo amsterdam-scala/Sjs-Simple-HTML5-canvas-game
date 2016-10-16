@@ -49,7 +49,7 @@ The render method repaints the canvas completely. Successively the background, m
 The images are found are the respectively instances of `CanvasComponent` subclasses `Playground`, `Monster` and `Hero`.
 They are asynchronously loaded once at startup by means of the use of `Future`s.
 
-From an MVC design pattern perspective, the following parts can be identified:
+In spite of the fact that the application is one-tier on an MVC design pattern perspective, the following parts can be identified:
 
 <table>
   <tr>

@@ -41,7 +41,7 @@ scalaJSUseRhino in Global := false // The Rhino JS environment will be phased ou
 
 // Firefox works only with FireFox 46.0.1-, and since 48.0 GeckoDriver (aka Marionette)
 // (https://ftp.mozilla.org/pub/firefox/releases/46.0.1/win64-EME-free/en-US/Firefox%20Setup%2046.0.1.exe)
-jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Firefox())
+// jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Firefox())
 
 // If true, a launcher script src="../[normalizedName]-launcher.js will be generated
 // that always calls the main def indicated by the used JSApp trait.
