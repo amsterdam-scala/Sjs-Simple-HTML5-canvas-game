@@ -13,7 +13,7 @@ class PageSuite extends AsyncFlatSpec with Page {
   // Collect all Futures of onload events
   val urlBase0 = "http://lambdalloyd.net23.net/SimpleGame/views/"
   val urlBase1 = "https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/public/views/"
-  lazy val loaders = gameState.pageElements.map(pg => imageFuture(urlBase1 + pg.src))
+  lazy val loaders = gameState.pageElements.map(pg => imageFuture(urlBase0 + pg.src))
   val initialLUnder = Position(512, 480).asInstanceOf[Position[T]]
   val doubleInitialLUnder = initialLUnder + initialLUnder
 

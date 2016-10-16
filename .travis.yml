@@ -7,7 +7,7 @@ before_install:
   - sleep 3 # give xvfb some time to start
 
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION root/test
+  - sbt ++$TRAVIS_SCALA_VERSION firefox:test
 
   # Trick to avoid unnecessary cache updates
   - find $HOME/.sbt -name "*.lock" | xargs rm
