@@ -10,10 +10,11 @@ import scala.concurrent.Future
 class PageSuite extends AsyncFlatSpec with Page {
   // All graphical features are placed just outside the playground
   lazy val gameState = GameState[T](canvas, doubleInitialLUnder, doubleInitialLUnder)
+  lazy val loaders = gameState.pageElements.map(pg =>
+    imageFuture(if (Seq(gameState.pageElements.head, gameState.pageElements.last).contains(pg)) urlBase0 else urlBase1 + pg.src))
   // Collect all Futures of onload events
   val urlBase0 = "http://lambdalloyd.net23.net/SimpleGame/views/"
   val urlBase1 = "https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/public/views/"
-  lazy val loaders = gameState.pageElements.map(pg => imageFuture(urlBase1 + pg.src))
   val initialLUnder = Position(512, 480).asInstanceOf[Position[T]]
   val doubleInitialLUnder = initialLUnder + initialLUnder
 

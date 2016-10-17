@@ -141,8 +141,8 @@ a hash value. The techniques are:
 * A different hash value per different browser. In this case there are multiple hash values valid, one per browser.
 * Tainted canvas. E.g. text on a canvas gives sometimes a slightly different result in pixels by e.g. rounding errors. The only test we can do is to test if the canvas has changed.
 
-[1]
 ## Usage 2
+1. Clone the Github project to a new directory. This is the project directory which become the working directory of current folder.
 1. Naturally, at least a Java SE Runtime Environment (JRE) is installed on your platform and has a path to it enables execution.
 1. (Optional) Test this by submitting a `java -version` command in a [Command Line Interface (CLI, terminal)](https://en.wikipedia.org/wiki/Command-line_interface). The output should like this:
 ```
