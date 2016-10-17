@@ -4,7 +4,7 @@ before_install:
   # Initilize xvfb for headless testing
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - sleep 3 # give xvfb some time to start
+  #- sleep 3 # give xvfb some time to start
 
 script:
   - sbt ++$TRAVIS_SCALA_VERSION firefox:test
@@ -30,9 +30,3 @@ env:
 
 addons:
   firefox: "46.0.1"
-
-#branches:
-#  only:
-#    - master
-
-#  - sbt ++$TRAVIS_SCALA_VERSION 'set scalaJSStage in Global := FastOptStage' test 'set scalaJSStage in Global := FullOptStage' test

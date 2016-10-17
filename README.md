@@ -26,7 +26,7 @@ This quite super simple game is heavily over-engineered. It's certainly not the 
 1. Scala generated HTML.
 1. Tackling CORS enabled images.
 ## Motivation
-Scala.js compile-to-Javascript language is by its compile phase ahead of runtime errors in production. It prevent you of nasty
+Scala.js compile-to-Javascript language is by its compile phase ahead of runtime errors in production. It prevents you of nasty
 runtime errors because everything must be ok in the compile phase, specially the types of the functions and variables.
 
 In the original tutorial in Javascript: [How to make a simple HTML5 Canvas game](http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/),
@@ -36,20 +36,20 @@ Play the [live demo](http://goo.gl/oqSFCa). Scaladoc  you will find [here](https
 
 ## Architecture
 ![class diagram](https://raw.githubusercontent.com/amsterdam-scala/Sjs-Simple-HTML5-canvas-game/master/docs/HTML5CanvasGame.png)
-#### Description:
+#### Discussion:
 
 By the initial call from `SimpleCanvas.main` to `Game.play` its (private) `gameLoop` will periodic started given its `framesPerSec` frequency.
 Here the status of eventually pressed arrow keys will be tested and per `GameState.keyEffect` converted to a move of the `Hero`.
-In an instance of `GameState` the position of the `CanvasComponent`s are immutable recorded. When a change has to be made a new instances will be 
+In an instance of `GameState` the position of the `CanvasComponent`s are immutable recorded. When a change has to be made a new instance will be 
 generated with only the changed variables adjusted and leaving the rest unchanged by copying the object.
 
-With the changes in this `CanvasComponent` a render method of `Page` is only called if the instance is found changed.
+With the changes in this `CanvasState` a render method of `Page` is only called if the instance is found changed.
 
 The render method repaints the canvas completely. Successively the background, monster and hero will be painted, so the last image is at the foreground.
 The images are found are the respectively instances of `CanvasComponent` subclasses `Playground`, `Monster` and `Hero`.
 They are asynchronously loaded once at startup by means of the use of `Future`s.
 
-In spite of the fact that the application is one-tier on an MVC design pattern perspective, the following parts can be identified:
+In spite of the fact that the application is technically one-tier in an MVC design pattern perspective, everything runs in the browser, the following parts can be identified:
 
 <table>
   <tr>
@@ -74,8 +74,99 @@ In spite of the fact that the application is one-tier on an MVC design pattern p
   </tr>
 </table>
 
-#### Testing
+Communication from Game to Page is done by calling with a modified GameState to Page.
 
+#### Unit Testing
+
+Unit testing is done with [ScalaTest 3.x](http://www.scalatest.org/) which is completely detached from the JVM system and Java runtime.
+Although running sbt the test code will be executed in a browser.
+This is enabled by a [Selenium environment](https://github.com/scala-js/scala-js-env-selenium) interface direct running to [Firefox](http://www.mozilla.org) and via Chrome Driver to a Google [Chrome browser](https://sites.google.com/a/chromium.org/chromedriver/).
+
+The necessary resources are downloaded from a external server because the test environment lacks a server for this this task.
+
+The test tasks can be invoked by `chrome:test` for the Google Chrome browser and `firefox:test`, separated configs constructed in `InbrowserTesting.scala`.
+As proposed by this [article](http://japgolly.blogspot.nl/2016/03/scalajs-firefox-chrome-sbt.html).
+
+Unfortunately at [Travis-CI](travis-ci.org/amsterdam-scala/Sjs-Simple-HTML5-canvas-game) it's not possible to run Google Chrome, so `firefox:test` is the only option.
+<table>
+  <tr>
+    <th>Test Class file</th>
+    <th>Coverage</th>
+    <th>Remarks</th>
+  </tr>
+  <tr>
+    <td>CanvasComponentSuite</td>
+    <td>canvasComponent</td>
+    <td>Hero is concrete class of CanvasComponent</td>
+  </tr>
+  <tr>
+    <td>GameStateSuite</td>
+    <td>GameState</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>GameSuite</td>
+    <td>Game</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>PageSuite</td>
+    <td>Page</td>
+    <td></td>
+  </tr>
+</table>
+
+##### CanvasComponentSuite
+This excercises a Hero instance against border limitations.
+##### GameStateSuite
+E.g. GameState equality.
+##### GameSuite
+Test the effect of the arrow keys on the Hero moves.
+##### PageSuite
+
+This is the most interesting unit test, it features:
+* Asynchronous non-blocking testing
+* Canvas testing
+
+###### Async testing 
+ScalaTest supports asynchronous non-blocking testing by returning a `Future[Assertion]` type. With this the assertion is
+postponed as long if the `Future` is not completed.
+###### Canvas testing
+Because of the difference of processing between various render engines in browsers, is it hard to test the content of a canvas.
+One pixel difference is immediately a negative test result. However a couple of techniques can be used by hashing the canvas to
+a hash value. The techniques are:
+* Exact comparison, only possible if a complete image is rendered in the same sized canvas. In this case no processing (cropping, resizing) is required and therefor not tainted. Only the pixels of original source are used which gives the same result, even in different browsers because it's a propertie of the source.
+* A different hash value per different browser. In this case there are multiple hash values valid, one per browser.
+* Tainted canvas. E.g. text on a canvas gives sometimes a slightly different result in pixels by e.g. rounding errors. The only test we can do is to test if the canvas has changed.
+
+## Usage
+1. Naturally, at least a Java SE Runtime Environment (JRE) is installed on your platform and has a path to it enables execution.
+1. (Optional) Test this by submitting a `java -version` command in a [Command Line Interface (CLI, terminal)](https://en.wikipedia.org/wiki/Command-line_interface). The output should like this:
+```
+java version "1.8.0_102"
+Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
+```
+1. Make sure sbt is runnable from almost any work directory, use eventually one of the platform depended installers:
+    1. [Installing sbt on Mac](http://www.scala-sbt.org/release/docs/Installing-sbt-on-Mac.html) or
+    1. [Installing sbt on Windows](http://www.scala-sbt.org/release/docs/Installing-sbt-on-Windows.html) or
+    1. [Installing sbt on Linux](http://www.scala-sbt.org/release/docs/Installing-sbt-on-Linux.html) or
+    1. [Manual installation](http://www.scala-sbt.org/release/docs/Manual-Installation.html) (not recommended)
+1. (Optional ) To test if sbt is effective submit the `sbt sbtVersion` command. The response should like as this:
+```
+[info] Set current project to fransdev (in build file:/C:/Users/FransDev/)
+[info] 0.13.12
+```
+Remember shells (CLI's) are not reactive. To pick up the new [environment variables](https://en.wikipedia.org/wiki/Environment_variable) the CLI must be closed and restarted.
+1. Run sbt in one of the next modes in a CLI in the working directory or current folder, a compilation will be started and a local web server will be spinned up using:
+    1. Inline mode on the command line: `sbt fastOptJS` or
+    1. Interactive mode, start first the sbt by hitting in the CLI `sbt` followed by `fastOptJS` on the sbt prompt, or
+    1. Triggered execution by a `~` before the command so `~fastOptJS`. This command will execute and wait after the target code is in time behind the source code (Auto build).
+1.  sbt will give a notice that the server is listening by the message: `Bound to localhost/127.0.0.1:12345`
+    (Ignore the dead letter notifications with the enter key.)
+1. Open this application in a browser on [this given URL](http://localhost:12345/target/scala-2.11/classes/index-dev.html)
+
+When running this way a tool ["workbench"](https://github.com/lihaoyi/workbench) also will be running in the browser, noticeable by opening the console of the browser.
 
 #### Further Resources
 #### Notes
@@ -83,6 +174,7 @@ In spite of the fact that the application is one-tier on an MVC design pattern p
 
 #### Licence
 Licensed under the EUPL-1.1
+
 
 ```-------------------------------------------------------------------------------
 Language                     files          blank        comment           code

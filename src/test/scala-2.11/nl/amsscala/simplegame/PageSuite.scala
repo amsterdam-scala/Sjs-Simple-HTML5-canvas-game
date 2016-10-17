@@ -19,12 +19,11 @@ class PageSuite extends AsyncFlatSpec with Page {
 
   implicit override def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
-  // Don't rely the browsers defaults
+  // Don't rely on the browsers defaults
   resetCanvasWH(canvas, initialLUnder)
 
   // You can map assertions onto a Future, then return the resulting Future[Assertion] to ScalaTest:
-  it should "be loaded remote" in {
-    // info((dom.window.location.href).toString.split('/').dropRight(0).toSeq.mkString("/"))
+  it should "be remote loaded" in {
     Future.sequence(loaders).map { imageElements => {
 
       def context2Hashcode[T: Numeric](size: Position[T]) = {
