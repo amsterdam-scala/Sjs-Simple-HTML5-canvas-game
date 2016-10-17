@@ -25,6 +25,7 @@ This quite super simple game is heavily over-engineered. It's certainly not the 
 1. Eliminating a continuously redrawn of the canvas saves cpu time and power.
 1. Scala generated HTML.
 1. Tackling CORS enabled images.
+
 ## Motivation
 Scala.js compile-to-Javascript language is by its compile phase ahead of runtime errors in production. It prevents you of nasty
 runtime errors because everything must be ok in the compile phase, specially the types of the functions and variables.
@@ -32,7 +33,8 @@ runtime errors because everything must be ok in the compile phase, specially the
 In the original tutorial in Javascript: [How to make a simple HTML5 Canvas game](http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/),
 a continuous redraw of the canvas was made, which is a simple solution, but resource costly.
 ## Usage
-Play the [live demo](http://goo.gl/oqSFCa). Scaladoc  you will find [here](https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/docs/api/index.html#nl.amsscala.package). 
+Play the [live demo](http://goo.gl/oqSFCa). Scaladoc  you will find [here](https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/docs/api/index.html#nl.amsscala.package).
+[You can use numbers for reference-style link definitions][1]
 
 ## Architecture
 ![class diagram](https://raw.githubusercontent.com/amsterdam-scala/Sjs-Simple-HTML5-canvas-game/master/docs/HTML5CanvasGame.png)
@@ -133,13 +135,14 @@ ScalaTest supports asynchronous non-blocking testing by returning a `Future[Asse
 postponed as long if the `Future` is not completed.
 ###### Canvas testing
 Because of the difference of processing between various render engines in browsers, is it hard to test the content of a canvas.
-One pixel difference is immediately a negative test result. However a couple of techniques can be used by hashing the canvas to
+One pixel difference becomes immediately a negative test result. However a couple of techniques can be used by hashing the canvas to
 a hash value. The techniques are:
-* Exact comparison, only possible if a complete image is rendered in the same sized canvas. In this case no processing (cropping, resizing) is required and therefor not tainted. Only the pixels of original source are used which gives the same result, even in different browsers because it's a propertie of the source.
+* Exact comparison, only possible if a complete image is rendered in the same sized canvas. In this case no processing (cropping, resizing) is required and therefor not tainted. Only the pixels of original source are used which gives the same result, even in different browsers. Actual it's a property of the source.
 * A different hash value per different browser. In this case there are multiple hash values valid, one per browser.
 * Tainted canvas. E.g. text on a canvas gives sometimes a slightly different result in pixels by e.g. rounding errors. The only test we can do is to test if the canvas has changed.
 
-## Usage
+[1]
+## Usage 2
 1. Naturally, at least a Java SE Runtime Environment (JRE) is installed on your platform and has a path to it enables execution.
 1. (Optional) Test this by submitting a `java -version` command in a [Command Line Interface (CLI, terminal)](https://en.wikipedia.org/wiki/Command-line_interface). The output should like this:
 ```
