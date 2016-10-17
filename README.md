@@ -34,7 +34,7 @@ In the original tutorial in Javascript: [How to make a simple HTML5 Canvas game]
 a continuous redraw of the canvas was made, which is a simple solution, but resource costly.
 ## Usage
 Play the [live demo](http://goo.gl/oqSFCa). Scaladoc  you will find [here](https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/docs/api/index.html#nl.amsscala.package).
-[You can use numbers for reference-style link definitions][1]
+[Installation instructions here](#usage-2)
 
 ## Architecture
 ![class diagram](https://raw.githubusercontent.com/amsterdam-scala/Sjs-Simple-HTML5-canvas-game/master/docs/HTML5CanvasGame.png)
