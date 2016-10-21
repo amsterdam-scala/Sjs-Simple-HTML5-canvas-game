@@ -19,7 +19,7 @@ scalacOptions in (Compile,doc) ++=
   Seq("-doc-root-content", baseDirectory.value+"/src/main/scala-2.11/root-doc.md", "-groups", "-implicits")
 
 libraryDependencies ++= Seq(
-  "be.doeraene"        %%% "scalajs-jquery" % "0.9.0",
+//"be.doeraene"        %%% "scalajs-jquery" % "0.9.0",
   "com.lihaoyi"        %%% "scalatags"      % "0.6.0",
   "org.scala-js"       %%% "scalajs-dom"    % "0.9.1",
   "org.scalatest"      %%% "scalatest"      % "3.0.0" % "test"
@@ -35,7 +35,7 @@ lazy val root: Project = (project in file(".")).enablePlugins(ScalaJSPlugin).set
   configure(InBrowserTesting.js)
 
 // Necessary for testing
-jsDependencies += RuntimeDOM
+//jsDependencies += RuntimeDOM
 scalaJSUseRhino in Global := false // The Rhino JS environment will be phased out.
 // jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Chrome())
 
@@ -49,7 +49,7 @@ persistLauncher in Compile := true
 persistLauncher in Test := false
 
 // Will create [normalizedName]-jsdeps.js containing all JavaScript libraries
-// jsDependencies ++= Seq("org.webjars" % "jquery" % "3.1.0" / "3.1.0/jquery.js")
+// jsDependencies ++= Seq("org.webjars" % "jquery" % "2.1.4" / "2.1.4/jquery.js")
 // jsDependencies += "org.webjars" % "bootstrap" % "3.3.6" / "bootstrap.js" minified "bootstrap.min.js" dependsOn "2.2.4/jquery.js"
 
 // ScalaTest settings //
