@@ -20,7 +20,7 @@ scalacOptions in (Compile,doc) ++=
 
 libraryDependencies ++= Seq(
 //"be.doeraene"        %%% "scalajs-jquery" % "0.9.0",
-  "com.lihaoyi"        %%% "scalatags"      % "0.6.0",
+  "com.lihaoyi"        %%% "scalatags"      % "0.6.2",
   "org.scala-js"       %%% "scalajs-dom"    % "0.9.1",
   "org.scalatest"      %%% "scalatest"      % "3.0.0" % "test"
 )
@@ -33,9 +33,6 @@ scalacOptions in (Compile,doc) ++= Seq("-doc-root-content", baseDirectory.value+
 
 lazy val root: Project = (project in file(".")).enablePlugins(ScalaJSPlugin).settings(commonSettings: _*).
   configure(InBrowserTesting.js)
-
-// Necessary for testing
-//jsDependencies += RuntimeDOM
 
 // jsEnv in Test := new org.scalajs.jsenv.selenium.SeleniumJSEnv(org.scalajs.jsenv.selenium.Chrome())
 

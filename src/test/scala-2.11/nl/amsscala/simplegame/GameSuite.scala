@@ -61,4 +61,3 @@ class GameSuite extends SuiteSpec with Page {
     }
   }
 }
-
