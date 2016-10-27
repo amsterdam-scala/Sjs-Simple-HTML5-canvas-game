@@ -1,6 +1,6 @@
 <a href="http://www.w3.org/html/logo/">
 <img src="https://www.w3.org/html/logo/badge/html5-badge-h-css3-graphics-semantics.png" width="99" height="32" alt="HTML5 Powered with CSS3 / Styling, Graphics, 3D &amp; Effects, and Semantics" title="HTML5 Powered with CSS3 / Styling, Graphics, 3D &amp; Effects, and Semantics"></a>[![Scala.js](https://img.shields.io/badge/scala.js-0.6.10%2B-blue.svg?style=flat)](https://www.scala-js.org)
-[![Build Status](https://travis-ci.org/amsterdam-scala/Sjs-Simple-HTML5-canvas-game.svg?branch=master)](https://travis-ci.org/amsterdam-scala/Sjs-Simple-HTML5-canvas-game)
+[![Build Status](https://travis-ci.org/amsterdam-scala/Sjs-Simple-HTML5-canvas-game.svg?branch=master_V2)](https://travis-ci.org/amsterdam-scala/Sjs-Simple-HTML5-canvas-game)
 
 # Simple HTML5 Canvas game ported to Scala.js
 **Featuring Scala.js "in browser testing" by ScalaTest 3.x**
@@ -9,7 +9,7 @@ A Scala hardcore action game where you possess and play as a Hero. :smile:
 
 ## Project
 This "Simple HTML5 Canvas Game" is a [Scala.js](https://en.wikipedia.org/wiki/Scala.js) project which targets a browser capable displaying HTML5, especially the `<canvas>` element.
-Stored on GitHub.com, the code due to [sbt](https://en.wikipedia.org/wiki/sbt_(software)) is also remote tested on Travis-CI. Also ossible on an other continuous integration service.
+Stored on GitHub.com, the code due to [sbt](https://en.wikipedia.org/wiki/sbt_(software)) is also remote tested on Travis-CI. Also possible on an other continuous integration service.
 
 This quite super simple game is heavily over-engineered. It's certainly not the game that counts but the technology around it, it features:
 
@@ -26,6 +26,7 @@ This quite super simple game is heavily over-engineered. It's certainly not the 
 1. Eliminating a continuously redrawn of the canvas saves cpu time and power.
 1. Tackling [CORS](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image) enabled images.
 1. [Scala generated HTML](http://www.lihaoyi.com/scalatags/).
+1. CSS Ribbon
 
 ## Motivation
 Scala.js compile-to-Javascript language is by its compile phase ahead of runtime errors in production. It prevents you of nasty
