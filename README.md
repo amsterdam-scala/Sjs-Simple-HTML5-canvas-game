@@ -19,7 +19,7 @@ This quite super simple game is heavily over-engineered. It's certainly not the 
 1. Exhaustive use of a variety of Scala features, e.g.:
     * `Traits`, (`case`) `Class`es and `Object`s (singletons)
     * `Future`s
-    * [Generic Type Parameters](https://en.wikipedia.org/wiki/Generic_programming) (even in the frenzied Ough).
+    * [Generic[T] objects](https://en.wikipedia.org/wiki/Generic_programming) (even in the frenzied Ough).
     * [Algebraic Data Types](https://en.wikipedia.org/wiki/Algebraic_data_type)
     * [Pattern matching](https://en.wikipedia.org/wiki/Pattern_matching)
 1. Reactive design instead of continuous polling.
@@ -99,23 +99,23 @@ Unfortunately at [Travis-CI](travis-ci.org/amsterdam-scala/Sjs-Simple-HTML5-canv
     <th>Remarks</th>
   </tr>
   <tr>
-    <td>`CanvasComponentSuite`</td>
+    <td><code>CanvasComponentSuite</code></td>
     <td>canvasComponent</td>
-    <td>`Playground`, `Monster` and `Hero` are concrete classes of `CanvasComponent`</td>
+    <td><code>Playground</code>, <code>Monster</code> and <code>Hero</code> are concrete classes of <code>CanvasComponent</code></td>
   </tr>
   <tr>
-    <td>`GameStateSuite`</td>
-    <td>`GameState`</td>
+    <td><code>GameStateSuite</code></td>
+    <td><code>GameState</code></td>
     <td></td>
   </tr>
   <tr>
-    <td>`GameSuite`</td>
-    <td>`Game`</td>
+    <td><code>GameSuite</code></td>
+    <td><code>Game</code></td>
     <td></td>
   </tr>
   <tr>
-    <td>`PageSuite`</td>
-    <td>`Page`</td>
+    <td><code>PageSuite</code></td>
+    <td><code>Page</code></td>
     <td></td>
   </tr>
 </table>
