@@ -5,3 +5,6 @@ This is the documentation for a simple HTML5 Canvas game written in Scala, and c
 Notable packages include:
 
   - [[nl.amsscala.simplegame `nl.amsscala.simplegame`]]
+
+
+<img src="https://raw.githubusercontent.com/amsterdam-scala/Sjs-Simple-HTML5-canvas-game/master/doc/HTML5CanvasGame.png" title="Class diagram" />

@@ -7,7 +7,7 @@ import scala.collection.mutable
 
 /**
  *
- * @param canvas
+ * @param canvas         The visual HTML element
  * @param pageElements   This member lists the page elements. They are always in this order: Playground, Monster and Hero.
  *                       E.g. pageElements.head is Playground, pageElements(1) is the Monster, pageElements.takes(2) are those both.
  * @param monstersCaught

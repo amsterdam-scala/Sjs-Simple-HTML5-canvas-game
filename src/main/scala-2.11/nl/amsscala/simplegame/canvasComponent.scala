@@ -69,6 +69,12 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
 
   def copy(pos: Position[H]) = new Hero(pos, img)
 
+  /**
+   * Check if the square area is within the rectangle area of the `<canvas>`
+   *
+   * @param canvas Canvas where to
+   * @return False  if a square out of bound
+   */
   protected[simplegame] def isValidPosition(canvas: dom.html.Canvas) =
     pos.isValidPositionEl(SimpleCanvasGame.canvasDim[H](canvas), Hero.pxSize.asInstanceOf[H])
 

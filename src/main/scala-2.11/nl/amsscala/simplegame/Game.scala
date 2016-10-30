@@ -39,7 +39,7 @@ protected trait Game {
 
           prevTimestamp = nowTimestamp
 
-          // Render the canvas conditional by movement of Hero, saves power
+          // Render the <canvas> conditional by movement of Hero, saves power
           if (prevGS != actualGS) prevGS = SimpleCanvasGame.render(actualGS)
         }
 

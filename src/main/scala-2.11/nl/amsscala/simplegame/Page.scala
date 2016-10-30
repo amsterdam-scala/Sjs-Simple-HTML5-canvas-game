@@ -6,23 +6,21 @@ import org.scalajs.dom
 import scala.concurrent.{Future, Promise}
 import scalatags.JsDom.all._
 
-/** Everything related to Html5 visuals */
-trait Page {
+/** Everything related to Html5 visuals as put on a HTML page*/
+trait Page { //Create canvas with a 2D processor
   val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
   private [simplegame] val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
 
-  private lazy val postponed =
-    dom.document.body.appendChild(div(cls := "content", style := "text-align:center; background-color:#3F8630;",
-    canvas,
-    a(href := "http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/", "Simple HTML5 Canvas game"),
-    " ported to ",
-    a(href := "http://www.scala-js.org/",
+  private lazy val postponed =   // Create the HTML body element with content
+    dom.document.body.appendChild(div(cls := "content", style := "text-align:center; background-color:#3F8630;", canvas,
+    a(href := "http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/",
       title := s"This object code is compiled with type parameter ${genericDetect(0D.asInstanceOf[SimpleCanvasGame.T])}.",
-      "Scala.js")).render)
-  // Create the canvas and 2D context
+      "Simple HTML5 Canvas game"), " ported to ",
+    a(href := "http://www.scala-js.org/", "Scala.js")).render)
 
   /**
-   * Draw everything
+   * Draw everything accordingly the given `GameState`
+   * Order: Playground, Monster, Hero, monstersHitTxt, explainTxt/gameOverTxt
    *
    * @param gs Game state to make graphical
    * @return The same gs
@@ -35,8 +33,8 @@ trait Page {
         ctx.drawImage(pe.img, pe.pos.x.asInstanceOf[Int], pe.pos.y.asInstanceOf[Int], resize.x, resize.y)
 
       drawImage(pe match {
-        case _: Playground[T] => canvasDim[Int](canvas)
-        case pm: CanvasComponent[T] => dimension(pm.img) // The otherwise or default clause
+        case _: Playground[_] => canvasDim[Int](canvas)
+        case pm: CanvasComponent[_] => dimension(pm.img) // The otherwise or default clause
       })
     })
 
@@ -91,10 +89,16 @@ trait Page {
     }
   }
 
+  /**
+   * Set canvas dimension
+   * @param cnvs Canvas element
+   * @param pos  Dimension in `Position[P]`
+   * @tparam P   Numeric generic type
+   */
   @inline
   def resetCanvasWH[P: Numeric](cnvs: dom.html.Canvas, pos: Position[P]) = {
-    cnvs.width = pos.asInstanceOf[Position[Int]].x
-    cnvs.height = pos.asInstanceOf[Position[Int]].y
+    cnvs.width = pos.x.asInstanceOf[Int]
+    cnvs.height = pos.y.asInstanceOf[Int]
   }
 
   private def genericDetect(x: Any) = x match {

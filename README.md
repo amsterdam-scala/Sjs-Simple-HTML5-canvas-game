@@ -18,12 +18,13 @@ This quite super simple game is heavily over-engineered. It's certainly not the 
 1. [ScalaTest 3.x](http://www.scalatest.org) featuring "async" testing styles
 1. Exhaustive use of a variety of Scala features, e.g.:
     * `Traits`, (`case`) `Class`es and `Object`s (singletons)
-    * `Future`s
+    * `Future`s to dramatically reduce latency in web requests
     * [Generic[T] objects](https://en.wikipedia.org/wiki/Generic_programming) (even in the frenzied Ough).
     * [Algebraic Data Types](https://en.wikipedia.org/wiki/Algebraic_data_type)
     * [Pattern matching](https://en.wikipedia.org/wiki/Pattern_matching)
+    * [Lazy evaluation](https://en.wikipedia.org/wiki/Lazy_evaluation)
 1. Reactive design instead of continuous polling.
-1. Eliminating a continuously redrawn of the canvas saves cpu time and power.
+1. Eliminating a continuously redrawn of the canvas saves cpu time and (mobile) power.
 1. Tackling [CORS](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image) enabled images.
 1. [Scala generated HTML](http://www.lihaoyi.com/scalatags/).
 
