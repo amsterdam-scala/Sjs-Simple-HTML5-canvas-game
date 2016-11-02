@@ -144,13 +144,13 @@ class PageSuite extends AsyncFlatSpec with Page {
         () => context2Hashcode(initialLUnder) == expectedHashCode("background.png"))
 
       // ***** Tests with double canvas size
-/*      resetCanvasWH(canvas, doubleInitialLUnder)
+      resetCanvasWH(canvas, doubleInitialLUnder)
 
       testHarness(loadedAndNoText0, "Default double size initial screen, no text",
         () => Seq(1355562831 /*Chrome*/ , 1668792783 /*FireFox*/).contains(context2Hashcode(doubleInitialLUnder)))
-        */
+
       val ref = context2Hashcode(doubleInitialLUnder) // Register the reference value
-/*
+
       val loadedAndSomeText1 = new GameState(canvas,
         gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
         monstersHitTxt = "Now with text which can differ between browsers",
@@ -164,7 +164,7 @@ class PageSuite extends AsyncFlatSpec with Page {
       testHarness(loadedAndSomeText1, "Test double screen with score text",
         () => ref != context2Hashcode(doubleInitialLUnder))
 
-      testHarness(loadedAndSomeText2, "Test double screen with explain text put in",
+/*      testHarness(loadedAndSomeText2, "Test double screen with explain text put in",
         () => ref != context2Hashcode(doubleInitialLUnder))
 */
 
@@ -174,7 +174,7 @@ class PageSuite extends AsyncFlatSpec with Page {
         () => Seq(1407150772 /*Chrome*/ , -1212284464 /*FireFox*/, 981419409 ).contains(context2Hashcode(doubleInitialLUnder)))
 
 
-      testHarness(navigateHero(loadedAndNoText0, Position(1, 0)), "Test double screen with right displaced hero",
+/*      testHarness(navigateHero(loadedAndNoText0, Position(1, 0)), "Test double screen with right displaced hero",
         () => Seq(-1742535935 /*Chrome*/ ,475868743 /*FireFox*/, -1986372876).contains(context2Hashcode(doubleInitialLUnder)))
 
       testHarness(navigateHero(loadedAndNoText0, Position(-1, 0)), "Test double screen with left displaced hero",
@@ -187,7 +187,7 @@ class PageSuite extends AsyncFlatSpec with Page {
         () => Seq(-1996948634 /*Chrome*/ ,  1484865515 /*FireFox*/, 954791841).contains(context2Hashcode(doubleInitialLUnder)))
 
       testHarness(loadedAndNoText0, "Test double screen reference still the same.",
-        () => ref == context2Hashcode(doubleInitialLUnder))
+        () => ref == context2Hashcode(doubleInitialLUnder))*/
     }
     }
   }
