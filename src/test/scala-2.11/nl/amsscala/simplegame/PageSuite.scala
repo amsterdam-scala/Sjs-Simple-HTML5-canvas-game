@@ -116,9 +116,10 @@ class PageSuite extends AsyncFlatSpec with Page {
   }*/
 
   // You can map assertions onto a Future, then return the resulting Future[Assertion] to ScalaTest:
-/*  it should "be remote loaded 2" in {
+  it should "be remote loaded 2" in {
     Future.sequence(loaders).map { imageElements => {
 
+/*
       info("All images correct loaded")
       assert(imageElements.forall { img => {
         val pos = Position(img.width, img.height)
@@ -127,6 +128,7 @@ class PageSuite extends AsyncFlatSpec with Page {
         expectedHashCode(getImgName(img.src)) == context2Hashcode(pos)
       }
       })
+*/
 
       /* Composite all pictures drawn outside the play field.
        * This should result in a hashcode equal as the image of the background.
@@ -142,12 +144,13 @@ class PageSuite extends AsyncFlatSpec with Page {
         () => context2Hashcode(initialLUnder) == expectedHashCode("background.png"))
 
       // ***** Tests with double canvas size
-      resetCanvasWH(canvas, doubleInitialLUnder)
+/*      resetCanvasWH(canvas, doubleInitialLUnder)
 
       testHarness(loadedAndNoText0, "Default double size initial screen, no text",
         () => Seq(1355562831 /*Chrome*/ , 1668792783 /*FireFox*/).contains(context2Hashcode(doubleInitialLUnder)))
+        */
       val ref = context2Hashcode(doubleInitialLUnder) // Register the reference value
-
+/*
       val loadedAndSomeText1 = new GameState(canvas,
         gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
         monstersHitTxt = "Now with text which can differ between browsers",
@@ -163,7 +166,7 @@ class PageSuite extends AsyncFlatSpec with Page {
 
       testHarness(loadedAndSomeText2, "Test double screen with explain text put in",
         () => ref != context2Hashcode(doubleInitialLUnder))
-
+*/
 
       // ***** Test the navigation of the Hero character graphical
 
@@ -187,7 +190,7 @@ class PageSuite extends AsyncFlatSpec with Page {
         () => ref == context2Hashcode(doubleInitialLUnder))
     }
     }
-  }*/
+  }
 
   // You can map assertions onto a Future, then return the resulting Future[Assertion] to ScalaTest:
   it should "be remote loaded 3" in {
