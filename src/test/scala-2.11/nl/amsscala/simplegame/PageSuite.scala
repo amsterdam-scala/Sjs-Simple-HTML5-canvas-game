@@ -20,22 +20,32 @@ class PageSuite extends AsyncFlatSpec with Page {
 
   implicit override def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
+  def context2Hashcode[C: Numeric](size: Position[C]) = {
+    val UintClampedArray: mutable.Seq[Int] =
+      ctx.getImageData(0, 0, size.x.asInstanceOf[Int], size.y.asInstanceOf[Int]).data
+    UintClampedArray.hashCode()
+  }
+
+  def expectedHashCode = Map("background.png" -> 1425165765, "monster.png" -> -277415456, "hero.png" -> -731024817)
+  //def expectedHashCode = Map("background.png" -> -1768009948, "monster.png" -> 1817836310, "hero.png" -> 1495155181)
+  def getImgName(url: String) = url.split('/').last
+
+  def testHarness(gs: GameState[T], text: String, assertion: () => Boolean) = {
+    render(gs)
+    info(text)
+    assert(assertion(), s"Thrown probably by value ${context2Hashcode(doubleInitialLUnder)}")
+  }
+
+  // ***** Test the navigation of the Hero character graphical
+  def navigateHero(gs: GameState[T], move: Position[Int]) =
+  gs.copy(new Hero(initialLUnder + move.asInstanceOf[Position[T]], gs.pageElements.last.img))
+
   // Don't rely on the browsers defaults
   resetCanvasWH(canvas, initialLUnder)
 
   // You can map assertions onto a Future, then return the resulting Future[Assertion] to ScalaTest:
-  it should "be remote loaded" in {
+/*  it should "be remote loaded 1" in {
     Future.sequence(loaders).map { imageElements => {
-
-      def context2Hashcode[C: Numeric](size: Position[C]) = {
-        val UintClampedArray: mutable.Seq[Int] =
-          ctx.getImageData(0, 0, size.x.asInstanceOf[Int], size.y.asInstanceOf[Int]).data
-        UintClampedArray.hashCode()
-      }
-
-      def expectedHashCode = Map("background.png" -> 1425165765, "monster.png" -> -277415456, "hero.png" -> -731024817)
-      //def expectedHashCode = Map("background.png" -> -1768009948, "monster.png" -> 1817836310, "hero.png" -> 1495155181)
-      def getImgName(url: String) = url.split('/').last
 
       info("All images correct loaded")
       assert(imageElements.forall { img => {
@@ -46,11 +56,77 @@ class PageSuite extends AsyncFlatSpec with Page {
       }
       })
 
-      def testHarness(gs: GameState[T], text: String, assertion: () => Boolean) = {
-        render(gs)
-        info(text)
-        assert(assertion(), s"Thrown probably by value ${context2Hashcode(doubleInitialLUnder)}")
+      /* Composite all pictures drawn outside the play field.
+       * This should result in a hashcode equal as the image of the background.
+       */
+      resetCanvasWH(canvas, initialLUnder)
+      val loadedAndNoText0 = new GameState(canvas,
+        gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
+        monstersHitTxt = "",
+        isNewGame = false)
+
+      testHarness(loadedAndNoText0,
+        "Default initial screen everything left out",
+        () => context2Hashcode(initialLUnder) == expectedHashCode("background.png"))
+
+      // ***** Tests with double canvas size
+      resetCanvasWH(canvas, doubleInitialLUnder)
+
+      testHarness(loadedAndNoText0, "Default double size initial screen, no text",
+        () => Seq(1355562831 /*Chrome*/ , 1668792783 /*FireFox*/).contains(context2Hashcode(doubleInitialLUnder)))
+      val ref = context2Hashcode(doubleInitialLUnder) // Register the reference value
+
+      val loadedAndSomeText1 = new GameState(canvas,
+        gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
+        monstersHitTxt = "Now with text which can differ between browsers",
+        isNewGame = false)
+
+      val loadedAndSomeText2 = new GameState(canvas,
+        gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
+        monstersHitTxt = "",
+        isNewGame = true)
+
+      testHarness(loadedAndSomeText1, "Test double screen with score text",
+        () => ref != context2Hashcode(doubleInitialLUnder))
+
+      testHarness(loadedAndSomeText2, "Test double screen with explain text put in",
+        () => ref != context2Hashcode(doubleInitialLUnder))
+
+
+      testHarness(navigateHero(loadedAndNoText0, Position(0, 0)), "Test double screen with centered hero",
+        () => Seq(1407150772 /*Chrome*/ , -1212284464 /*FireFox*/, 981419409 ).contains(context2Hashcode(doubleInitialLUnder)))
+
+
+      testHarness(navigateHero(loadedAndNoText0, Position(1, 0)), "Test double screen with right displaced hero",
+        () => Seq(-1742535935 /*Chrome*/ ,475868743 /*FireFox*/, -1986372876).contains(context2Hashcode(doubleInitialLUnder)))
+
+      testHarness(navigateHero(loadedAndNoText0, Position(-1, 0)), "Test double screen with left displaced hero",
+        () => Seq(2145530953 /*Chrome*/ , 320738379 /*FireFox*/, 214771813).contains(context2Hashcode(doubleInitialLUnder)))
+
+      testHarness(navigateHero(loadedAndNoText0, Position(0, 1)), "Test double screen with up displaced hero",
+        () => Seq(-557901336 /*Chrome*/ ,  -409947707 /*FireFox*/, -1902498081).contains(context2Hashcode(doubleInitialLUnder)))
+
+      testHarness(navigateHero(loadedAndNoText0, Position(0, -1)), "Test double screen with down displaced hero",
+        () => Seq(-1996948634 /*Chrome*/ ,  1484865515 /*FireFox*/, 954791841).contains(context2Hashcode(doubleInitialLUnder)))
+
+      testHarness(loadedAndNoText0, "Test double screen reference still the same.",
+               () => ref == context2Hashcode(doubleInitialLUnder))
+    }
+    }
+  }*/
+
+  // You can map assertions onto a Future, then return the resulting Future[Assertion] to ScalaTest:
+/*  it should "be remote loaded 2" in {
+    Future.sequence(loaders).map { imageElements => {
+
+      info("All images correct loaded")
+      assert(imageElements.forall { img => {
+        val pos = Position(img.width, img.height)
+        resetCanvasWH(canvas, pos)
+        ctx.drawImage(img, 0, 0, img.width, img.height)
+        expectedHashCode(getImgName(img.src)) == context2Hashcode(pos)
       }
+      })
 
       /* Composite all pictures drawn outside the play field.
        * This should result in a hashcode equal as the image of the background.
@@ -90,13 +166,11 @@ class PageSuite extends AsyncFlatSpec with Page {
 
 
       // ***** Test the navigation of the Hero character graphical
-      def navigateHero(gs: GameState[T], move: Position[Int]) =
-      gs.copy(new Hero(initialLUnder + move.asInstanceOf[Position[T]], gs.pageElements.last.img))
 
       testHarness(navigateHero(loadedAndNoText0, Position(0, 0)), "Test double screen with centered hero",
         () => Seq(1407150772 /*Chrome*/ , -1212284464 /*FireFox*/, 981419409 ).contains(context2Hashcode(doubleInitialLUnder)))
 
-/*
+
       testHarness(navigateHero(loadedAndNoText0, Position(1, 0)), "Test double screen with right displaced hero",
         () => Seq(-1742535935 /*Chrome*/ ,475868743 /*FireFox*/, -1986372876).contains(context2Hashcode(doubleInitialLUnder)))
 
@@ -108,10 +182,88 @@ class PageSuite extends AsyncFlatSpec with Page {
 
       testHarness(navigateHero(loadedAndNoText0, Position(0, -1)), "Test double screen with down displaced hero",
         () => Seq(-1996948634 /*Chrome*/ ,  1484865515 /*FireFox*/, 954791841).contains(context2Hashcode(doubleInitialLUnder)))
+
+      testHarness(loadedAndNoText0, "Test double screen reference still the same.",
+        () => ref == context2Hashcode(doubleInitialLUnder))
+    }
+    }
+  }*/
+
+  // You can map assertions onto a Future, then return the resulting Future[Assertion] to ScalaTest:
+  it should "be remote loaded 3" in {
+    Future.sequence(loaders).map { imageElements => {
+
+      info("All images correct loaded")
+      assert(imageElements.forall { img => {
+        val pos = Position(img.width, img.height)
+        resetCanvasWH(canvas, pos)
+        ctx.drawImage(img, 0, 0, img.width, img.height)
+        expectedHashCode(getImgName(img.src)) == context2Hashcode(pos)
+      }
+      })
+
+      /* Composite all pictures drawn outside the play field.
+       * This should result in a hashcode equal as the image of the background.
+       */
+      resetCanvasWH(canvas, initialLUnder)
+      val loadedAndNoText0 = new GameState(canvas,
+        gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
+        monstersHitTxt = "",
+        isNewGame = false)
+
+/*
+      testHarness(loadedAndNoText0,
+        "Default initial screen everything left out",
+        () => context2Hashcode(initialLUnder) == expectedHashCode("background.png"))
 */
 
-         testHarness(loadedAndNoText0, "Test double screen reference still the same.",
-               () => ref == context2Hashcode(doubleInitialLUnder))
+      // ***** Tests with double canvas size
+      resetCanvasWH(canvas, doubleInitialLUnder)
+
+      testHarness(loadedAndNoText0, "Default double size initial screen, no text",
+        () => Seq(1355562831 /*Chrome*/ , 1668792783 /*FireFox*/).contains(context2Hashcode(doubleInitialLUnder)))
+      val ref = context2Hashcode(doubleInitialLUnder) // Register the reference value
+
+      val loadedAndSomeText1 = new GameState(canvas,
+        gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
+        monstersHitTxt = "Now with text which can differ between browsers",
+        isNewGame = false)
+
+      val loadedAndSomeText2 = new GameState(canvas,
+        gameState.pageElements.zip(imageElements).map { case (el, img) => el.copy(img = img) },
+        monstersHitTxt = "",
+        isNewGame = true)
+
+      testHarness(loadedAndSomeText1, "Test double screen with score text",
+        () => ref != context2Hashcode(doubleInitialLUnder))
+
+      testHarness(loadedAndSomeText2, "Test double screen with explain text put in",
+        () => ref != context2Hashcode(doubleInitialLUnder))
+
+
+/*
+      // ***** Test the navigation of the Hero character graphical
+
+      testHarness(navigateHero(loadedAndNoText0, Position(0, 0)), "Test double screen with centered hero",
+        () => Seq(1407150772 /*Chrome*/ , -1212284464 /*FireFox*/, 981419409 ).contains(context2Hashcode(doubleInitialLUnder)))
+
+
+      testHarness(navigateHero(loadedAndNoText0, Position(1, 0)), "Test double screen with right displaced hero",
+        () => Seq(-1742535935 /*Chrome*/ ,475868743 /*FireFox*/, -1986372876).contains(context2Hashcode(doubleInitialLUnder)))
+
+      testHarness(navigateHero(loadedAndNoText0, Position(-1, 0)), "Test double screen with left displaced hero",
+        () => Seq(2145530953 /*Chrome*/ , 320738379 /*FireFox*/, 214771813).contains(context2Hashcode(doubleInitialLUnder)))
+
+
+      testHarness(navigateHero(loadedAndNoText0, Position(0, 1)), "Test double screen with up displaced hero",
+        () => Seq(-557901336 /*Chrome*/ ,  -409947707 /*FireFox*/, -1902498081).contains(context2Hashcode(doubleInitialLUnder)))
+
+      testHarness(navigateHero(loadedAndNoText0, Position(0, -1)), "Test double screen with down displaced hero",
+        () => Seq(-1996948634 /*Chrome*/ ,  1484865515 /*FireFox*/, 954791841).contains(context2Hashcode(doubleInitialLUnder)))
+*/
+
+      testHarness(loadedAndNoText0, "Test double screen reference still the same.",
+        () => ref == context2Hashcode(doubleInitialLUnder))
     }
     }
   }
