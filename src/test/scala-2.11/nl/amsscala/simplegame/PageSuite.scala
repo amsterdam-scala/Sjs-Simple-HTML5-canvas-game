@@ -9,13 +9,13 @@ import scala.concurrent.Future
 
 class PageSuite extends AsyncFlatSpec with Page {
   // All graphical features are placed just outside the playground
-  lazy val gameState = GameState[T](canvas, doubleInitialLUnder, doubleInitialLUnder)
+  lazy val gameState = GameState[SimpleCanvasGame.T](canvas, doubleInitialLUnder, doubleInitialLUnder)
   lazy val loaders = gameState.pageElements.map(pg =>
     imageFuture((if (Seq(gameState.pageElements.head, gameState.pageElements.last).contains(pg)) urlBase0 else urlBase0) + pg.src))
   // Collect all Futures of onload events
   val urlBase0 = "http://lambdalloyd.net23.net/SimpleGame/views/"
   val urlBase1 = "https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/public/views/"
-  val initialLUnder = Position(512, 480).asInstanceOf[Position[T]]
+  val initialLUnder = Position(512, 480).asInstanceOf[Position[SimpleCanvasGame.T]]
   val doubleInitialLUnder = initialLUnder + initialLUnder
 
   implicit override def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
@@ -27,7 +27,7 @@ class PageSuite extends AsyncFlatSpec with Page {
   it should "be remote loaded" in {
     Future.sequence(loaders).map { imageElements => {
 
-      def context2Hashcode[T: Numeric](size: Position[T]) = {
+      def context2Hashcode[C: Numeric](size: Position[C]) = {
         val UintClampedArray: mutable.Seq[Int] =
           ctx.getImageData(0, 0, size.x.asInstanceOf[Int], size.y.asInstanceOf[Int]).data
         UintClampedArray.hashCode()
@@ -94,23 +94,22 @@ class PageSuite extends AsyncFlatSpec with Page {
       gs.copy(new Hero(initialLUnder + move.asInstanceOf[Position[T]], gs.pageElements.last.img))
 
       testHarness(navigateHero(loadedAndNoText0, Position(0, 0)), "Test double screen with centered hero",
-        () => Seq(1407150772 /*Chrome*/ , -1212284464 /*FireFox*/).contains(context2Hashcode(doubleInitialLUnder)))
+        () => Seq(1407150772 /*Chrome*/ , -1212284464 /*FireFox*/, 981419409 ).contains(context2Hashcode(doubleInitialLUnder)))
 
       testHarness(navigateHero(loadedAndNoText0, Position(1, 0)), "Test double screen with right displaced hero",
-        () => Seq(-1742535935 /*Chrome*/ ,475868743 /*FireFox*/).contains(context2Hashcode(doubleInitialLUnder)))
+        () => Seq(-1742535935 /*Chrome*/ ,475868743 /*FireFox*/, -1986372876).contains(context2Hashcode(doubleInitialLUnder)))
 
       testHarness(navigateHero(loadedAndNoText0, Position(-1, 0)), "Test double screen with left displaced hero",
-        () => Seq(2145530953 /*Chrome*/ , 320738379 /*FireFox*/).contains(context2Hashcode(doubleInitialLUnder)))
+        () => Seq(2145530953 /*Chrome*/ , 320738379 /*FireFox*/, 214771813).contains(context2Hashcode(doubleInitialLUnder)))
 
       testHarness(navigateHero(loadedAndNoText0, Position(0, 1)), "Test double screen with up displaced hero",
-        () => Seq(-557901336 /*Chrome*/ ,  -409947707 /*FireFox*/).contains(context2Hashcode(doubleInitialLUnder)))
+        () => Seq(-557901336 /*Chrome*/ ,  -409947707 /*FireFox*/, -1902498081).contains(context2Hashcode(doubleInitialLUnder)))
 
       testHarness(navigateHero(loadedAndNoText0, Position(0, -1)), "Test double screen with down displaced hero",
-        () => Seq(-1996948634 /*Chrome*/ ,  1484865515 /*FireFox*/).contains(context2Hashcode(doubleInitialLUnder)))
+        () => Seq(-1996948634 /*Chrome*/ ,  1484865515 /*FireFox*/, 954791841).contains(context2Hashcode(doubleInitialLUnder)))
 
-
-      /*   testHarness(loadedAndNoText0, "Test double screen reference still the same.",
-               () => ref == context2Hashcode(doubleInitialLUnder))*/
+         testHarness(loadedAndNoText0, "Test double screen reference still the same.",
+               () => ref == context2Hashcode(doubleInitialLUnder))
     }
     }
   }
