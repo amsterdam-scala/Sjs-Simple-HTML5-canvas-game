@@ -16,7 +16,7 @@ organizationHomepage := Some(url("http://www.meetup.com/amsterdam-scala/")),
 scalaVersion in ThisBuild := "2.11.8"
 scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation")
 scalacOptions in (Compile,doc) ++=
-  Seq("-doc-root-content", baseDirectory.value+"/src/main/scala-2.11/root-doc.md", "-groups", "-implicits")
+  Seq("-doc-root-content", baseDirectory.value + "/src/main/scala-2.11/root-doc.md", "-groups", "-implicits")
 
 libraryDependencies ++= Seq(
 //"be.doeraene"        %%% "scalajs-jquery" % "0.9.0",
@@ -26,7 +26,7 @@ libraryDependencies ++= Seq(
 )
 skip in packageJSDependencies := false // All JavaScript dependencies to be concatenated to a single file
 
-scalacOptions in (Compile,doc) ++= Seq("-doc-root-content", baseDirectory.value+"/src/main/scala-2.11/root-doc.md",
+scalacOptions in (Compile,doc) ++= Seq("-doc-root-content", baseDirectory.value + "/src/main/scala-2.11/root-doc.md",
   "-groups", "-implicits")
 
 // ** Scala.js configuration **
