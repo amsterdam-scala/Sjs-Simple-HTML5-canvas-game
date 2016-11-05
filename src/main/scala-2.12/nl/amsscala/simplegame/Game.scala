@@ -8,7 +8,7 @@ import scala.collection.mutable
 import scala.concurrent.Future
 import scala.scalajs.js
 
-/** The game with its rules. */
+/** This game with its comprehensible rules. */
 protected trait Game {
   private[this] val framesPerSec = 25
 
@@ -28,24 +28,23 @@ protected trait Game {
     // Collect all Futures of onload events
     val loaders = gameState.pageElements.map(pg => SimpleCanvasGame.imageFuture(pg.src))
 
-    Future.sequence(loaders).onSuccess {
-      case load => // Create GameState with loaded images
+    Future.sequence(loaders).map { load => // Create GameState with loaded images
         var prevGS = new GameState(canvas, gameState.pageElements.zip(load).map { case (el, img) => el.copy(img = img) })
 
-        /** The main game loop, invoked by interval callback */
+        /** The main game loop, by interval callback invoked. */
         def gameLoop() = {
           val nowTimestamp = js.Date.now()
           val actualGS = prevGS.keyEffect((nowTimestamp - prevTimestamp) / 1000, keysPressed)
 
           prevTimestamp = nowTimestamp
 
-          // Render the <canvas> conditional by movement of Hero, saves power
+          // Render the <canvas> conditional only by movement of Hero, saves power
           if (prevGS != actualGS) prevGS = SimpleCanvasGame.render(actualGS)
         }
 
         SimpleCanvasGame.render(prevGS) // First draw
 
-        // Let's play this game!
+        // Let's see how this game plays!
         if (!headless) {// For test purpose, a facility to silence the listeners.
           scala.scalajs.js.timers.setInterval(1000 / framesPerSec)(gameLoop())
 

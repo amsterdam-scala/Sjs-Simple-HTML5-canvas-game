@@ -170,7 +170,7 @@ Remember shells (CLI's) are not reactive. To pick up the new [environment variab
     1. Triggered execution by a `~` before the command so `~fastOptJS`. This command will execute and wait after the target code is in time behind the source code (Auto build).
 1.  sbt will give a notice that the server is listening by the message: `Bound to localhost/127.0.0.1:12345`
     (Ignore the dead letter notifications with the enter key.)
-1. Open this application in a browser on [this given URL](http://localhost:12345/target/scala-2.11/classes/index-dev.html)
+1. Open this application in a browser on [this given URL](http://localhost:12345/target/scala-2.12/classes/index-dev.html)
 
 When running this way a tool ["workbench"](https://github.com/lihaoyi/workbench) also will be running in the browser, noticeable by opening the console of the browser.
 

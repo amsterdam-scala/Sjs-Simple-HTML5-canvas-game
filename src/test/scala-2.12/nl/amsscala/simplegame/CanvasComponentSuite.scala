@@ -1,15 +1,14 @@
 package nl.amsscala
 package simplegame
 
-import simplegame.SimpleCanvasGame.T
 import org.scalajs.dom
 
 class CanvasComponentSuite extends SuiteSpec {
   describe("A Hero") {
     describe("should tested within the limits") {
       it("should be compared") {
-        assert(new Hero[T](Position(0, 0), null) == Hero(Position(0, 0)))
-        assert(new Hero[T](Position(1, 0), null) != Hero(Position(0, 1)))
+        assert(new Hero[SimpleCanvasGame.T](Position(0, 0), null) === Hero(Position(0, 0)))
+        assert(new Hero[SimpleCanvasGame.T](Position(1, 0), null) !== Hero(Position(0, 1)))
       }
       val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
       SimpleCanvasGame.resetCanvasWH(canvas, Position(150, 100))
