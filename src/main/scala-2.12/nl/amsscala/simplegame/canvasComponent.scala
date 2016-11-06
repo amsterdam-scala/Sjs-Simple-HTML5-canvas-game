@@ -8,6 +8,10 @@ import scala.collection.mutable
 
 // TODO: http://stackoverflow.com/questions/12370244/case-class-copy-method-with-superclass
 
+/**
+ * Umbrella for `Page`, `Hero` and `Monster` Abstract Data Types.
+ * @tparam Numeric Numeric generic abstraction
+ */
 sealed trait CanvasComponent[Numeric] {
   val pos: Position[Numeric]
   val img: dom.raw.HTMLImageElement
@@ -25,24 +29,28 @@ sealed trait CanvasComponent[Numeric] {
 
 }
 
-class Playground[G](val pos: Position[G], val img: dom.raw.HTMLImageElement) extends CanvasComponent[G] {
+/**
+ * `CanvasComponent`'s implementation for to visual back ground on the canvas.
+ *
+ * @param pos Playground position, defaulted to (0,0)
+ * @param img HTML image
+ * @tparam G  Numeric generic abstraction
+ */
+final class Playground[G](val pos: Position[G] = Position(0, 0).asInstanceOf[Position[G]],
+                    val img: dom.raw.HTMLImageElement = null) extends CanvasComponent[G] {
 
-  def copy(img: dom.raw.HTMLImageElement): Playground[G] = new Playground(pos, img)
+  def copy(img: dom.raw.HTMLImageElement): Playground[G] = new Playground(img = img)
 
   def src = "img/background.png"
 }
 
-object Playground {
-  def apply[G]() = new Playground(Position(0, 0).asInstanceOf[Position[G]], null)
-}
-
 /**
- * Monster class, holder for its coordinate
- *
+ * `CanvasComponent`'s implementation for to visual Monster sprite on the canvas.
  * @param pos Monsters' position
- * @tparam M Numeric generic abstraction
+ * @param img HTML image
+ * @tparam M  Numeric generic abstraction
  */
-class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extends CanvasComponent[M] {
+final class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extends CanvasComponent[M] {
   /** Set a Monster at a (new) random position */
   def copy[D: Numeric](canvas: dom.html.Canvas) = new Monster(Monster.randomPosition[D](canvas), img)
   /** Load the img in the Element */
@@ -52,6 +60,9 @@ class Monster[M](val pos: Position[M], val img: dom.raw.HTMLImageElement) extend
 
 }
 
+/**
+ * Companion object of class `Monster`
+ */
 object Monster {
   def apply[M: Numeric](canvas: dom.html.Canvas, randPos: Position[M]) = new Monster(randPos, null)
 
@@ -61,7 +72,13 @@ object Monster {
   }
 }
 
-class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) extends CanvasComponent[H] {
+/**
+ * `CanvasComponent`'s implementation for to visual Hero sprite on the canvas.
+ * @param pos Heros' position
+ * @param img HTML image
+ * @tparam H  Numeric generic abstraction
+ */
+final class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) extends CanvasComponent[H] {
 
   def copy(img: dom.raw.HTMLImageElement) = new Hero(pos, img)
 
@@ -82,9 +99,9 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
 
   /**
    * Compute new position of hero according to the keys pressed
-   * @param latency
-   * @param keysDown
-   * @return
+   * @param latency  Time since previous update.
+   * @param keysDown Set of the keys pressed.
+   * @return         Computed move Hero
    */
   protected[simplegame] def keyEffect(latency: Double, keysDown: mutable.Set[Int]): Hero[H] = {
 
@@ -104,7 +121,7 @@ class Hero[H: Numeric](val pos: Position[H], val img: dom.raw.HTMLImageElement) 
 
 }
 
-/** Compagnion object of class Hero */
+/** Companion object of class `Hero`. */
 object Hero {
   protected[simplegame] val (pxSize, speed) = (32, 256)
 

@@ -118,7 +118,7 @@ class PageSuite extends AsyncFlatSpec with Page {
       testHarness(navigateHero(loadedAndNoText0, Position(0, -1)), "Test double screen with down displaced hero",
         () => Seq(-1996948634 /*Chrome*/ ,  1484865515 /*FireFox*/, 954791841).contains(context2Hashcode(doubleInitialLUnder)))
 
-      // Test 10
+      // Test 10  Doesn't work with Google Chrome
       testHarness(loadedAndNoText0, "Test double screen reference still the same.",
         () =>  context2Hashcode(doubleInitialLUnder) == ref)
     }

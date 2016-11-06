@@ -6,7 +6,7 @@ import org.scalajs.dom
 import scala.concurrent.{Future, Promise}
 import scalatags.JsDom.all._
 
-/** Everything related to Html5 visuals as put on a HTML page*/
+/** Everything related to Html5 visuals as put on a HTML page. */
 trait Page { //Create canvas with a 2D processor
   val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
   private [simplegame] val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
@@ -19,10 +19,11 @@ trait Page { //Create canvas with a 2D processor
     a(href := "http://www.scala-js.org/", "Scala.js")).render)
 
   /**
-   * Draw everything accordingly the given `GameState`
+   * Draw everything accordingly the given `GameState`.
+   *
    * Order: Playground, Monster, Hero, monstersHitTxt, explainTxt/gameOverTxt
    *
-   * @param gs Game state to make graphical
+   * @param gs Game state to make the graphics.
    * @return The same gs
    */
   def render[T](gs: GameState[T]) = {

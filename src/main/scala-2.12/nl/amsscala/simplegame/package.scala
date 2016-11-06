@@ -1,7 +1,10 @@
 package nl.amsscala
 
 /**
- * Provides generic class and operators for dealing with 2D positions. As well dealing with 2D areas.
+ * This package object provides generic class and operators for 2D `Position`s, as well as dealing with 2D areas.
+ *
+ * The package includes externally this package object the main traits `Page`, `Game` and class `GameState`
+ * as well for the auxiliary trait `CanvasComponent` (overarching for `Hero`, `Monster` and `Playground`).
  */
 package object simplegame {
 
@@ -12,7 +15,7 @@ package object simplegame {
    * @param y The ordinate
    * @tparam P Numeric type
    */
-  protected[simplegame] case class Position[P: Numeric](x: P, y: P) {
+  case class Position[P: Numeric](x: P, y: P) {
 
     import Numeric.Implicits.infixNumericOps
     import Ordering.Implicits.infixOrderingOps

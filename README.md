@@ -5,20 +5,21 @@
 # Simple HTML5 Canvas game ported to Scala.js
 **Featuring Scala.js "in browser testing" by ScalaTest 3.x**
 
-A Scala hardcore action game where you possess and play as a Hero. :smile:
+A Scala hardcore action game where you possess and play as a Hero :smile:.
 
 ## Project
 This "Simple HTML5 Canvas Game" is a [Scala.js](https://en.wikipedia.org/wiki/Scala.js) project which targets a browser capable displaying HTML5, especially the `<canvas>` element.
-Stored on GitHub.com, the code due to [sbt](https://en.wikipedia.org/wiki/sbt_(software)) is also remote tested on Travis-CI. Also possible on an other continuous integration service.
+Stored on GitHub.com, due to [sbt](https://en.wikipedia.org/wiki/sbt_(software)) the code is also remote tested on Travis-CI. Also possible on an other continuous integration service.
 
-This quite super simple game is heavily over-engineered. It's certainly not the game that counts but the technology around it, it features:
+This quite super simple game is heavily über engineered. It's certainly not the game that counts but the technology around it, it features:
 
 1. [HTML5 Canvas](https://en.wikipedia.org/wiki/Canvas_element) controlled by Scala.js
 1. Headless canvas [Selenium 2](https://en.wikipedia.org/wiki/Selenium_(software)) "in browser testing" with the recently released ScalaTest 3.x
-1. [ScalaTest 3.x](http://www.scalatest.org) featuring "async" testing styles
+1. [ScalaTest 3.x](http://www.scalatest.org) featuring "async" testing styles.
+1. Scala 2.12 compiler.
 1. Exhaustive use of a variety of Scala features, e.g.:
     * `Traits`, (`case`) `Class`es and `Object`s (singletons)
-    * `Future`s to dramatically reduce latency in web requests
+    * `Future`s sane way to dramatically reduce latency in web requests
     * [Generic[T] objects](https://en.wikipedia.org/wiki/Generic_programming) (even in the frenzied Ough).
     * [Algebraic Data Types](https://en.wikipedia.org/wiki/Algebraic_data_type)
     * [Pattern matching](https://en.wikipedia.org/wiki/Pattern_matching)
@@ -28,6 +29,7 @@ This quite super simple game is heavily over-engineered. It's certainly not the 
 1. Tackling [CORS](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image) enabled images.
 1. [Scala generated HTML](http://www.lihaoyi.com/scalatags/).
 1. CSS Ribbon
+1. [Scala 2.12 fresh Scaladoc look.](https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/docs/api/index.html#nl.amsscala.package).
 
 ## Motivation
 Scala.js compile-to-Javascript language is by its compile phase ahead of runtime errors in production. It prevents you of nasty
@@ -36,7 +38,7 @@ runtime errors because everything must be ok in the compile phase, specially the
 In the original tutorial in Javascript: [How to make a simple HTML5 Canvas game](http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/),
 a continuous redraw of the canvas was made, which is a simple solution, but resource costly.
 ## Usage
-Play the [live demo](http://goo.gl/oqSFCa). Scaladoc  you will find [here](https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/docs/api/index.html#nl.amsscala.package).
+Play the [live demo](http://goo.gl/oqSFCa). Scaladoc you will find [here](https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/docs/api/index.html#nl.amsscala.package).
 [Installation instructions here](#installation-instructions)
 
 ## Architecture
@@ -147,7 +149,7 @@ a hash value. The techniques are:
 ## Installation instructions
 1. Clone the Github project to a new directory. This is the project directory which become the working directory of current folder.
 1. Naturally, at least a Java SE Runtime Environment (JRE) is installed on your platform and has a path to it enables execution.
-1. (Optional) Test this by submitting a `java -version` command in a [Command Line Interface (CLI, terminal)](https://en.wikipedia.org/wiki/Command-line_interface). The output should like this:
+1. (Optional) Test this by submitting a `java -version` command in a [Command Line Interface (CLI, terminal)](https://en.wikipedia.org/wiki/Command-line_interface). The output should look like this:
 ```
 java version "1.8.0_102"
 Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
@@ -158,7 +160,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
     1. [Installing sbt on Windows](http://www.scala-sbt.org/release/docs/Installing-sbt-on-Windows.html) or
     1. [Installing sbt on Linux](http://www.scala-sbt.org/release/docs/Installing-sbt-on-Linux.html) or
     1. [Manual installation](http://www.scala-sbt.org/release/docs/Manual-Installation.html) (not recommended)
-1. (Optional ) To test if sbt is effective submit the `sbt sbtVersion` command. The response should like as this:
+1. (Optional ) To test if sbt is effective submit the `sbt sbtVersion` command. The response could look like as this:
 ```
 [info] Set current project to fransdev (in build file:/C:/Users/FransDev/)
 [info] 0.13.12

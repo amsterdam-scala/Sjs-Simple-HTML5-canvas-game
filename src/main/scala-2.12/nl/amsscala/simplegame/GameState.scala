@@ -6,7 +6,7 @@ import org.scalajs.dom
 import scala.collection.mutable
 
 /**
- *
+ * Container holding the Game's state.
  * @param canvas         The visual HTML element
  * @param pageElements   This member lists the page elements. They are always in this order: Playground, Monster and Hero.
  *                       E.g. pageElements.head is Playground, pageElements(1) is the Monster, pageElements.takes(2) are those both.
@@ -85,14 +85,17 @@ class GameState[T: Numeric](canvas: dom.html.Canvas,
 
 }
 
+/**
+ * Companion object holding static constant definitions.
+ */
 object GameState {
 
   def apply[T: Numeric](canvas: dom.html.Canvas) =
-    new GameState[T](canvas, Vector(Playground[T](), Monster[T](canvas, Monster.randomPosition(canvas)), Hero[T](canvas)))
+    new GameState[T](canvas, Vector(new Playground[T](), Monster[T](canvas, Monster.randomPosition(canvas)), Hero[T](canvas)))
 
   // Randomness left out for testing
   def apply[T: Numeric](canvas: dom.html.Canvas, monsterPos : Position[T], heroPos : Position[T]) =
-    new GameState[T](canvas, Vector(Playground[T](), Monster[T](canvas, monsterPos), Hero(heroPos)))
+    new GameState[T](canvas, Vector(new Playground[T](), Monster[T](canvas, monsterPos), Hero(heroPos)))
 
   def explainTxt = "Use the arrow keys to\nattack the hidden monster."
   def gameOverTxt = "Game Over?"
