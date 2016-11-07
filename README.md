@@ -96,6 +96,7 @@ The test tasks can be invoked by `chrome:test` for the Google Chrome browser and
 As proposed by this [article](http://japgolly.blogspot.nl/2016/03/scalajs-firefox-chrome-sbt.html).
 
 Unfortunately at [Travis-CI](travis-ci.org/amsterdam-scala/Sjs-Simple-HTML5-canvas-game) it's not possible to run Google Chrome, so `firefox:test` is the only option.
+Also unfortunately `chrome:test` fails on `test 10`, so if executed locally `test 10` must be comment out.
 <table>
   <tr>
     <th>Test Class file</th>
