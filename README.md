@@ -167,6 +167,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
 [info] 0.13.12
 ```
 Remember shells (CLI's) are not reactive. To pick up the new [environment variables](https://en.wikipedia.org/wiki/Environment_variable) the CLI must be closed and restarted.
+
 1. Run sbt in one of the next modes in a CLI in the working directory or current folder, a compilation will be started and a local web server will be spinned up using:
     1. Inline mode on the command line: `sbt fastOptJS` or
     1. Interactive mode, start first the sbt by hitting in the CLI `sbt` followed by `fastOptJS` on the sbt prompt, or
