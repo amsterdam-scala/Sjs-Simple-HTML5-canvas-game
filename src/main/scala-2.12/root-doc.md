@@ -1,5 +1,7 @@
 This is the documentation for a simple HTML5 Canvas game written in Scala, and cross compiled to run in the browser targeting the HTML5 Canvas.
 
+[Project repository](https://github.com/amsterdam-scala/Sjs-Simple-HTML5-canvas-game/blob/master/README.md), [live demo](http://goo.gl/oqSFCa).
+
 == Package structure ==
 
 Notable packages include:
