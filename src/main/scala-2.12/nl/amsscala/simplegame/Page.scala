@@ -9,7 +9,7 @@ import scalatags.JsDom.all._
 /** Everything related to Html5 visuals as put on a HTML page. */
 trait Page { //Create canvas with a 2D processor
   val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
-  private val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
+  val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
 
   private lazy val postponed: Unit =   // Create the HTML body element with content
     dom.document.body.appendChild(div(cls := "content", style := "text-align:center; background-color:#3F8630;", canvas,

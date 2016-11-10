@@ -22,7 +22,7 @@ libraryDependencies ++= Seq(
 //"be.doeraene"        %%% "scalajs-jquery" % "0.9.0",
   "com.lihaoyi"        %%% "scalatags"      % "0.6.2",
   "org.scala-js"       %%% "scalajs-dom"    % "0.9.1",
-  "org.scalatest"      %%% "scalatest"      % "3.0.0" % "test"
+  "org.scalatest"      %%% "scalatest"      % "3.0.1" % "test"
 )
 skip in packageJSDependencies := false // All JavaScript dependencies to be concatenated to a single file
 
@@ -56,12 +56,9 @@ persistLauncher in Test := false
 if (sys.env.isDefinedAt("CI")) {
   println("[Info] Li Haoyi's workbench disabled ", sys.env.getOrElse("CI", "?"))
   Seq.empty
-} else workbenchSettings
+} else enablePlugins(WorkbenchPlugin)
 
 if (sys.env.isDefinedAt("CI")) normalizedName := normalizedName.value // Dummy
 else // Update without refreshing the page every time fastOptJS completes
   refreshBrowsers <<= refreshBrowsers.triggeredBy(fastOptJS in Compile)
 
-if (sys.env.isDefinedAt("CI")) normalizedName := normalizedName.value
-else // Workbench has to know how to restart your application
-  bootSnippet := "nl.amsscala.simplegame.SimpleCanvasGame().main();"
