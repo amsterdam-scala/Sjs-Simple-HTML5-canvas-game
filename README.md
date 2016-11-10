@@ -16,6 +16,7 @@ This quite super simple game is heavily über engineered. It's certainly not the
 1. [HTML5 Canvas](https://en.wikipedia.org/wiki/Canvas_element) controlled by Scala.js
 1. Headless canvas [Selenium 2](https://en.wikipedia.org/wiki/Selenium_(software)) "in browser testing" with the recently released ScalaTest 3.x
 1. [ScalaTest 3.x](http://www.scalatest.org) featuring "async" testing styles.
+1. Test running on Continuous Integration service. [Travis CI](https://travis-ci.org/amsterdam-scala/Sjs-Simple-HTML5-canvas-game/)
 1. Scala 2.12 compiler.
 1. Exhaustive use of a variety of Scala features, e.g.:
     * `Traits`, (`case`) `Class`es and `Object`s (singletons)
@@ -25,7 +26,7 @@ This quite super simple game is heavily über engineered. It's certainly not the
     * [Pattern matching](https://en.wikipedia.org/wiki/Pattern_matching)
     * [Lazy evaluation](https://en.wikipedia.org/wiki/Lazy_evaluation)
 1. Reactive design instead of continuous polling.
-1. Eliminating a continuously redrawn of the canvas saves cpu time and (mobile) power.
+1. Eliminating a power-draining continuously redrawn of the canvas saves cpu time and (mobile) power.
 1. Tackling [CORS](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image) enabled images.
 1. [Scala generated HTML](http://www.lihaoyi.com/scalatags/).
 1. CSS Ribbon
