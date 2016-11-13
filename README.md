@@ -16,6 +16,7 @@ This quite super simple game is heavily über engineered. It's certainly not the
 1. [HTML5 Canvas](https://en.wikipedia.org/wiki/Canvas_element) controlled by Scala.js
 1. Headless canvas [Selenium 2](https://en.wikipedia.org/wiki/Selenium_(software)) "in browser testing" with the recently released ScalaTest 3.x
 1. [ScalaTest 3.x](http://www.scalatest.org) featuring "async" testing styles.
+1. Test running on Continuous Integration service. [Travis CI](https://travis-ci.org/amsterdam-scala/Sjs-Simple-HTML5-canvas-game/)
 1. Scala 2.12 compiler.
 1. Exhaustive use of a variety of Scala features, e.g.:
     * `Traits`, (`case`) `Class`es and `Object`s (singletons)
@@ -25,7 +26,7 @@ This quite super simple game is heavily über engineered. It's certainly not the
     * [Pattern matching](https://en.wikipedia.org/wiki/Pattern_matching)
     * [Lazy evaluation](https://en.wikipedia.org/wiki/Lazy_evaluation)
 1. Reactive design instead of continuous polling.
-1. Eliminating a continuously redrawn of the canvas saves cpu time and (mobile) power.
+1. Eliminating a power-draining continuously redrawn of the canvas saves cpu time and (mobile) power.
 1. Tackling [CORS](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image) enabled images.
 1. [Scala generated HTML](http://www.lihaoyi.com/scalatags/).
 1. CSS Ribbon
@@ -164,14 +165,16 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
 1. (Optional ) To test if sbt is effective submit the `sbt sbtVersion` command. The response could look like as this:
 ```
 [info] Set current project to fransdev (in build file:/C:/Users/FransDev/)
-[info] 0.13.12
+[info] 0.13.13
 ```
 Remember shells (CLI's) are not reactive. To pick up the new [environment variables](https://en.wikipedia.org/wiki/Environment_variable) the CLI must be closed and restarted.
 
-1. Run sbt in one of the next modes in a CLI in the working directory or current folder, a compilation will be started and a local web server will be spinned up using:
+3. Run sbt in one of the next modes in a CLI in the working directory or current folder, a compilation will be started and a local web server will be spinned up using:
     1. Inline mode on the command line: `sbt fastOptJS` or
     1. Interactive mode, start first the sbt by hitting in the CLI `sbt` followed by `fastOptJS` on the sbt prompt, or
-    1. Triggered execution by a `~` before the command so `~fastOptJS`. This command will execute and wait after the target code is in time behind the source code (Auto build).
+    1. Triggered execution by a `~` before the command, so `~fastOptJS`. This command will execute and wait after the target code is in time behind the source code (Auto build).
+    1. `chrome:test` will run the ScalaTest test scripts in the test directory in a Google Chrome browser.
+    1. `firefox:test` will start the ScalaTest test scripts in the test directory in a FireFox browser. (preferred)
 1.  sbt will give a notice that the server is listening by the message: `Bound to localhost/127.0.0.1:12345`
     (Ignore the dead letter notifications with the enter key.)
 1. Open this application in a browser on [this given URL](http://localhost:12345/target/scala-2.12/classes/index-dev.html)
