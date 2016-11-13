@@ -165,14 +165,16 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
 1. (Optional ) To test if sbt is effective submit the `sbt sbtVersion` command. The response could look like as this:
 ```
 [info] Set current project to fransdev (in build file:/C:/Users/FransDev/)
-[info] 0.13.12
+[info] 0.13.13
 ```
 Remember shells (CLI's) are not reactive. To pick up the new [environment variables](https://en.wikipedia.org/wiki/Environment_variable) the CLI must be closed and restarted.
 
-1. Run sbt in one of the next modes in a CLI in the working directory or current folder, a compilation will be started and a local web server will be spinned up using:
+3. Run sbt in one of the next modes in a CLI in the working directory or current folder, a compilation will be started and a local web server will be spinned up using:
     1. Inline mode on the command line: `sbt fastOptJS` or
     1. Interactive mode, start first the sbt by hitting in the CLI `sbt` followed by `fastOptJS` on the sbt prompt, or
-    1. Triggered execution by a `~` before the command so `~fastOptJS`. This command will execute and wait after the target code is in time behind the source code (Auto build).
+    1. Triggered execution by a `~` before the command, so `~fastOptJS`. This command will execute and wait after the target code is in time behind the source code (Auto build).
+    1. `chrome:test` will run the ScalaTest test scripts in the test directory in a Google Chrome browser.
+    1. `firefox:test` will start the ScalaTest test scripts in the test directory in a FireFox browser. (preferred)
 1.  sbt will give a notice that the server is listening by the message: `Bound to localhost/127.0.0.1:12345`
     (Ignore the dead letter notifications with the enter key.)
 1. Open this application in a browser on [this given URL](http://localhost:12345/target/scala-2.12/classes/index-dev.html)
