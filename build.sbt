@@ -56,9 +56,6 @@ persistLauncher in Test := false
 if (sys.env.isDefinedAt("CI")) {
   println("[Info] Li Haoyi's workbench disabled ", sys.env.getOrElse("CI", "?"))
   Seq.empty
-} else enablePlugins(WorkbenchPlugin)
-
-if (sys.env.isDefinedAt("CI")) normalizedName := normalizedName.value // Dummy
-else // Update without refreshing the page every time fastOptJS completes
+} else {
   refreshBrowsers <<= refreshBrowsers.triggeredBy(fastOptJS in Compile)
-
+  enablePlugins(WorkbenchPlugin)}
