@@ -15,7 +15,7 @@ This quite super simple game is heavily über engineered. It's certainly not the
 
 1. [HTML5 Canvas](https://en.wikipedia.org/wiki/Canvas_element) controlled by Scala.js
 1. Headless canvas [Selenium 2](https://en.wikipedia.org/wiki/Selenium_(software)) "in browser testing" with the recently released ScalaTest 3.x
-1. [ScalaTest 3.x](http://www.scalatest.org) featuring "async" testing styles.
+1. End-to-End [ScalaTest 3.x](http://www.scalatest.org) featuring "async" testing styles.
 1. Test running on Continuous Integration service. [Travis CI](https://travis-ci.org/amsterdam-scala/Sjs-Simple-HTML5-canvas-game/)
 1. Scala 2.12 compiler.
 1. Exhaustive use of a variety of Scala features, e.g.:
