@@ -27,7 +27,7 @@ This quite super minimalistic and simple game is heavily **über engineered**. I
     * [Lazy evaluation](https://en.wikipedia.org/wiki/Lazy_evaluation)
 1. Reactive design instead of continuous polling.
 1. Eliminating a power-draining continuously redrawn of the canvas saves cpu time and (mobile) power.
-1. Tackling [CORS](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image) enabled images.
+1. Tackling Cross-origin resource sharing [CORS](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image) enabled images.
 1. [Scala generated HTML](http://www.lihaoyi.com/scalatags/).
 1. CSS Ribbon
 1. [Scala 2.12 fresh Scaladoc look.](https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/docs/api/index.html).
