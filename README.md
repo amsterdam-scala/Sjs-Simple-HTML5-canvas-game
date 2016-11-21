@@ -11,11 +11,11 @@ A Scala hardcore action game where you possess and [play as a Hero](http://goo.g
 This "Simple HTML5 Canvas Game" is a [Scala.js](https://en.wikipedia.org/wiki/Scala.js) project which targets a browser capable displaying HTML5, especially the `<canvas>` element.
 Stored on GitHub.com, due to [sbt](https://en.wikipedia.org/wiki/sbt_(software)) the code is also remote tested on Travis-CI. Also possible on an other continuous integration service.
 
-This quite super simple game is heavily über engineered. It's certainly not the game that counts but the technology around it, it features:
+This quite super minimalistic and simple game is heavily **über engineered**. It's certainly not the game that counts but the technology around this, it features:
 
 1. [HTML5 Canvas](https://en.wikipedia.org/wiki/Canvas_element) controlled by Scala.js
 1. Headless canvas [Selenium 2](https://en.wikipedia.org/wiki/Selenium_(software)) "in browser testing" with the recently released ScalaTest 3.x
-1. End-to-End [ScalaTest 3.x](http://www.scalatest.org) featuring "async" testing styles.
+1. [ScalaTest 3.x](http://www.scalatest.org) featuring "async" testing styles.
 1. Test running on Continuous Integration service. [Travis CI](https://travis-ci.org/amsterdam-scala/Sjs-Simple-HTML5-canvas-game/)
 1. Scala 2.12 compiler.
 1. Exhaustive use of a variety of Scala features, e.g.:
