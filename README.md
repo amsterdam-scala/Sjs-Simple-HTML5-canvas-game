@@ -5,7 +5,11 @@
 # Simple HTML5 Canvas game ported to Scala.js
 **Featuring Scala.js "in browser testing" by ScalaTest 3.x**
 
-A Scala hardcore action game where you possess and [play as a Hero](http://goo.gl/oqSFCa) :smile:. **Please rate this repository.**
+A Scala hardcore action game where you possess and [play as a Hero](http://goo.gl/oqSFCa) :smile:.
+
+The focus is on showcasing the use of several Functional Programming technologies.
+
+**Please rate this repository.**
 
 ## Project
 This "Simple HTML5 Canvas Game" is a [Scala.js](https://en.wikipedia.org/wiki/Scala.js) project which targets a browser capable displaying HTML5, especially the `<canvas>` element.
