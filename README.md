@@ -5,13 +5,17 @@
 # Simple HTML5 Canvas game ported to Scala.js
 **Featuring Scala.js "in browser testing" by ScalaTest 3.x**
 
-A Scala hardcore action game where you possess and [play as a Hero](http://goo.gl/oqSFCa) :smile:. **Please rate this repository.**
+A Scala hardcore action game where you possess and [play as a Hero](http://goo.gl/oqSFCa) :smile:.
+
+The focus is on showcasing the use of several Functional Programming technologies.
+
+**Please rate this repository.**
 
 ## Project
 This "Simple HTML5 Canvas Game" is a [Scala.js](https://en.wikipedia.org/wiki/Scala.js) project which targets a browser capable displaying HTML5, especially the `<canvas>` element.
 Stored on GitHub.com, due to [sbt](https://en.wikipedia.org/wiki/sbt_(software)) the code is also remote tested on Travis-CI. Also possible on an other continuous integration service.
 
-This quite super simple game is heavily über engineered. It's certainly not the game that counts but the technology around it, it features:
+This quite super minimalistic and simple game is heavily **über engineered**. It's certainly not the game that counts but the technology around this, it features:
 
 1. [HTML5 Canvas](https://en.wikipedia.org/wiki/Canvas_element) controlled by Scala.js
 1. Headless canvas [Selenium 2](https://en.wikipedia.org/wiki/Selenium_(software)) "in browser testing" with the recently released ScalaTest 3.x
@@ -29,9 +33,9 @@ This quite super simple game is heavily über engineered. It's certainly not the
     * [Explicitly Typed Self References](http://docs.scala-lang.org/tutorials/tour/explicitly-typed-self-references.html)
 1. Reactive design, event driven instead of continuous polling.
 1. Eliminating a power-draining continuously redrawn of the canvas saves cpu time and (mobile) power.
-1. Tackling [CORS](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image) enabled images.
+1. Tackling Cross-origin resource sharing [CORS](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image) enabled images.
 1. [Scala generated HTML](http://www.lihaoyi.com/scalatags/).
-1. CSS Ribbon
+1. CSS rendered Corner Ribbon (as `fastOptJS` version).
 1. [Scala 2.12 fresh Scaladoc look.](https://amsterdam-scala.github.io/Sjs-Simple-HTML5-canvas-game/docs/api/index.html).
 
 ## Motivation
