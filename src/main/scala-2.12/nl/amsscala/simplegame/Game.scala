@@ -10,6 +10,8 @@ import scala.scalajs.js
 
 /** This game with its comprehensible rules. */
 protected trait Game {
+  this: Page =>
+
   private[this] val framesPerSec = 25
 
   implicit def executionContext = scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
@@ -26,7 +28,7 @@ protected trait Game {
     var prevTimestamp = js.Date.now()
 
     // Collect all Futures of onload events
-    val loaders = gameState.pageElements.map(pg => SimpleCanvasGame.imageFuture(pg.src))
+    val loaders = gameState.pageElements.map(pg => imageFuture(pg.src))
 
     Future.sequence(loaders).map { load => // Create GameState with loaded images
         var prevGS = new GameState(canvas, gameState.pageElements.zip(load).map { case (el, img) => el.copy(img = img) })
@@ -39,10 +41,10 @@ protected trait Game {
           prevTimestamp = nowTimestamp
 
           // Render the <canvas> conditional only by movement of Hero, saves power
-          if (prevGS != actualGS) prevGS = SimpleCanvasGame.render(actualGS)
+          if (prevGS != actualGS) prevGS = render(actualGS)
         }
 
-        SimpleCanvasGame.render(prevGS) // First draw
+        render(prevGS) // First draw
 
         // Let's see how this game plays!
         if (!headless) {// For test purpose, a facility to silence the listeners.

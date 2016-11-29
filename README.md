@@ -19,13 +19,15 @@ This quite super simple game is heavily über engineered. It's certainly not the
 1. Test running on Continuous Integration service. [Travis CI](https://travis-ci.org/amsterdam-scala/Sjs-Simple-HTML5-canvas-game/)
 1. Scala 2.12 compiler.
 1. Exhaustive use of a variety of Scala features, e.g.:
-    * `Traits`, (`case`) `Class`es and `Object`s (singletons)
+    * [`Traits`](http://docs.scala-lang.org/tutorials/tour/traits), [`case` `Class`es](http://docs.scala-lang.org/tutorials/tour/case-classes) and [Singleton `Object`s](http://docs.scala-lang.org/tutorials/tour/singleton-objects)
     * `Future`s sane way to dramatically reduce latency in web requests
-    * [Generic[T] programming](https://en.wikipedia.org/wiki/Generic_programming) (shameless, even in the frenzied Ough).
+    * [Generic[T] programming](http://docs.scala-lang.org/tutorials/tour/generic-classes) (shameless, even in the frenzied Ough).
     * [Algebraic Data Types](https://en.wikipedia.org/wiki/Algebraic_data_type)
-    * [Pattern matching](https://en.wikipedia.org/wiki/Pattern_matching)
+    * [Pattern matching](http://docs.scala-lang.org/tutorials/tour/pattern-matching)
     * [Lazy evaluation](https://en.wikipedia.org/wiki/Lazy_evaluation)
-1. Reactive design instead of continuous polling.
+    * [Implicit Conversions](http://docs.scala-lang.org/tutorials/tour/implicit-conversions)
+    * [Explicitly Typed Self References](http://docs.scala-lang.org/tutorials/tour/explicitly-typed-self-references.html)
+1. Reactive design, event driven instead of continuous polling.
 1. Eliminating a power-draining continuously redrawn of the canvas saves cpu time and (mobile) power.
 1. Tackling [CORS](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image) enabled images.
 1. [Scala generated HTML](http://www.lihaoyi.com/scalatags/).
