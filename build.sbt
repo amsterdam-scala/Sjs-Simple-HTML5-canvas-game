@@ -13,7 +13,7 @@ organizationHomepage := Some(url("http://www.meetup.com/amsterdam-scala/")),
       normalizedName := "main"
 
 // ** Scala dependencies **
-scalaVersion in ThisBuild := "2.12.0"
+scalaVersion in ThisBuild := "2.12.1"
 scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation")
 scalacOptions in (Compile,doc) ++=
   Seq("-doc-root-content", baseDirectory.value + "/src/main/scala-2.12/root-doc.md", "-groups", "-implicits")

@@ -1,9 +1,27 @@
+# IntelliJ
+.idea/
+*.iml
+*.iws
+/classes/
+/out/
+
 # Log files
 *.class
 *.log
 
+# Mac
+.DS_Store
+
+# Miscellaneous
+/.metadata/
+/.recommenders/
+/RemoteSystemsTempFiles/
+javascript/node_modules/
+
 # sbt specific
 .cache
+.history
+.lib/
 dist/*
 lib_managed/
 project/**/project
@@ -11,10 +29,10 @@ project/activator-sbt*
 src_managed/
 target/
 
-# Worksheets (Eclipse or IntelliJ)
+# Scala worksheets (Eclipse or IntelliJ)
 *.sc
 
-# Scala-IDE specific
+# Eclipse specific
 .cache-main
 .cache-tests
 .classpath
@@ -24,18 +42,8 @@ target/
 .worksheet
 bin/
 
-# IntelliJ
-*.iml
-*.iws
-.idea/
-/classes/
-/out/
-
 # ScalaTest
 exportToHTML
-
-# Mac
-.DS_Store
 
 # Windows
 desktop.ini
