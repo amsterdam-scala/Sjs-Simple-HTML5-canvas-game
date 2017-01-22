@@ -7,7 +7,7 @@
 
 A Scala hardcore action game where you possess and [play as a Hero](http://goo.gl/oqSFCa) :smile:.
 
-The focus is on showcasing the use of several Functional Programming technologies.
+The focus is on showcasing the use of several Functional Programming technologies and therefore it's heavily violating on purpose the [Principle of Least Power Strategic Scala Style](http://www.lihaoyi.com/post/StrategicScalaStylePrincipleofLeastPower.html).
 
 **Please rate this repository.**
 

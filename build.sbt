@@ -19,15 +19,11 @@ scalacOptions in (Compile,doc) ++=
   Seq("-doc-root-content", baseDirectory.value + "/src/main/scala-2.12/root-doc.md", "-groups", "-implicits")
 
 libraryDependencies ++= Seq(
-//"be.doeraene"        %%% "scalajs-jquery" % "0.9.0",
   "com.lihaoyi"        %%% "scalatags"      % "0.6.2",
   "org.scala-js"       %%% "scalajs-dom"    % "0.9.1",
   "org.scalatest"      %%% "scalatest"      % "3.0.1" % "test"
 )
 skip in packageJSDependencies := false // All JavaScript dependencies to be concatenated to a single file
-
-scalacOptions in (Compile,doc) ++= Seq("-doc-root-content", baseDirectory.value + "/src/main/scala-2.12/root-doc.md",
-  "-groups", "-implicits")
 
 // ** Scala.js configuration **
 
