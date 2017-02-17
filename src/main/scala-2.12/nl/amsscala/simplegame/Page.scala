@@ -66,9 +66,9 @@ trait Page { //Create canvas with a 2D processor
     gs
   }
 
-  def center(cnvs: dom.html.Canvas) = Position(canvas.width / 2, canvas.height / 2)
+  def center(cnvs: dom.html.Canvas): Position[Int] = canvasDim(cnvs) / 2
 
-  def canvasDim[D](cnvs: dom.html.Canvas) = Position(cnvs.width, cnvs.height).asInstanceOf[Position[D]]
+  def canvasDim[D](cnvs: dom.html.Canvas): Position[D] = Position(cnvs.width, cnvs.height).asInstanceOf[Position[D]]
 
   canvas.textContent = "Your browser doesn't support the HTML5 CANVAS tag."
   resetCanvasWH(canvas, Position(dom.window.innerWidth, dom.window.innerHeight - 25))

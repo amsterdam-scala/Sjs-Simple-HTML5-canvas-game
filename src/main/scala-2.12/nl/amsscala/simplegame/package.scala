@@ -22,23 +22,30 @@ package object simplegame {
     import Numeric.Implicits.infixNumericOps
     import Ordering.Implicits.infixOrderingOps
 
-    /** Binaire add operator for two coordinates */
+    /** Binary add operator for two coordinates */
     def +(p: Position[P]) = Position(x + p.x, y + p.y)
 
-    /** Binaire add operator e,g. (a, b) + n => (a + n, b + n) */
+    /** Unary add operator e,g. (a, b) + n => (a + n, b + n) */
     def +(term: P) = Position(x + term, y + term)
 
-    /** Binaire subtract operator for the difference of two coordinates */
+    /** Binary subtract operator for the difference of two coordinates */
     def -(p: Position[P]) = Position(x - p.x, y - p.y)
 
-    /** Binaire subtract operator e,g. (a, b) - n => (a - n, b - n) */
+    /** Unary subtract operator e,g. (a, b) - n => (a - n, b - n) */
     def -(term: P) = Position(x - term, y - term)
 
-    /** Binaire multiply operator for two coordinates, multplies each of the ordinate */
+    /** Binary multiply operator for two coordinates, multplies each of the ordinate */
     def *(p: Position[P]) = Position(x * p.x, y * p.y)
 
-    /** Binaire multiply operator e,g. (a, b) * n=> (a * n, b * n) */
+    /** Unary multiply operator e,g. (a, b) * n=> (a * n, b * n) */
     def *(factor: P) = Position(x * factor, y * factor)
+
+    /** Binary divide operator e,g. (a, b) * n=> (a / n, b / n) */
+    def /(divisor: Position[P]): Position[P] =
+      Position(x.toDouble() / divisor.x.toDouble(), y.toDouble() / divisor.y.toDouble()).asInstanceOf[Position[P]]
+
+    /** Unary divide operator e,g. (a, b) / n=> (a / n, b / n) */
+    def /(divisor: P): Position[P] = this / Position(divisor, divisor)
 
     /**
       * Check if the square area is within the rectangle area
@@ -68,15 +75,17 @@ package object simplegame {
     def areTouching(posB: Position[P], side: P): Boolean = interSectsArea(this, this + side, posB, posB + side)
 
     /**
-      * Return the Moore neighborhood
+      * Return the Moore neighborhood with the domain range of r
+      *
+      * It produces a list of size sqr(2r + 1)
       *
       * @see [[http://en.wikipedia.org/wiki/Moore_neighborhood Moore neighborhood]]
-      * @param r range
+      * @param r Domain range
       * @return A list of surrounding coordinates
       */
     def mooreNeighborHood(r: Int): ParSeq[Position[P]] = {
       val range = (-r to r).par
-      (for (x <- range; y <- range; if (x | y) != 0) yield Position(x, y)).map(_.asInstanceOf[Position[P]] + this)
+      (for (x <- range; y <- range; if (x | y) != 0 || r == 0) yield Position(x, y)).map(_.asInstanceOf[Position[P]] + this)
     }
   }
 
