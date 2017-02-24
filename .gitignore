@@ -1,3 +1,13 @@
+# Eclipse specific
+.cache-main
+.cache-tests
+.classpath
+.project
+.scala_dependencies
+.settings
+.worksheet
+bin/
+
 # IntelliJ
 .idea/
 *.iws
@@ -5,7 +15,6 @@
 /out/
 
 # Log files
-*.class
 *.log
 
 # Mac
@@ -19,27 +28,15 @@ javascript/node_modules/
 
 # sbt specific
 .cache
-.history
 .lib/
 dist/*
 lib_managed/
 project/**/project
 project/activator-sbt*
-src_managed/
 target/
 
 # Scala worksheets (Eclipse or IntelliJ)
 *.sc
-
-# Eclipse specific
-.cache-main
-.cache-tests
-.classpath
-.project
-.scala_dependencies
-.settings
-.worksheet
-bin/
 
 # ScalaTest
 exportToHTML

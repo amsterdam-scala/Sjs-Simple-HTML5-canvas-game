@@ -2,16 +2,17 @@ package nl.amsscala
 package simplegame
 
 import org.scalajs.dom
+import org.scalajs.dom.html.Canvas
 
 import scala.concurrent.{Future, Promise}
 import scalatags.JsDom.all._
 
 /** Everything related to Html5 visuals as put on a HTML page. */
 trait Page { //Create canvas with a 2D processor
-  val canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
-  val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
+  protected val canvas: Canvas = dom.document.createElement("canvas").asInstanceOf[dom.html.Canvas]
+  private val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
 
-  private lazy val postponed: Unit =   // Create the HTML body element with content
+  private lazy val postponed =   // Create the HTML body element with content
     dom.document.body.appendChild(div(cls := "content", style := "text-align:center; background-color:#3F8630;", canvas,
     a(href := "http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/",
       title := s"This object code is compiled with type parameter ${genericDetect(0D.asInstanceOf[SimpleCanvasGame.T])}.",
@@ -66,7 +67,7 @@ trait Page { //Create canvas with a 2D processor
     gs
   }
 
-  def center(cnvs: dom.html.Canvas): Position[Int] = canvasDim(cnvs) / 2
+  def center(cnvs: dom.html.Canvas): Position[Int] = Position(canvas.width / 2, canvas.height / 2)
 
   def canvasDim[D](cnvs: dom.html.Canvas): Position[D] = Position(cnvs.width, cnvs.height).asInstanceOf[Position[D]]
 
